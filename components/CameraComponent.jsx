@@ -1,5 +1,11 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useNavigation} from '@react-navigation/native';
 
@@ -7,6 +13,19 @@ const CameraComponent = () => {
   const [processedFrame, setProcessedFrame] = useState(null);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
+  const [orientation, setOrientation] = useState('portrait');
+
+  useEffect(() => {
+    const getOrientation = () => {
+      const {width, height} = Dimensions.get('window');
+      setOrientation(width > height ? 'landscape' : 'portrait');
+    };
+
+    Dimensions.addEventListener('change', getOrientation);
+    return () => {
+      Dimensions.removeEventListener('change', getOrientation);
+    };
+  }, []);
 
   const processFrame = async () => {
     if (cameraRef.current) {
@@ -106,8 +125,9 @@ const CameraComponent = () => {
             <View
               key={index}
               style={{
-                top: box[0] * 0.8,
-                left: box[3] * 1.55,
+                top: orientation === 'landscape' ? box[0] * 0.8 : box[0] * 1.2,
+                left:
+                  orientation === 'landscape' ? box[3] * 1.55 : box[3] * 0.6,
                 height: box[2] - box[0],
                 width: box[1] - box[3],
                 borderWidth: 2,

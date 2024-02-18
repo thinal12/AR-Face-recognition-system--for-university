@@ -5,6 +5,7 @@ import {Dimensions} from 'react-native';
 import {Orientation} from 'react-native-camera';
 import CameraComponent from './components/CameraComponent';
 import ARCameraScene from './components/ARCameraScene';
+import Login from './components/Login';
 import {
   ViroARScene,
   ViroText,
@@ -21,7 +22,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Camera">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Camera"
           component={CameraComponent}
@@ -30,6 +31,11 @@ const App = () => {
         <Stack.Screen
           name="ARCamera"
           component={ARCameraScene}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
