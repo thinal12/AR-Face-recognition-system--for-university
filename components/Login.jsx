@@ -6,14 +6,15 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
   const handleLogin = () => {
-    console.log('Username:', username);
-    console.log('Password:', password);
+    navigation.navigate('Home');
   };
 
   return (
