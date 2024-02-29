@@ -8,8 +8,14 @@ from io import BytesIO
 import cv2
 import numpy as np
 import json
+from flask import Flask
+from pymongo import MongoClient
 
 app = Flask(__name__)
+
+client = MongoClient("mongodb+srv://thinalpethiyagoda:321t071np@universitysystem.009rjim.mongodb.net/")
+db = client["universitysystem"]
+collection = db["lecturers"]
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,6 +26,18 @@ currentname = "unknown"
 with open(encodingsP, "r") as file:
     data = json.load(file)
 detector = cv2.CascadeClassifier(cascade)
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    user = collection.find_one({'name': username, 'password': password})
+    if user:
+        return jsonify({'message': 'Login successful'}), 200
+    else:
+        return jsonify({'error': 'Invalid username or password'}), 401
 
 def process_frame(base64_frame,width, height):
     global currentname

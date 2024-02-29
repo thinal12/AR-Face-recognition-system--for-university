@@ -14,7 +14,26 @@ const Login = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    navigation.navigate('Home');
+    fetch('http://192.168.76.30:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({username, password}),
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Login failed');
+        }
+      })
+      .then(data => {
+        navigation.navigate('Home');
+      })
+      .catch(error => {
+        console.error('Login error:', error);
+      });
   };
 
   return (
