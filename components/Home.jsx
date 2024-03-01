@@ -7,11 +7,11 @@ function Home() {
   const navigation = useNavigation();
 
   const handleButtonClick1 = () => {
-    // Add your desired functionality here
+    navigation.navigate('Camera');
   };
 
   const handleButtonClick2 = () => {
-    // Add your desired functionality here
+    navigation.navigate('Camera');
   };
 
   return (

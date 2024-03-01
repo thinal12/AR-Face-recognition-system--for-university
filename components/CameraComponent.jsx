@@ -63,6 +63,7 @@ const CameraComponent = () => {
             uri: `data:image/jpeg;base64,${base64Frame}`,
             names: result.names,
             boxes: result.boxes,
+            conditions: result.conditions,
           });
           console.log(result);
         } else {
@@ -130,10 +131,18 @@ const CameraComponent = () => {
                   orientation === 'landscape' ? box[3] * 1.55 : box[3] * 0.6,
                 height: box[2] - box[0],
                 width: box[1] - box[3],
-                borderWidth: 2,
-                borderColor: 'red',
+                borderWidth: 5,
+                borderColor:
+                  processedFrame.conditions[index] === 'none' ? 'green' : 'red',
               }}>
-              <Text style={{color: 'red', fontSize: 16}}>
+              <Text
+                style={{
+                  color:
+                    processedFrame.conditions[index] === 'none'
+                      ? 'green'
+                      : 'red',
+                  fontSize: 16,
+                }}>
                 {processedFrame.names[index]}
               </Text>
             </View>

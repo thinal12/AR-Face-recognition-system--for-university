@@ -16,6 +16,7 @@ app = Flask(__name__)
 client = MongoClient("mongodb+srv://thinalpethiyagoda:321t071np@universitysystem.009rjim.mongodb.net/")
 db = client["universitysystem"]
 collection = db["lecturers"]
+collection2 = db["students"]
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -27,7 +28,6 @@ with open(encodingsP, "r") as file:
     data = json.load(file)
 detector = cv2.CascadeClassifier(cascade)
 
-
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -38,6 +38,14 @@ def login():
         return jsonify({'message': 'Login successful'}), 200
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
+
+def get_condition_from_database(name):
+    student = collection2.find_one({'name': name})
+    if student:
+        condition = student.get('existing_conditions', 'none')
+        return condition
+    else:
+        return 'none'
 
 def process_frame(base64_frame,width, height):
     global currentname
@@ -55,22 +63,26 @@ def process_frame(base64_frame,width, height):
 
         encodings = face_recognition.face_encodings(rgb, boxes)
         names = []
+        conditions = []
 
         print(boxes)
         for encoding in encodings:
             matches = face_recognition.compare_faces(data["encodings"], encoding)
             name = "Unknown"
+            condition = 'none'
             if True in matches:
                 matchedIdxs = [i for (i, b) in enumerate(matches) if b]
                 counts = {}
                 for i in matchedIdxs:
                     name = data["names"][i]
+                    condition = get_condition_from_database(name)
                     counts[name] = counts.get(name, 0) + 1
                 name = max(counts, key=counts.get)
                 if currentname != name:
                     currentname = name
             names.append(name)
-        return names, boxes
+            conditions.append(condition)
+        return names, boxes, conditions
 
     except Exception as e:
         return str(e)
@@ -85,12 +97,12 @@ def receive_frame():
         result = process_frame(base64_frame, width, height)
         
         if result is not None:
-            names, boxes = result
+            names, boxes, conditions = result
 
             # Convert the list of tuples to a list of lists
             boxes = [[int(y) for y in x] for x in boxes]
 
-            return jsonify({"names": names, "boxes": boxes})
+            return jsonify({"names": names, "boxes": boxes, "conditions": conditions})
         else:
             return jsonify({"error": "No faces recognized in the frame."}), 404
         
