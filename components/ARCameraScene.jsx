@@ -11,12 +11,12 @@ import {
   ViroARCamera,
 } from '@viro-community/react-viro';
 
-const ProfileAR = ({name}) => {
+const ProfileAR = ({name, conditions}) => {
   const [textPosition, setTextPosition] = useState([0, 0, -1]);
   const [boxPosition, setBoxPosition] = useState([0, 0, -1]);
   const [student, setStudent] = useState({
     name: name,
-    existingConditions: 'none',
+    existingConditions: conditions,
     disciplinaryIssues: 'yes',
   });
 
@@ -44,12 +44,13 @@ const ProfileAR = ({name}) => {
 
 const ARCameraScene = ({route}) => {
   const name = route.params.name;
+  const conditions = route.params.conditions;
 
   return (
     <ViroARSceneNavigator
       autofocus={true}
       initialScene={{
-        scene: () => <ProfileAR name={name} />,
+        scene: () => <ProfileAR name={name} conditions={conditions} />,
       }}
       style={styles.f1}
     />

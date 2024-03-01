@@ -83,10 +83,9 @@ const CameraComponent = () => {
     return () => clearInterval(frameCaptureInterval);
   }, []);
 
-  const handleButtonPress = name => {
-    navigation.navigate('ARCamera', {name: name});
+  const handleButtonPress = (name, conditions) => {
+    navigation.navigate('ARCamera', {name, conditions});
   };
-
   const renderButtons = () => {
     if (!processedFrame) return null;
 
@@ -102,7 +101,12 @@ const CameraComponent = () => {
         <TouchableOpacity
           key={index}
           style={[styles.button, buttonPosition]}
-          onPress={() => handleButtonPress(processedFrame.names[index])}>
+          onPress={() =>
+            handleButtonPress(
+              processedFrame.names[index],
+              processedFrame.conditions[index],
+            )
+          }>
           <Text style={styles.buttonText}>{processedFrame.names[index]}</Text>
         </TouchableOpacity>
       );
