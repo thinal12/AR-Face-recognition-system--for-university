@@ -64,26 +64,28 @@ def process_frame(base64_frame,width, height):
         encodings = face_recognition.face_encodings(rgb, boxes)
         names = []
         conditions = []
+        
 
         print(boxes)
         for encoding in encodings:
             matches = face_recognition.compare_faces(data["encodings"], encoding)
             name = "Unknown"
             condition = 'none'
+          
             if True in matches:
                 matchedIdxs = [i for (i, b) in enumerate(matches) if b]
                 counts = {}
                 for i in matchedIdxs:
                     name = data["names"][i]
-                    condition = get_condition_from_database(name)
                     counts[name] = counts.get(name, 0) + 1
                 name = max(counts, key=counts.get)
                 if currentname != name:
                     currentname = name
             names.append(name)
             conditions.append(condition)
+            
+            
         return names, boxes, conditions
-
     except Exception as e:
         return str(e)
 
@@ -99,7 +101,7 @@ def receive_frame():
         if result is not None:
             names, boxes, conditions = result
 
-            # Convert the list of tuples to a list of lists
+            
             boxes = [[int(y) for y in x] for x in boxes]
 
             return jsonify({"names": names, "boxes": boxes, "conditions": conditions})

@@ -7,6 +7,7 @@ import CameraComponent from './components/CameraComponent';
 import ARCameraScene from './components/ARCameraScene';
 import Login from './components/Login';
 import Home from './components/Home';
+import AttendanceRecord from './components/AttendanceRecord';
 import {
   ViroARScene,
   ViroText,
@@ -23,7 +24,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="AttendanceRecord">
         <Stack.Screen
           name="Camera"
           component={CameraComponent}
@@ -42,6 +43,11 @@ const App = () => {
         <Stack.Screen
           name="Home"
           component={Home}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AttendanceRecord"
+          component={AttendanceRecord}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
