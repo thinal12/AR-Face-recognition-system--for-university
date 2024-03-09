@@ -9,6 +9,34 @@ import {
 import {RNCamera} from 'react-native-camera';
 import {useNavigation} from '@react-navigation/native';
 
+// Error boundary component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {hasError: false};
+  }
+
+  static getDerivedStateFromError(error) {
+    return {hasError: true};
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <Text style={styles.errorText}>
+          Something went wrong. Please try again.
+        </Text>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 const AttendanceRecord = () => {
   const [processedFrame, setProcessedFrame] = useState(null);
   const cameraRef = useRef(null);
@@ -31,13 +59,13 @@ const AttendanceRecord = () => {
   const processFrame = async () => {
     if (cameraRef.current) {
       const options = {quality: 1, base64: true};
-      const data = await cameraRef.current.takePictureAsync(options);
-      const base64Frame = data.base64;
-
-      const maxWidth = data.width / 8;
-      const maxHeight = data.width / 8;
-
       try {
+        const data = await cameraRef.current.takePictureAsync(options);
+        const base64Frame = data.base64;
+
+        const maxWidth = data.width / 8;
+        const maxHeight = data.width / 8;
+
         const response = await fetch(
           'http://192.168.76.30:3000/process-frame',
           {
@@ -59,7 +87,7 @@ const AttendanceRecord = () => {
 
         const result = await response.json();
 
-        if (result.names && result.boxes) {
+        if (result.names && result.boxes && result.conditions) {
           setProcessedFrame({
             uri: `data:image/jpeg;base64,${base64Frame}`,
             names: result.names,
@@ -67,9 +95,7 @@ const AttendanceRecord = () => {
             conditions: result.conditions,
           });
         }
-      } catch (error) {
-        console.error('Fetch error:', error.message);
-      }
+      } catch (error) {}
     }
   };
 
@@ -87,7 +113,9 @@ const AttendanceRecord = () => {
       processFrame();
     }, 1000);
 
-    return () => clearInterval(frameCaptureInterval);
+    return () => {
+      clearInterval(frameCaptureInterval);
+    };
   }, []);
 
   return (
@@ -160,6 +188,21 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  errorText: {
+    color: 'red',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 20,
+  },
 });
 
-export default AttendanceRecord;
+// Wrap your entire application with ErrorBoundary
+const App = () => {
+  return (
+    <ErrorBoundary>
+      <AttendanceRecord />
+    </ErrorBoundary>
+  );
+};
+
+export default App;
