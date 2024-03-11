@@ -1,32 +1,16 @@
+// Home.js
+
 import React from 'react';
-import {View, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Text} from 'react-native-elements';
 
-function Home() {
+function Home({route}) {
   const navigation = useNavigation();
 
-  const handleButtonClick1 = () => {
-    navigation.navigate('Camera');
-  };
+  const {lecturerId} = route.params;
 
-  const handleButtonClick2 = () => {
-    navigation.navigate('Camera');
-  };
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleButtonClick1}>
-          <Text>Mark attendance</Text>
-        </TouchableOpacity>
-        <View style={{width: 10}} />
-        <TouchableOpacity onPress={handleButtonClick2}>
-          <Text>AR</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+  return <View style={styles.container}></View>;
 }
 
 const styles = StyleSheet.create({

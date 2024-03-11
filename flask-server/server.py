@@ -17,6 +17,7 @@ client = MongoClient("mongodb+srv://thinalpethiyagoda:321t071np@universitysystem
 db = client["universitysystem"]
 collection = db["lecturers"]
 collection2 = db["students"]
+collection3 = db["lectures"]
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,6 +29,8 @@ with open(encodingsP, "r") as file:
     data = json.load(file)
 detector = cv2.CascadeClassifier(cascade)
 
+
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -35,7 +38,7 @@ def login():
     password = data.get('password')
     user = collection.find_one({'name': username, 'password': password})
     if user:
-        return jsonify({'message': 'Login successful'}), 200
+        return jsonify({'message': 'Login successful', 'lecturer_id': str(user['lecturer_id'])}), 200
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
 
@@ -112,4 +115,4 @@ def receive_frame():
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 if __name__ == "__main__":
-    app.run(host='192.168.76.30', port=3000, debug=True)
+    app.run(host='192.168.81.30', port=3000, debug=True)

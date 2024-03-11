@@ -1,20 +1,22 @@
 from pymongo import MongoClient
 
-# Replace <password> with your actual password
+
 password = "321t071np"
 
-# Construct the connection string
+
 connection_string = f"mongodb+srv://thinalpethiyagoda:321t071np@universitysystem.009rjim.mongodb.net/"
 
-# Connect to MongoDB Atlas
+
 client = MongoClient("mongodb+srv://thinalpethiyagoda:321t071np@universitysystem.009rjim.mongodb.net/")
 db = client["universitysystem"]
-collection = db["lecturers"]
+collection = db["modules"]
 
 
-# Example: Find all documents in the 'lectures' collection
-cursor = collection.find()
-print('hi')
-print(cursor)
-for document in cursor:
-    print(document)
+cursor = collection.find_one({'module_name': 'Computing indivdual project'})
+module_id = cursor['module_id']
+module_name = cursor['module_name']
+lecturer_id = cursor['lecturer_id']
+
+print(module_id)
+print(module_name)
+print(lecturer_id)

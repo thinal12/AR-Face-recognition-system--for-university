@@ -9,7 +9,6 @@ import {
 import {RNCamera} from 'react-native-camera';
 import {useNavigation} from '@react-navigation/native';
 
-// Error boundary component
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -196,7 +195,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// Wrap your entire application with ErrorBoundary
 const App = () => {
   return (
     <ErrorBoundary>

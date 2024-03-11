@@ -1,3 +1,5 @@
+// Login.js
+
 import React, {useState} from 'react';
 import {
   View,
@@ -14,7 +16,7 @@ const Login = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    fetch('http://192.168.76.30:3000/login', {
+    fetch('http://192.168.81.30:3000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +31,9 @@ const Login = () => {
         }
       })
       .then(data => {
-        navigation.navigate('Home');
+        console.log('Lecturer ID:', data.lecturer_id);
+        // Pass lecturer ID to Home component
+        navigation.navigate('Home', {lecturerId: data.lecturer_id});
       })
       .catch(error => {
         console.error('Login error:', error);
