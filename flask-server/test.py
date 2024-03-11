@@ -12,11 +12,6 @@ db = client["universitysystem"]
 collection = db["modules"]
 
 
-cursor = collection.find_one({'module_name': 'Computing indivdual project'})
-module_id = cursor['module_id']
-module_name = cursor['module_name']
-lecturer_id = cursor['lecturer_id']
-
-print(module_id)
-print(module_name)
-print(lecturer_id)
+cursor = collection.find({'lecturer_id': 2})
+modules_list = list(cursor)
+print(modules_list)

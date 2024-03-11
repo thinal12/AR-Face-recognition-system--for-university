@@ -17,7 +17,7 @@ client = MongoClient("mongodb+srv://thinalpethiyagoda:321t071np@universitysystem
 db = client["universitysystem"]
 collection = db["lecturers"]
 collection2 = db["students"]
-collection3 = db["lectures"]
+collection3 = db["modules"]
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -41,6 +41,17 @@ def login():
         return jsonify({'message': 'Login successful', 'lecturer_id': str(user['lecturer_id'])}), 200
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
+
+@app.route('/modules', methods=['POST'])
+def get_modules():
+    data = request.get_json()
+    lecturer_id = int(data.get('lecturerId')) 
+    print(f'Lecturer ID: {lecturer_id}')  
+    modules = collection3.find({'lecturer_id': lecturer_id}, {'_id': 0, 'module_id': 1, 'module_name': 1})
+    modules_list = list(modules)
+    print(f'Modules List: {modules_list}')
+    return jsonify(modules_list)
+
 
 def get_condition_from_database(name):
     student = collection2.find_one({'name': name})

@@ -31,8 +31,6 @@ const Login = () => {
         }
       })
       .then(data => {
-        console.log('Lecturer ID:', data.lecturer_id);
-        // Pass lecturer ID to Home component
         navigation.navigate('Home', {lecturerId: data.lecturer_id});
       })
       .catch(error => {

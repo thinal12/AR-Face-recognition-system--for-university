@@ -8,14 +8,6 @@ import ARCameraScene from './components/ARCameraScene';
 import Login from './components/Login';
 import Home from './components/Home';
 import AttendanceRecord from './components/AttendanceRecord';
-import {
-  ViroARScene,
-  ViroText,
-  ViroTrackingStateConstants,
-  ViroARSceneNavigator,
-  ViroTrackingReason,
-} from '@viro-community/react-viro';
-
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
