@@ -66,7 +66,7 @@ const AttendanceRecord = () => {
         const maxHeight = data.width / 8;
 
         const response = await fetch(
-          'http://192.168.76.30:3000/process-frame',
+          'http://192.168.205.30:3000/process-frame',
           {
             method: 'POST',
             headers: {

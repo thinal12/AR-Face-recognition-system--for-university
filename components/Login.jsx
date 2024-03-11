@@ -16,7 +16,7 @@ const Login = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    fetch('http://192.168.81.30:3000/login', {
+    fetch('http://192.168.205.30:3000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
