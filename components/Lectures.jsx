@@ -11,9 +11,9 @@ function ModuleCard({module}) {
   );
 }
 
-function Home({route}) {
-  const [modules, setModules] = useState([]);
-  const {lecturerId} = route.params;
+function Lectures({route}) {
+  const [lectures, setLectures] = useState([]);
+  const {module_id} = route.params;
 
   useEffect(() => {
     fetchModules();
@@ -22,29 +22,29 @@ function Home({route}) {
   const fetchModules = async () => {
     try {
       console.log('Lecturer ID:', lecturerId);
-      const response = await fetch('http://192.168.205.30:3000/modules', {
+      const response = await fetch('http://192.168.205.30:3000/lectures', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({lecturerId}),
+        body: JSON.stringify({module_id}),
       });
       if (response.ok) {
         const data = await response.json();
-        setModules(data);
+        setLectures(data);
         console.log('Modules:', data);
       } else {
-        console.error('Failed to fetch modules:', response.status);
+        console.error('Failed to fetch lectures:', response.status);
       }
     } catch (error) {
-      console.error('Error fetching modules:', error);
+      console.error('Error fetching lectures:', error);
     }
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Modules</Text>
-      {modules.map((module, index) => (
+      {lectures.map((module, index) => (
         <ModuleCard key={index} module={module} />
       ))}
     </View>
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Lectures;
