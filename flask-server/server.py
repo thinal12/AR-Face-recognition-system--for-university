@@ -18,7 +18,7 @@ db = client["universitysystem"]
 collection = db["lecturers"]
 collection2 = db["students"]
 collection3 = db["modules"]
-collection3 = db["lectures"]
+collection4 = db["lectures"]
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -46,20 +46,20 @@ def login():
 @app.route('/modules', methods=['POST'])
 def get_modules():
     data = request.get_json()
-    lecturer_id = int(data.get('lecturerId'))  
+    lecturer_id = int(data.get('lecturerId')) 
+    print(f'Lecturer ID: {lecturer_id}')  
     modules = collection3.find({'lecturer_id': lecturer_id}, {'_id': 0, 'module_id': 1, 'module_name': 1})
     modules_list = list(modules)
+    print(f'Modules List: {modules_list}')
     return jsonify(modules_list)
 
 @app.route('/lectures', methods=['POST'])
-def get_modules():
+def get_lectures():
     data = request.get_json()
     module_id = int(data.get('module_id')) 
     lectures = collection3.find({'module_id': module_id}, {'_id': 0, 'module_id': 1, 'title': 1, 'lecture_id' : 1, 'attedance_status': 1})
     lectures_list = list(lectures)
-    print(f'Modules List: {lectures_list}')
     return jsonify(lectures_list)
-
 
 def get_condition_from_database(name):
     student = collection2.find_one({'name': name})
