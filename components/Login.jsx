@@ -1,5 +1,3 @@
-// Login.js
-
 import React, {useState} from 'react';
 import {
   View,
@@ -112,7 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '#D7D9CE', // Light Grey
+    color: '#D7D9CE',
     fontSize: 16,
     fontWeight: 'bold',
   },

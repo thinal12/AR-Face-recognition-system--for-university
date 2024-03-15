@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-function ModuleCard({module}) {
+function ModuleCard({module, onPress}) {
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => onPress(module.module_id)}>
       <Text style={styles.cardText}>
         {module.module_id} - {module.module_name}
       </Text>
@@ -11,7 +13,7 @@ function ModuleCard({module}) {
   );
 }
 
-function Home({route}) {
+function Home({route, navigation}) {
   const [modules, setModules] = useState([]);
   const {lecturerId} = route.params;
 
@@ -41,11 +43,15 @@ function Home({route}) {
     }
   };
 
+  const handleModulePress = moduleId => {
+    navigation.navigate('Lectures', {module_id: moduleId});
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Modules</Text>
       {modules.map((module, index) => (
-        <ModuleCard key={index} module={module} />
+        <ModuleCard key={index} module={module} onPress={handleModulePress} />
       ))}
     </View>
   );

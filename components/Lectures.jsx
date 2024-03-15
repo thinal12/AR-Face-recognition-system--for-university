@@ -1,12 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-function ModuleCard({module}) {
+function LecturesCard({lecture, onPress}) {
   return (
     <TouchableOpacity style={styles.card}>
-      <Text style={styles.cardText}>
-        {module.module_id} - {module.module_name}
-      </Text>
+      <Text style={styles.cardText}>{lecture.title}</Text>
+      <TouchableOpacity style={styles.markAttendanceButton}>
+        <Text
+          style={styles.markAttendanceText}
+          onPress={() => onPress(lecture.lecture_id)}>
+          Mark Attendance
+        </Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 }
@@ -14,6 +20,7 @@ function ModuleCard({module}) {
 function Lectures({route}) {
   const [lectures, setLectures] = useState([]);
   const {module_id} = route.params;
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchModules();
@@ -21,7 +28,6 @@ function Lectures({route}) {
 
   const fetchModules = async () => {
     try {
-      console.log('Lecturer ID:', lecturerId);
       const response = await fetch('http://192.168.205.30:3000/lectures', {
         method: 'POST',
         headers: {
@@ -40,12 +46,19 @@ function Lectures({route}) {
       console.error('Error fetching lectures:', error);
     }
   };
+  const handleModulePress = lectureId => {
+    navigation.navigate('AttendanceRecord', {lecture_id: lectureId});
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Modules</Text>
-      {lectures.map((module, index) => (
-        <ModuleCard key={index} module={module} />
+      <Text style={styles.heading}>Lectures</Text>
+      {lectures.map((lecture, index) => (
+        <LecturesCard
+          key={index}
+          lecture={lecture}
+          onPress={handleModulePress}
+        />
       ))}
     </View>
   );
@@ -79,6 +92,19 @@ const styles = StyleSheet.create({
   },
   cardText: {
     fontSize: 16,
+  },
+  markAttendanceButton: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: 'blue',
+    borderRadius: 5,
+  },
+  markAttendanceText: {
+    color: 'white',
+    fontSize: 14,
   },
 });
 

@@ -47,17 +47,17 @@ def login():
 def get_modules():
     data = request.get_json()
     lecturer_id = int(data.get('lecturerId')) 
-    print(f'Lecturer ID: {lecturer_id}')  
+    
     modules = collection3.find({'lecturer_id': lecturer_id}, {'_id': 0, 'module_id': 1, 'module_name': 1})
     modules_list = list(modules)
-    print(f'Modules List: {modules_list}')
     return jsonify(modules_list)
 
 @app.route('/lectures', methods=['POST'])
 def get_lectures():
     data = request.get_json()
-    module_id = int(data.get('module_id')) 
-    lectures = collection3.find({'module_id': module_id}, {'_id': 0, 'module_id': 1, 'title': 1, 'lecture_id' : 1, 'attedance_status': 1})
+    module_id = data.get('module_id')
+    print(f'Lecturer ID: {module_id}')  
+    lectures = collection4.find({'module_id': module_id}, {'_id': 0, 'module_id': 1, 'title': 1, 'lecture_id' : 1, 'attedance_status': 1})
     lectures_list = list(lectures)
     return jsonify(lectures_list)
 

@@ -7,6 +7,7 @@ import CameraComponent from './components/CameraComponent';
 import ARCameraScene from './components/ARCameraScene';
 import Login from './components/Login';
 import Home from './components/Home';
+import Lectures from './components/Lectures';
 import AttendanceRecord from './components/AttendanceRecord';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -40,6 +41,11 @@ const App = () => {
         <Stack.Screen
           name="AttendanceRecord"
           component={AttendanceRecord}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Lectures"
+          component={Lectures}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

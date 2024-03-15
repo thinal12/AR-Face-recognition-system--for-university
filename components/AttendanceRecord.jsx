@@ -7,7 +7,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -37,11 +37,13 @@ class ErrorBoundary extends React.Component {
 }
 
 const AttendanceRecord = () => {
+  const route = useRoute();
   const [processedFrame, setProcessedFrame] = useState(null);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
   const [orientation, setOrientation] = useState('portrait');
   const [recordedNames, setRecordedNames] = useState([]);
+  const {lecture_id} = route.params;
 
   useEffect(() => {
     const getOrientation = () => {
@@ -103,6 +105,7 @@ const AttendanceRecord = () => {
       const uniqueNames = new Set(recordedNames);
       processedFrame.names.forEach(name => uniqueNames.add(name));
       setRecordedNames(Array.from(uniqueNames));
+      console.log(lecture_id);
       console.log(recordedNames);
     }
   };
@@ -118,50 +121,55 @@ const AttendanceRecord = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <RNCamera
-        ref={ref => {
-          cameraRef.current = ref;
-        }}
-        style={styles.camera}
-        type={RNCamera.Constants.Type.back}
-        captureAudio={false}
-      />
+    <ErrorBoundary>
+      <View style={styles.container}>
+        <RNCamera
+          ref={ref => {
+            cameraRef.current = ref;
+          }}
+          style={styles.camera}
+          type={RNCamera.Constants.Type.back}
+          captureAudio={false}
+        />
 
-      {processedFrame && (
-        <View style={styles.overlay}>
-          {processedFrame.boxes.map((box, index) => (
-            <View
-              key={index}
-              style={{
-                top: orientation === 'landscape' ? box[0] * 0.8 : box[0] * 1.2,
-                left:
-                  orientation === 'landscape' ? box[3] * 1.55 : box[3] * 0.6,
-                height: box[2] - box[0],
-                width: box[1] - box[3],
-                borderWidth: 5,
-                borderColor:
-                  processedFrame.conditions[index] === 'none' ? 'green' : 'red',
-              }}>
-              <Text
+        {processedFrame && (
+          <View style={styles.overlay}>
+            {processedFrame.boxes.map((box, index) => (
+              <View
+                key={index}
                 style={{
-                  color:
+                  top:
+                    orientation === 'landscape' ? box[0] * 0.8 : box[0] * 1.2,
+                  left:
+                    orientation === 'landscape' ? box[3] * 1.55 : box[3] * 0.6,
+                  height: box[2] - box[0],
+                  width: box[1] - box[3],
+                  borderWidth: 5,
+                  borderColor:
                     processedFrame.conditions[index] === 'none'
                       ? 'green'
                       : 'red',
-                  fontSize: 16,
                 }}>
-                {processedFrame.names[index]}
-              </Text>
-            </View>
-          ))}
-        </View>
-      )}
+                <Text
+                  style={{
+                    color:
+                      processedFrame.conditions[index] === 'none'
+                        ? 'green'
+                        : 'red',
+                    fontSize: 16,
+                  }}>
+                  {processedFrame.names[index]}
+                </Text>
+              </View>
+            ))}
+          </View>
+        )}
 
-      <TouchableOpacity style={styles.button} onPress={handleRecordNames}>
-        <Text style={styles.buttonText}>Record Names</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.button} onPress={handleRecordNames}>
+          <Text style={styles.buttonText}>Record Names</Text>
+        </TouchableOpacity>
+      </View>
+    </ErrorBoundary>
   );
 };
 
@@ -195,12 +203,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const App = () => {
-  return (
-    <ErrorBoundary>
-      <AttendanceRecord />
-    </ErrorBoundary>
-  );
-};
-
-export default App;
+export default AttendanceRecord;
