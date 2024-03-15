@@ -19,6 +19,7 @@ collection = db["lecturers"]
 collection2 = db["students"]
 collection3 = db["modules"]
 collection4 = db["lectures"]
+collection5 = db["attendance"]
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,6 +31,25 @@ with open(encodingsP, "r") as file:
     data = json.load(file)
 detector = cv2.CascadeClassifier(cascade)
 
+@app.route('/confirm-attendance', methods=['POST'])
+def confirm_attendance():
+    try:
+        data = request.get_json()
+        lecture_id = data.get('lecture_id')
+        recorded_names = data.get('recorded_names')
+        
+        
+        for name in recorded_names:
+            record = {
+                'lecture_id': lecture_id,
+                'name': name,
+                'attendance_status': 'present'  
+            }
+            collection5.insert_one(record)
+        
+        return jsonify({'message': 'Attendance confirmed successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
 
 @app.route('/login', methods=['POST'])

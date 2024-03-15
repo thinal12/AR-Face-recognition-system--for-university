@@ -110,6 +110,32 @@ const AttendanceRecord = () => {
     }
   };
 
+  const handleConfirmAttendance = async () => {
+    try {
+      const response = await fetch(
+        'http://192.168.205.30:3000/confirm-attendance',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            lecture_id,
+            recorded_names: recordedNames,
+          }),
+        },
+      );
+
+      if (response.ok) {
+        console.log('Attendance confirmed successfully');
+      } else {
+        console.error('Failed to confirm attendance:', response.status);
+      }
+    } catch (error) {
+      console.error('Error confirming attendance:', error);
+    }
+  };
+
   useEffect(() => {
     const frameCaptureInterval = setInterval(() => {
       processFrame();
@@ -165,8 +191,16 @@ const AttendanceRecord = () => {
           </View>
         )}
 
-        <TouchableOpacity style={styles.button} onPress={handleRecordNames}>
+        <TouchableOpacity
+          style={styles.recordButton}
+          onPress={handleRecordNames}>
           <Text style={styles.buttonText}>Record Names</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.confirmButton}
+          onPress={handleConfirmAttendance}>
+          <Text style={styles.buttonText}>Confirm Attendance</Text>
         </TouchableOpacity>
       </View>
     </ErrorBoundary>
@@ -183,11 +217,19 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
   },
-  button: {
+  recordButton: {
     position: 'absolute',
     bottom: 20,
-    alignSelf: 'center',
+    left: 20,
     backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+  },
+  confirmButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: 'green',
     padding: 10,
     borderRadius: 5,
   },
