@@ -32,7 +32,7 @@ with open(encodingsP, "r") as file:
 detector = cv2.CascadeClassifier(cascade)
 
 @app.route('/confirm-attendance', methods=['POST'])
-def confirm_attendance():
+def confirm_attendance(): 
     try:
         data = request.get_json()
         lecture_id = data.get('lecture_id')
