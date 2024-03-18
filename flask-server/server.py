@@ -46,7 +46,7 @@ def confirm_attendance():
                 'attendance_status': 'present'  
             }
             collection5.insert_one(record)
-        
+        collection4.update_one({'lecture_id': lecture_id}, {'$set': {'attendance_status': 'Confirmed'}})
         return jsonify({'message': 'Attendance confirmed successfully'}), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500

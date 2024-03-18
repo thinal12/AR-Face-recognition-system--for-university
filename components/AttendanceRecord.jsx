@@ -9,6 +9,16 @@ import {
 import {RNCamera} from 'react-native-camera';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
+const debounce = (func, delay) => {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+};
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -57,7 +67,9 @@ const AttendanceRecord = () => {
     };
   }, []);
 
-  const processFrame = async () => {
+  const debouncedProcessFrame = useRef(debounce(processFrame, 400)).current;
+
+  async function processFrame() {
     if (cameraRef.current) {
       const options = {quality: 1, base64: true};
       try {
@@ -98,7 +110,7 @@ const AttendanceRecord = () => {
         }
       } catch (error) {}
     }
-  };
+  }
 
   const handleRecordNames = () => {
     if (processedFrame && processedFrame.names) {
@@ -138,7 +150,7 @@ const AttendanceRecord = () => {
 
   useEffect(() => {
     const frameCaptureInterval = setInterval(() => {
-      processFrame();
+      debouncedProcessFrame();
     }, 1000);
 
     return () => {
