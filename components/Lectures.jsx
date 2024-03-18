@@ -12,7 +12,9 @@ function LecturesCard({lecture, onPress}) {
           onPress={() =>
             onPress(lecture.lecture_id, lecture.attendance_status)
           }>
-          Mark Attendance
+          {lecture.attendance_status === 'Confirmed'
+            ? 'Edit Attendance'
+            : 'Mark Attendance'}
         </Text>
       </TouchableOpacity>
     </TouchableOpacity>
@@ -50,7 +52,7 @@ function Lectures({route}) {
   };
   const handleModulePress = (lectureId, attendance_status) => {
     if (attendance_status === 'Confirmed') {
-      console.log('Attendance already confirmed');
+      navigation.navigate('EditAttendance', {lecture_id: lectureId});
     } else {
       navigation.navigate('AttendanceRecord', {lecture_id: lectureId});
     }

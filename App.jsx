@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, DeviceEventEmitter} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {Dimensions} from 'react-native';
 import {Orientation} from 'react-native-camera';
+import EditAttendance from './components/EditAttendance';
 import CameraComponent from './components/CameraComponent';
 import ARCameraScene from './components/ARCameraScene';
 import Login from './components/Login';
@@ -46,6 +47,11 @@ const App = () => {
         <Stack.Screen
           name="Lectures"
           component={Lectures}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="EditAttendance"
+          component={EditAttendance}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
