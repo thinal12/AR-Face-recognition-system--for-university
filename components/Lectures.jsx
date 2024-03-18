@@ -9,7 +9,9 @@ function LecturesCard({lecture, onPress}) {
       <TouchableOpacity style={styles.markAttendanceButton}>
         <Text
           style={styles.markAttendanceText}
-          onPress={() => onPress(lecture.lecture_id)}>
+          onPress={() =>
+            onPress(lecture.lecture_id, lecture.attendance_status)
+          }>
           Mark Attendance
         </Text>
       </TouchableOpacity>
@@ -46,8 +48,12 @@ function Lectures({route}) {
       console.error('Error fetching lectures:', error);
     }
   };
-  const handleModulePress = lectureId => {
-    navigation.navigate('AttendanceRecord', {lecture_id: lectureId});
+  const handleModulePress = (lectureId, attendance_status) => {
+    if (attendance_status === 'Confirmed') {
+      console.log('Attendance already confirmed');
+    } else {
+      navigation.navigate('AttendanceRecord', {lecture_id: lectureId});
+    }
   };
 
   return (

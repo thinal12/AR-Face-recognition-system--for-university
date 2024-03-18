@@ -77,7 +77,7 @@ def get_lectures():
     data = request.get_json()
     module_id = data.get('module_id')
     print(f'Lecturer ID: {module_id}')  
-    lectures = collection4.find({'module_id': module_id}, {'_id': 0, 'module_id': 1, 'title': 1, 'lecture_id' : 1, 'attedance_status': 1})
+    lectures = collection4.find({'module_id': module_id}, {'_id': 0, 'module_id': 1, 'title': 1, 'lecture_id' : 1, 'attendance_status': 1})
     lectures_list = list(lectures)
     return jsonify(lectures_list)
 
