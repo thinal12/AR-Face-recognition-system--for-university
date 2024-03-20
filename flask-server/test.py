@@ -15,3 +15,6 @@ collection = db["modules"]
 cursor = collection.find({'lecturer_id': 2})
 modules_list = list(cursor)
 print(modules_list)
+for module in modules_list:
+    print(module['module_id'])
+    

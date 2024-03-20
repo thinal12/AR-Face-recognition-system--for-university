@@ -3,11 +3,31 @@ import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 const EditAttendance = () => {
-  const [attendance, setAttendance] = useState('');
+  const [student, setStudent] = useState('');
   const route = useRoute();
+  const {lecture_id} = route.params;
 
   const handleConfirm = () => {
-    // Save the attendance
+    fetch('http://192.168.205.30:3000/edit_attendance', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({student, lecture_id}),
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Edit Attendance failed');
+        }
+      })
+      .then(data => {
+        console.log('Editted Attendance');
+      })
+      .catch(error => {
+        console.error('Edit Attendance error:', error);
+      });
   };
 
   return (
@@ -17,8 +37,8 @@ const EditAttendance = () => {
         <Text style={styles.label}>Enter student name or ID:</Text>
         <TextInput
           style={styles.input}
-          value={attendance}
-          onChangeText={setAttendance}
+          value={student}
+          onChangeText={setStudent}
           placeholder="Enter attendance"
         />
         <Button title="Confirm" onPress={handleConfirm} />
@@ -33,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f0f0f0', // Background color for the container
+    backgroundColor: '#f0f0f0',
   },
   title: {
     fontSize: 24,
@@ -42,7 +62,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: '80%',
-    backgroundColor: 'white', // Background color for the form container
+    backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
     shadowColor: '#000',
@@ -57,7 +77,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 5,
-    color: 'black', // Color for the label
+    color: 'black',
   },
   input: {
     height: 40,
@@ -66,6 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
     paddingHorizontal: 10,
+    color: 'black',
   },
 });
 

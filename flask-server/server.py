@@ -38,11 +38,11 @@ def confirm_attendance():
         lecture_id = data.get('lecture_id')
         recorded_names = data.get('recorded_names')
         
-        
         for name in recorded_names:
+            user = collection2.find_one({'name': name})
             record = {
                 'lecture_id': lecture_id,
-                'name': name,
+                'student_id': user['student_id'],
                 'attendance_status': 'present'  
             }
             collection5.insert_one(record)
@@ -62,12 +62,39 @@ def login():
         return jsonify({'message': 'Login successful', 'lecturer_id': str(user['lecturer_id'])}), 200
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
+    
+@app.route('/edit_attendance', methods=['POST'])
+def edit_attendance():
+    try:
+        data = request.get_json()
+        student = data.get('student')
+        lecture_id = data.get('lecture_id')
+        if any(char.isdigit() for char in student):
+            student = int(student)
+            print(student)
+            user = collection2.find_one({'student_id': student})
+            record = {
+                    'lecture_id': lecture_id,
+                    'student_id': user['student_id'],
+                    'attendance_status': 'present'  
+                }
+        else:
+            user = collection2.find_one({'name': student})
+            record = {
+                    'lecture_id': lecture_id,
+                    'name': user['name'],
+                    'attendance_status': 'present'  
+                }
+        collection5.insert_one(record)
+        return jsonify({'message': 'Attendance edited successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
 
 @app.route('/modules', methods=['POST'])
 def get_modules():
     data = request.get_json()
     lecturer_id = int(data.get('lecturerId')) 
-    
     modules = collection3.find({'lecturer_id': lecturer_id}, {'_id': 0, 'module_id': 1, 'module_name': 1})
     modules_list = list(modules)
     return jsonify(modules_list)

@@ -67,7 +67,7 @@ const AttendanceRecord = () => {
     };
   }, []);
 
-  const debouncedProcessFrame = useRef(debounce(processFrame, 400)).current;
+  const debouncedProcessFrame = useRef(debounce(processFrame, 500)).current;
 
   async function processFrame() {
     if (cameraRef.current) {
