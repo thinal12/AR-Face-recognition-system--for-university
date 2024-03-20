@@ -62,6 +62,30 @@ def login():
         return jsonify({'message': 'Login successful', 'lecturer_id': str(user['lecturer_id'])}), 200
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
+
+@app.route('/search-students', methods=['POST'])
+def search_students():
+    try:
+        data = request.get_json()
+        search_query = data.get('searchQuery')
+        
+        students = collection2.find({"name": {"$regex": search_query, "$options": "i"}})
+        
+
+
+        search_results = []
+        for student in students:
+            student_info = {
+                'student_id': str(student.get('student_id')),
+                'name': student.get('name'),
+                'disciplinary_issues': student.get('disciplinary_issues'),
+                'existing_conditions': student.get('existing_conditions')
+            }
+            search_results.append(student_info)
+
+        return jsonify(search_results), 200
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
     
 @app.route('/edit_attendance', methods=['POST'])
 def edit_attendance():

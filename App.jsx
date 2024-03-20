@@ -7,6 +7,7 @@ import EditAttendance from './components/EditAttendance';
 import CameraComponent from './components/CameraComponent';
 import ARCameraScene from './components/ARCameraScene';
 import Login from './components/Login';
+import StudentSearch from './components/StudentSearch';
 import Home from './components/Home';
 import Lectures from './components/Lectures';
 import AttendanceRecord from './components/AttendanceRecord';
@@ -18,7 +19,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="StudentSearch">
         <Stack.Screen
           name="Camera"
           component={CameraComponent}
@@ -52,6 +53,11 @@ const App = () => {
         <Stack.Screen
           name="EditAttendance"
           component={EditAttendance}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudentSearch"
+          component={StudentSearch}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
