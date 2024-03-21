@@ -8,6 +8,7 @@ import CameraComponent from './components/CameraComponent';
 import ARCameraScene from './components/ARCameraScene';
 import Login from './components/Login';
 import StudentSearch from './components/StudentSearch';
+import StudentProfile from './components/StudentProfile';
 import Home from './components/Home';
 import Lectures from './components/Lectures';
 import AttendanceRecord from './components/AttendanceRecord';
@@ -58,6 +59,11 @@ const App = () => {
         <Stack.Screen
           name="StudentSearch"
           component={StudentSearch}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudentProfile"
+          component={StudentProfile}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
