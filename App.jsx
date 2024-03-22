@@ -20,7 +20,12 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="StudentSearch">
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Camera"
           component={CameraComponent}
@@ -31,11 +36,7 @@ const App = () => {
           component={ARCameraScene}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{headerShown: false}}
-        />
+
         <Stack.Screen
           name="Home"
           component={Home}

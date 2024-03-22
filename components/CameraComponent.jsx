@@ -63,7 +63,7 @@ const CameraComponent = () => {
             uri: `data:image/jpeg;base64,${base64Frame}`,
             names: result.names,
             boxes: result.boxes,
-            conditions: result.conditions,
+            students: result.students,
           });
           console.log(result);
         } else {

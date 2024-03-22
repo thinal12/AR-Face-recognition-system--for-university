@@ -135,8 +135,7 @@ def get_lectures():
 def get_condition_from_database(name):
     student = collection2.find_one({'name': name})
     if student:
-        condition = student.get('existing_conditions', 'none')
-        return condition
+        return student
     else:
         return 'none'
 
@@ -157,14 +156,13 @@ def process_frame(base64_frame,width, height):
         encodings = face_recognition.face_encodings(rgb, boxes)
         names = []
         conditions = []
-        
+        issues = []
 
         print(boxes)
         for encoding in encodings:
             matches = face_recognition.compare_faces(data["encodings"], encoding)
             name = "Unknown"
-            condition = 'none'
-          
+            student = 'none'
             if True in matches:
                 matchedIdxs = [i for (i, b) in enumerate(matches) if b]
                 counts = {}
@@ -174,11 +172,11 @@ def process_frame(base64_frame,width, height):
                 name = max(counts, key=counts.get)
                 if currentname != name:
                     currentname = name
+            student = get_condition_from_database(name)
             names.append(name)
-            conditions.append(condition)
-            
-            
-        return names, boxes, conditions
+            conditions.append(student.get('existing_conditions'))
+            issues.append(student.get('disciplinary_issues'))
+        return names, boxes, conditions, issues
     except Exception as e:
         return str(e)
 
@@ -190,14 +188,12 @@ def receive_frame():
         width = data.get("width")  
         height = data.get("height") 
         result = process_frame(base64_frame, width, height)
-        
+        print(result)
         if result is not None:
-            names, boxes, conditions = result
-
-            
+            names, boxes, conditions, issues = result
             boxes = [[int(y) for y in x] for x in boxes]
 
-            return jsonify({"names": names, "boxes": boxes, "conditions": conditions})
+            return jsonify({"names": names, "boxes": boxes, "conditions": conditions, "issues": issues})
         else:
             return jsonify({"error": "No faces recognized in the frame."}), 404
         
