@@ -23,7 +23,7 @@ function LecturesCard({lecture, onPress}) {
 
 function Lectures({route}) {
   const [lectures, setLectures] = useState([]);
-  const {module_id} = route.params;
+  const {module_code} = route.params;
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function Lectures({route}) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({module_id}),
+        body: JSON.stringify({module_code}),
       });
       if (response.ok) {
         const data = await response.json();

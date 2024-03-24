@@ -6,9 +6,9 @@ function ModuleCard({module, onPress}) {
   return (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => onPress(module.module_id)}>
+      onPress={() => onPress(module.module_code)}>
       <Text style={styles.cardText}>
-        {module.module_id} - {module.module_name}
+        {module.module_code} - {module.module_name}
       </Text>
     </TouchableOpacity>
   );
@@ -44,8 +44,8 @@ function Home({route, navigation}) {
     }
   };
 
-  const handleModulePress = moduleId => {
-    navigation.navigate('Lectures', {module_id: moduleId});
+  const handleModulePress = modulecode => {
+    navigation.navigate('Lectures', {module_code: modulecode});
   };
 
   return (

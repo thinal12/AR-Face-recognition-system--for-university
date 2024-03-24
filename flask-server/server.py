@@ -49,7 +49,7 @@ def create_module():
         }
         module = collection3.insert_one(module)
 
-        # Create lecture documents
+     
         for i in range(1, number_of_lectures + 1):
             lecture_id = f'{module_code}{i}'  
             title = f'Lecture {i}'
@@ -153,15 +153,15 @@ def edit_attendance():
 def get_modules():
     data = request.get_json()
     lecturer_id = int(data.get('lecturerId')) 
-    modules = collection3.find({'lecturer_id': lecturer_id}, {'_id': 0, 'module_id': 1, 'module_name': 1})
+    modules = collection3.find({'lecturer_id': lecturer_id}, {'_id': 0, 'module_code': 1, 'module_name': 1})
     modules_list = list(modules)
     return jsonify(modules_list)
 
 @app.route('/lectures', methods=['POST'])
 def get_lectures():
     data = request.get_json()
-    module_id = data.get('module_id') 
-    lectures = collection4.find({'module_id': module_id}, {'_id': 0, 'module_id': 1, 'title': 1, 'lecture_id' : 1, 'attendance_status': 1})
+    module_id = data.get('module_code') 
+    lectures = collection4.find({'module_code': module_id}, {'_id': 0, 'module_code': 1, 'title': 1, 'lecture_id' : 1, 'attendance_status': 1})
     lectures_list = list(lectures)
     return jsonify(lectures_list)
 
