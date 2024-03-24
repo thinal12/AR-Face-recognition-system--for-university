@@ -38,18 +38,30 @@ def create_module():
         data = request.get_json()
         module_code = data.get('module_code')
         module_name = data.get('module_name')
-        lecturer_id = int(data.get('lecturer_id')) 
-        number_of_lectures = data.get('number_of_lectures')
+        lecturer_id = int(data.get('lecturer_id'))  
+        number_of_lectures = int(data.get('number_of_lectures'))  
 
-        print(module_name)
+        
         module = {
             'module_code': module_code,
             'module_name': module_name,
             'lecturer_id': lecturer_id,
         }
-        collection3.insert_one(module)
+        module = collection3.insert_one(module)
 
-        return jsonify({'message': 'Module created successfully'}), 200
+        # Create lecture documents
+        for i in range(1, number_of_lectures + 1):
+            lecture_id = f'{module_code}{i}'  
+            title = f'Lecture {i}'
+            lecture = {
+                'lecture_id': lecture_id,
+                'module_code': module_code,
+                'title': title,
+                'attendance_status': 'none'
+            }
+            collection4.insert_one(lecture)
+
+        return jsonify({'message': 'Module and lectures created successfully'}), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
