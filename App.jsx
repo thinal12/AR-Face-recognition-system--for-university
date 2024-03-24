@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, DeviceEventEmitter} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {Dimensions} from 'react-native';
 import {Orientation} from 'react-native-camera';
+import AdminHome from './components/AdminHome';
 import EditAttendance from './components/EditAttendance';
 import CameraComponent from './components/CameraComponent';
 import ARCameraScene from './components/ARCameraScene';
@@ -20,7 +21,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Camera">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
           component={Login}
@@ -65,6 +66,11 @@ const App = () => {
         <Stack.Screen
           name="StudentProfile"
           component={StudentProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AdminHome"
+          component={AdminHome}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

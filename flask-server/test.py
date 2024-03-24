@@ -23,11 +23,12 @@ for module in modules:
     module_id = module['module_id']
     module_name = module['module_name']
 
-    # Fetch lectures for the current module with attendance_status 'Confirmed'
+
     confirmed_lectures = collection4.find({
         'module_id': module_id,
         'attendance_status': 'Confirmed'
     })
 
-    
-print(confirmed_lectures)
+    print(f"Lectures for module '{module_name}':")
+    for lecture in confirmed_lectures:
+        print(lecture)

@@ -29,7 +29,11 @@ const Login = () => {
         }
       })
       .then(data => {
-        navigation.navigate('Home', {lecturerId: data.lecturer_id});
+        if (username === 'Admin') {
+          navigation.navigate('AdminHome');
+        } else {
+          navigation.navigate('Home', {lecturerId: data.lecturer_id});
+        }
       })
       .catch(error => {
         console.error('Login error:', error);

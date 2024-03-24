@@ -54,7 +54,6 @@ function Home({route, navigation}) {
       {modules.map((module, index) => (
         <ModuleCard key={index} module={module} onPress={handleModulePress} />
       ))}
-      <BottomTabNavigator />
     </View>
   );
 }
