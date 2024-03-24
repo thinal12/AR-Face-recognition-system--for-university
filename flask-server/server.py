@@ -140,7 +140,7 @@ def edit_attendance():
             user = collection2.find_one({'name': student})
             record = {
                     'lecture_id': lecture_id,
-                    'name': user['name'],
+                    'student_id': user['student_id'],
                     'attendance_status': 'present'  
                 }
         collection5.insert_one(record)
