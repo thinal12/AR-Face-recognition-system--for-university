@@ -10,6 +10,11 @@ connection_string = f"mongodb+srv://thinalpethiyagoda:321t071np@universitysystem
 client = MongoClient("mongodb+srv://thinalpethiyagoda:321t071np@universitysystem.009rjim.mongodb.net/")
 db = client["universitysystem"]
 collection = db["modules"]
+collection = db["lecturers"]
+collection2 = db["students"]
+collection3 = db["modules"]
+collection4 = db["lectures"]
+collection5 = db["attendance"]
 
 
 cursor = collection.find({'lecturer_id': 2})
