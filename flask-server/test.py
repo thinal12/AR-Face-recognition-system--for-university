@@ -9,7 +9,7 @@ connection_string = f"mongodb+srv://thinalpethiyagoda:321t071np@universitysystem
 
 client = MongoClient("mongodb+srv://thinalpethiyagoda:321t071np@universitysystem.009rjim.mongodb.net/")
 db = client["universitysystem"]
-collection = db["modules"]
+
 collection = db["lecturers"]
 collection2 = db["students"]
 collection3 = db["modules"]
@@ -17,9 +17,17 @@ collection4 = db["lectures"]
 collection5 = db["attendance"]
 
 
-cursor = collection.find({'lecturer_id': 2})
-modules_list = list(cursor)
-print(modules_list)
-for module in modules_list:
-    print(module['module_id'])
+modules = collection3.find()
+
+for module in modules:
+    module_id = module['module_id']
+    module_name = module['module_name']
+
+    # Fetch lectures for the current module with attendance_status 'Confirmed'
+    confirmed_lectures = collection4.find({
+        'module_id': module_id,
+        'attendance_status': 'Confirmed'
+    })
+
     
+print(confirmed_lectures)
