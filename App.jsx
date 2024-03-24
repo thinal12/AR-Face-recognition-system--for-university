@@ -4,6 +4,7 @@ import {RNCamera} from 'react-native-camera';
 import {Dimensions} from 'react-native';
 import {Orientation} from 'react-native-camera';
 import AdminHome from './components/AdminHome';
+import CreateModule from './components/CreateModule';
 import EditAttendance from './components/EditAttendance';
 import CameraComponent from './components/CameraComponent';
 import ARCameraScene from './components/ARCameraScene';
@@ -71,6 +72,11 @@ const App = () => {
         <Stack.Screen
           name="AdminHome"
           component={AdminHome}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreateModule"
+          component={CreateModule}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

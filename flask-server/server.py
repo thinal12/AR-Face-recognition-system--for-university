@@ -31,6 +31,30 @@ with open(encodingsP, "r") as file:
     data = json.load(file)
 detector = cv2.CascadeClassifier(cascade)
 
+
+@app.route('/create-module', methods=['POST'])
+def create_module():
+    try:
+        data = request.get_json()
+        module_code = data.get('module_code')
+        module_name = data.get('module_name')
+        lecturer_id = int(data.get('lecturer_id')) 
+        number_of_lectures = data.get('number_of_lectures')
+
+        print(module_name)
+        module = {
+            'module_code': module_code,
+            'module_name': module_name,
+            'lecturer_id': lecturer_id,
+        }
+        collection3.insert_one(module)
+
+        return jsonify({'message': 'Module created successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
+
+
 @app.route('/confirm-attendance', methods=['POST'])
 def confirm_attendance(): 
     try:
