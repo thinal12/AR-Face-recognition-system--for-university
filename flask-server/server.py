@@ -144,6 +144,41 @@ def search_students():
         return jsonify(search_results), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
+from bson import ObjectId
+from flask import jsonify
+
+@app.route('/get-studentattendance',methods=['POST'])
+def get_student_attendance():
+    
+    data = request.get_json()
+    student_id = data.get('student_id')
+    student_id = int(student_id)
+    modules_list = collection3.find()
+    modules= list(modules_list)
+    module_attendance = []
+    for module in modules:
+        total_attended = 0
+        print(module['module_code'])
+        lectures = collection4.find({'module_code': module['module_code'], 'attendance_status': 'Confirmed'})
+        total_lectures = 0
+        for lecture in lectures:
+            total_lectures += 1
+            attendance_records = collection5.find({'student_id': student_id,'lecture_id': lecture['lecture_id']})
+            attendance = len(list(attendance_records))
+            print(list(attendance_records))
+            if attendance > 0:
+                total_attended += 1
+        
+        attendance_percentage = (total_attended / total_lectures) * 100
+        
+        module['_id'] = str(module['_id'])  
+        module_attendance.append(attendance_percentage)
+        print(module_attendance)
+        print(modules)
+    return jsonify({'modules': modules, 'module_attendance': module_attendance})
+
+
     
 @app.route('/edit_attendance', methods=['POST'])
 def edit_attendance():

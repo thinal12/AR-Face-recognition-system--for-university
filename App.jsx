@@ -22,7 +22,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Camera">
+      <Stack.Navigator initialRouteName="StudentSearch">
         <Stack.Screen
           name="Login"
           component={Login}
@@ -85,14 +85,3 @@ const App = () => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  f1: {flex: 1},
-  helloWorldTextStyle: {
-    fontFamily: 'Arial',
-    fontSize: 30,
-    color: '#ffffff',
-    textAlignVertical: 'center',
-    textAlign: 'center',
-  },
-});
