@@ -212,14 +212,11 @@ def process_frame(base64_frame,width, height):
 
         encodings = face_recognition.face_encodings(rgb, boxes)
         names = []
-        conditions = []
-        issues = []
+        
 
-        print(boxes)
         for encoding in encodings:
             matches = face_recognition.compare_faces(data["encodings"], encoding)
             name = "Unknown"
-            student = 'none'
             if True in matches:
                 matchedIdxs = [i for (i, b) in enumerate(matches) if b]
                 counts = {}
@@ -229,13 +226,13 @@ def process_frame(base64_frame,width, height):
                 name = max(counts, key=counts.get)
                 if currentname != name:
                     currentname = name
-            student = get_condition_from_database(name)
+            
             names.append(name)
-            conditions.append(student.get('existing_conditions'))
-            issues.append(student.get('disciplinary_issues'))
-        return names, boxes, conditions, issues
+            
+        return names, boxes
     except Exception as e:
         return str(e)
+
 
 @app.route("/process-frame", methods=["POST"])
 def receive_frame():
@@ -244,11 +241,23 @@ def receive_frame():
         base64_frame = data.get("base64Frame")
         width = data.get("width")  
         height = data.get("height") 
+        previous_names = data.get("prev_names")
         result = process_frame(base64_frame, width, height)
-        print(result)
+        
         if result is not None:
-            names, boxes, conditions, issues = result
+            names, boxes = result
             boxes = [[int(y) for y in x] for x in boxes]
+
+            conditions = []
+            issues = []
+            if set(names) != set(previous_names):
+                
+                for name in names:
+                    student = get_condition_from_database(name)
+                    print(student)
+                    conditions.append(student["existing_conditions"])
+                    issues.append(student["disciplinary_issues"])
+            
 
             return jsonify({"names": names, "boxes": boxes, "conditions": conditions, "issues": issues})
         else:
@@ -256,6 +265,9 @@ def receive_frame():
         
     except Exception as e:
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+
+
+
 
 if __name__ == "__main__":
     app.run(host='192.168.205.30', port=3000, debug=True)
