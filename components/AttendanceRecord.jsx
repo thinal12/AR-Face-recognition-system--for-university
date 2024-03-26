@@ -43,6 +43,11 @@ const AttendanceRecord = () => {
   const navigation = useNavigation();
   const [orientation, setOrientation] = useState('portrait');
   const [recordedNames, setRecordedNames] = useState([]);
+  const [detectedNames, setDetectedNames] = useState([]);
+  const [conditions, setCondittions] = useState([]);
+  const [issues, setIssues] = useState([]);
+
+  let processing = 'false';
   const {lecture_id} = route.params;
 
   useEffect(() => {
@@ -57,16 +62,18 @@ const AttendanceRecord = () => {
     };
   }, []);
 
-  async function processFrame() {
-    if (cameraRef.current) {
+  const processFrame = async () => {
+    if (processing === 'false' && cameraRef.current) {
+      processing = 'true';
+      console.log('Processing:', processing);
       const options = {quality: 1, base64: true};
+      const data = await cameraRef.current.takePictureAsync(options);
+      const base64Frame = data.base64;
+
+      const maxWidth = data.width / 8;
+      const maxHeight = data.width / 8;
+
       try {
-        const data = await cameraRef.current.takePictureAsync(options);
-        const base64Frame = data.base64;
-
-        const maxWidth = data.width / 8;
-        const maxHeight = data.width / 8;
-
         const response = await fetch(
           'http://192.168.205.30:3000/process-frame',
           {
@@ -78,6 +85,7 @@ const AttendanceRecord = () => {
               base64Frame,
               width: maxWidth,
               height: maxHeight,
+              prev_names: detectedNames,
             }),
           },
         );
@@ -88,19 +96,37 @@ const AttendanceRecord = () => {
 
         const result = await response.json();
 
-        if (result.names && result.boxes && result.conditions) {
+        if (result.names && result.boxes) {
           setProcessedFrame({
-            uri: `data:image/jpeg;base64,${base64Frame}`,
             names: result.names,
             boxes: result.boxes,
             conditions: result.conditions,
             issues: result.issues,
           });
+          if (detectedNames !== result.names) {
+            setDetectedNames(result.names);
+            setCondittions(result.conditions);
+            setIssues(result.issues);
+          }
+        } else {
+          console.log(result.names);
         }
-        console.log(result);
-      } catch (error) {}
+      } catch (error) {
+        console.error('Fetch error:', error.message);
+      }
+      processing = 'false';
     }
-  }
+  };
+
+  useEffect(() => {
+    const frameCaptureInterval = setInterval(() => {
+      if (processing === 'false') {
+        processFrame();
+      }
+    }, 1000);
+
+    return () => clearInterval(frameCaptureInterval);
+  }, []);
 
   const handleRecordNames = () => {
     if (processedFrame && processedFrame.names) {
@@ -137,16 +163,6 @@ const AttendanceRecord = () => {
       console.error('Error confirming attendance:', error);
     }
   };
-
-  useEffect(() => {
-    const frameCaptureInterval = setInterval(() => {
-      processFrame();
-    }, 1000);
-
-    return () => {
-      clearInterval(frameCaptureInterval);
-    };
-  }, []);
 
   return (
     <ErrorBoundary>

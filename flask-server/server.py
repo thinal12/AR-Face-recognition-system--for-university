@@ -278,18 +278,17 @@ def receive_frame():
         height = data.get("height") 
         previous_names = data.get("prev_names")
         result = process_frame(base64_frame, width, height)
+        conditions = []
+        issues = []
         
         if result is not None:
             names, boxes = result
             boxes = [[int(y) for y in x] for x in boxes]
-
-            conditions = []
-            issues = []
             if set(names) != set(previous_names):
-                
+                print(names)
+                print(previous_names)
                 for name in names:
                     student = get_condition_from_database(name)
-                    print(student)
                     conditions.append(student["existing_conditions"])
                     issues.append(student["disciplinary_issues"])
             

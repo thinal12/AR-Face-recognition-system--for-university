@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import BottomTabNavigator from './BottomTabNavigator';
 
 function ModuleCard({module, onPress}) {
   return (
