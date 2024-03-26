@@ -44,7 +44,7 @@ const CameraComponent = () => {
   const cameraRef = useRef(null);
   const navigation = useNavigation();
   const [orientation, setOrientation] = useState('portrait');
-  const [processing, setProcessing] = useState(false);
+  let processing = 'false';
 
   useEffect(() => {
     const getOrientation = () => {
@@ -59,8 +59,8 @@ const CameraComponent = () => {
   }, []);
 
   const processFrame = async () => {
-    if (!processing && cameraRef.current) {
-      setProcessing(true);
+    if (processing === 'false' && cameraRef.current) {
+      processing = 'true';
 
       const options = {quality: 1, base64: true};
       const data = await cameraRef.current.takePictureAsync(options);
@@ -113,11 +113,12 @@ const CameraComponent = () => {
         console.error('Fetch error:', error.message);
       }
     }
+    processing = 'false';
   };
 
   useEffect(() => {
     const frameCaptureInterval = setInterval(() => {
-      if (!processing) {
+      if (processing === 'false') {
         processFrame();
       }
     }, 1200);
