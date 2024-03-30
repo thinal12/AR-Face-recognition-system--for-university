@@ -104,8 +104,6 @@ const CameraComponent = () => {
             setCondittions(result.conditions);
             setIssues(result.issues);
           }
-
-          setProcessing(false);
         } else {
           console.log(result.names);
         }
@@ -135,7 +133,7 @@ const CameraComponent = () => {
     return processedFrame.boxes.map((box, index) => {
       const buttonPosition = {
         position: 'absolute',
-        top: box[0] * 1.2,
+        top: box[1] * 1.2,
         left: (box[3] * 0.6 + box[1] * 0.6) / 2,
         height: 15,
         width: 30,

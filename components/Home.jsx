@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import BottomTabNavigator from './BottomTabNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function ModuleCard({module, onPress}) {
   return (
@@ -13,17 +15,26 @@ function ModuleCard({module, onPress}) {
   );
 }
 
-function Home({route, navigation}) {
+function Home({navigation}) {
   const [modules, setModules] = useState([]);
-  const {lecturerId} = route.params;
+  const [lecturerId, setLecturerId] = useState(null);
 
   useEffect(() => {
-    fetchModules();
+    retrieveLecturerIdAndFetchModules();
   }, []);
 
-  const fetchModules = async () => {
+  const retrieveLecturerIdAndFetchModules = async () => {
     try {
-      console.log('Lecturer ID:', lecturerId);
+      const storedLecturerId = await AsyncStorage.getItem('lecturerId');
+      setLecturerId(storedLecturerId);
+      fetchModules(storedLecturerId);
+    } catch (error) {
+      console.error('Error retrieving lecturerId:', error);
+    }
+  };
+
+  const fetchModules = async lecturerId => {
+    try {
       const response = await fetch('http://192.168.205.30:3000/modules', {
         method: 'POST',
         headers: {
@@ -53,6 +64,7 @@ function Home({route, navigation}) {
       {modules.map((module, index) => (
         <ModuleCard key={index} module={module} onPress={handleModulePress} />
       ))}
+      <BottomTabNavigator />
     </View>
   );
 }

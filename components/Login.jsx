@@ -7,37 +7,37 @@ import {
   StyleSheet,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    fetch('http://192.168.205.30:3000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({username, password}),
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Login failed');
-        }
-      })
-      .then(data => {
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://192.168.205.30:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({username, password}),
+      });
+      if (response.ok) {
+        const data = await response.json();
         if (username === 'Admin') {
           navigation.navigate('AdminHome');
         } else {
-          navigation.navigate('Home', {lecturerId: data.lecturer_id});
+          await AsyncStorage.setItem('lecturerId', data.lecturer_id.toString());
+          await AsyncStorage.setItem('activeTab', 'Home');
+          navigation.navigate('Home');
         }
-      })
-      .catch(error => {
-        console.error('Login error:', error);
-      });
+      } else {
+        throw new Error('Login failed');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   };
 
   return (

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import BottomTabNavigator from './BottomTabNavigator';
 
 const StudentSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -73,6 +74,7 @@ const StudentSearch = () => {
         renderItem={renderStudentCard}
         keyExtractor={item => item.student_id}
       />
+      <BottomTabNavigator />
     </View>
   );
 };
