@@ -67,7 +67,7 @@ const CameraComponent = () => {
       const base64Frame = data.base64;
 
       const maxWidth = data.width / 8;
-      const maxHeight = data.width / 8;
+      const maxHeight = data.height / 8;
 
       try {
         const response = await fetch(
@@ -133,8 +133,8 @@ const CameraComponent = () => {
     return processedFrame.boxes.map((box, index) => {
       const buttonPosition = {
         position: 'absolute',
-        top: box[1] * 1.2,
-        left: (box[3] * 0.6 + box[1] * 0.6) / 2,
+        top: box[0] * 1.2,
+        left: (box[3] * 0.6 + box[0] * 0.6) / 2,
         height: 15,
         width: 30,
       };

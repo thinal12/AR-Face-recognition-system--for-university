@@ -27,6 +27,8 @@ encodingsP = os.path.join(script_dir, "faces.json")
 cascade = os.path.join(script_dir, "haarcascade_frontalface_default.xml")
 currentname = "unknown"
 
+
+
 with open(encodingsP, "r") as file:
     data = json.load(file)
 detector = cv2.CascadeClassifier(cascade)
@@ -244,7 +246,6 @@ def process_frame(base64_frame,width, height):
         rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         rects = detector.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30), flags=cv2.CASCADE_SCALE_IMAGE)
         boxes = [[y, x + w, y + h, x] for (x, y, w, h) in rects]
-
         encodings = face_recognition.face_encodings(rgb, boxes)
         names = []
         
@@ -281,12 +282,14 @@ def receive_frame():
         conditions = []
         issues = []
         
+        
         if result is not None:
             names, boxes = result
             boxes = [[int(y) for y in x] for x in boxes]
+            print(boxes)
             if set(names) != set(previous_names):
                 print(names)
-                print(previous_names)
+                
                 for name in names:
                     if name == 'Unknown':
                         conditions.append('none')

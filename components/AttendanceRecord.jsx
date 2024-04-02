@@ -71,7 +71,7 @@ const AttendanceRecord = () => {
       const base64Frame = data.base64;
 
       const maxWidth = data.width / 8;
-      const maxHeight = data.width / 8;
+      const maxHeight = data.height / 8;
 
       try {
         const response = await fetch(
@@ -178,37 +178,50 @@ const AttendanceRecord = () => {
 
         {processedFrame && (
           <View style={styles.overlay}>
-            {processedFrame.boxes.map((box, index) => (
-              <View
-                key={index}
-                style={{
-                  top:
-                    orientation === 'landscape' ? box[0] * 0.8 : box[0] * 1.2,
-                  left:
-                    orientation === 'landscape' ? box[3] * 1.55 : box[3] * 0.6,
-                  height: box[2] - box[0],
-                  width: box[1] - box[3],
-                  borderWidth: 5,
-                  borderColor:
-                    processedFrame.conditions[index] === 'none'
-                      ? 'green'
-                      : 'red',
-                }}>
-                <Text
+            {processedFrame.boxes.map((box, index) => {
+              let top, left;
+              if (index === 0) {
+                top = box[0];
+                left = box[3];
+              } else {
+                x;
+                const prevBox = processedFrame.boxes[index - 1];
+                top = prevBox[0] + (prevBox[2] - prevBox[0]) * 0.5 + 10;
+                left = prevBox[3];
+              }
+
+              return (
+                <View
+                  key={index}
                   style={{
-                    color:
+                    ...StyleSheet.absoluteFillObject,
+                    top: top,
+                    left: left,
+                    height: box[2] - box[0],
+                    width: box[1] - box[3],
+                    borderWidth: 5,
+                    borderColor:
                       processedFrame.conditions[index] === 'none'
                         ? 'green'
                         : 'red',
-                    fontSize: 16,
+                    marginBottom: 10,
                   }}>
-                  {processedFrame.names[index]}
-                </Text>
-              </View>
-            ))}
+                  <Text
+                    style={{
+                      color:
+                        processedFrame.conditions[index] === 'none'
+                          ? 'green'
+                          : 'red',
+                      fontSize: 16,
+                    }}>
+                    {processedFrame.names[index]}
+                  </Text>
+                </View>
+              );
+            })}
+            {renderButtons()}
           </View>
         )}
-
         <TouchableOpacity
           style={styles.recordButton}
           onPress={handleRecordNames}>
