@@ -288,6 +288,10 @@ def receive_frame():
                 print(names)
                 print(previous_names)
                 for name in names:
+                    if name == 'Unknown':
+                        conditions.append('none')
+                        issues.append('none')
+                        continue
                     student = get_condition_from_database(name)
                     conditions.append(student["existing_conditions"])
                     issues.append(student["disciplinary_issues"])
