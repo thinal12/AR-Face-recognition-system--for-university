@@ -56,30 +56,37 @@ const StudentSearch = () => {
   };
 
   return (
-    <View>
-      <TextInput
-        style={{
-          height: 40,
-          borderColor: 'gray',
-          borderWidth: 1,
-          margin: 10,
-          padding: 5,
-        }}
-        onChangeText={handleSearch}
-        value={searchQuery}
-        placeholder="Search for students..."
-      />
-      <FlatList
-        data={searchResults}
-        renderItem={renderStudentCard}
-        keyExtractor={item => item.student_id}
-      />
-      <BottomTabNavigator />
-    </View>
+    <>
+      <View style={styles.container}>
+        <View styles>
+          <TextInput
+            style={{
+              height: 40,
+              borderColor: 'gray',
+              borderWidth: 1,
+              margin: 10,
+              padding: 5,
+            }}
+            onChangeText={handleSearch}
+            value={searchQuery}
+            placeholder="Search for students..."
+          />
+          <FlatList
+            data={searchResults}
+            renderItem={renderStudentCard}
+            keyExtractor={item => item.student_id}
+          />
+        </View>
+      </View>
+      <BottomTabNavigator styles={{bottom: 0}} />
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   card: {
     backgroundColor: 'black',
     borderRadius: 8,

@@ -59,13 +59,15 @@ function Home({navigation}) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Modules</Text>
-      {modules.map((module, index) => (
-        <ModuleCard key={index} module={module} onPress={handleModulePress} />
-      ))}
+    <>
+      <View style={styles.container}>
+        <Text style={styles.heading}>Modules</Text>
+        {modules.map((module, index) => (
+          <ModuleCard key={index} module={module} onPress={handleModulePress} />
+        ))}
+      </View>
       <BottomTabNavigator />
-    </View>
+    </>
   );
 }
 
@@ -75,6 +77,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   heading: {
     fontSize: 20,
     fontWeight: 'bold',

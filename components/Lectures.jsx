@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import BottomTabNavigator from './BottomTabNavigator';
 
 function LecturesCard({lecture, onPress}) {
   return (
@@ -59,16 +60,19 @@ function Lectures({route}) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Lectures</Text>
-      {lectures.map((lecture, index) => (
-        <LecturesCard
-          key={index}
-          lecture={lecture}
-          onPress={handleModulePress}
-        />
-      ))}
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.heading}>Lectures</Text>
+        {lectures.map((lecture, index) => (
+          <LecturesCard
+            key={index}
+            lecture={lecture}
+            onPress={handleModulePress}
+          />
+        ))}
+      </View>
+      <BottomTabNavigator />
+    </>
   );
 }
 
