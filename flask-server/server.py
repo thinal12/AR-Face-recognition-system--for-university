@@ -20,6 +20,7 @@ collection2 = db["students"]
 collection3 = db["modules"]
 collection4 = db["lectures"]
 collection5 = db["attendance"]
+collection6 = db["profile_pic"]
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -147,8 +148,6 @@ def search_students():
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
-from bson import ObjectId
-from flask import jsonify
 
 @app.route('/get-studentattendance',methods=['POST'])
 def get_student_attendance():
@@ -176,9 +175,9 @@ def get_student_attendance():
         
         module['_id'] = str(module['_id'])  
         module_attendance.append(attendance_percentage)
-        print(module_attendance)
-        print(modules)
-    return jsonify({'modules': modules, 'module_attendance': module_attendance})
+    student = collection2.find_one({'student_id': student_id})
+    images =collection6.find_one({'name': student['name']})
+    return jsonify({'modules': modules, 'module_attendance': module_attendance,'profile_pic_base64': images['image']}), 200
 
 
     

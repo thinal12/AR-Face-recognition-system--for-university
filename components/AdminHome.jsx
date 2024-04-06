@@ -9,6 +9,9 @@ const AdminHome = ({navigation}) => {
   const handleCreateModule = () => {
     navigation.navigate('CreateModule');
   };
+  const handleAddStudent = () => {
+    navigation.navigate('AddStudent');
+  };
 
   return (
     <View style={styles.pageContainer}>
@@ -18,6 +21,9 @@ const AdminHome = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleCreateModule}>
           <Text style={styles.buttonText}>Create Module</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleAddStudent}>
+          <Text style={styles.buttonText}>Add Student</Text>
         </TouchableOpacity>
       </View>
     </View>

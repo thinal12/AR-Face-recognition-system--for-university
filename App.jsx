@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, DeviceEventEmitter} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {Dimensions} from 'react-native';
 import {Orientation} from 'react-native-camera';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import AdminHome from './components/AdminHome';
 import CreateModule from './components/CreateModule';
 import EditAttendance from './components/EditAttendance';
@@ -14,8 +16,7 @@ import StudentProfile from './components/StudentProfile';
 import Home from './components/Home';
 import Lectures from './components/Lectures';
 import AttendanceRecord from './components/AttendanceRecord';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import AddStudent from './components/AddStudent';
 
 const Stack = createStackNavigator();
 
@@ -77,6 +78,11 @@ const App = () => {
         <Stack.Screen
           name="CreateModule"
           component={CreateModule}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddStudent"
+          component={AddStudent}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

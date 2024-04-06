@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 
 const StudentProfile = ({route}) => {
   const {student} = route.params;
   const [moduleData, setModuleData] = useState([]);
+  const [profilePic, setProfilePic] = useState(null);
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
+        // Fetch student attendance data
         const response = await fetch(
           'http://192.168.205.30:3000/get-studentattendance',
           {
@@ -21,13 +23,16 @@ const StudentProfile = ({route}) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const {modules, module_attendance} = await response.json();
+        const {modules, module_attendance, profile_pic_base64} =
+          await response.json();
 
         const moduleData = modules.map((module, index) => ({
           ...module,
           attendance_percentage: module_attendance[index],
         }));
         setModuleData(moduleData);
+
+        setProfilePic(`data:image/jpeg;base64, ${profile_pic_base64}`);
       } catch (error) {
         console.error('Error fetching attendance data:', error);
       }
@@ -38,9 +43,17 @@ const StudentProfile = ({route}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.profileText}>Name: {student.name}</Text>
-      <Text style={styles.profileText}>Student ID: {student.student_id}</Text>
-
+      <View style={styles.profileContainer}>
+        {profilePic && (
+          <Image source={{uri: profilePic}} style={styles.profilePic} />
+        )}
+        <View style={styles.profileDetails}>
+          <Text style={styles.profileText}>Name: {student.name}</Text>
+          <Text style={styles.profileText}>
+            Student ID: {student.student_id}
+          </Text>
+        </View>
+      </View>
       {moduleData.map((module, index) => (
         <View key={module.module_code}>
           <Text style={styles.profileText}>Module: {module.module_name}</Text>
@@ -55,11 +68,23 @@ const StudentProfile = ({route}) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: 'lightgray',
-    borderRadius: 8,
     padding: 15,
-    marginVertical: 8,
-    marginHorizontal: 16,
+  },
+  profileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  profilePic: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginRight: 20,
+  },
+  profileDetails: {
+    flex: 1,
   },
   profileText: {
     fontSize: 16,
