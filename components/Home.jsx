@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {serverAddress} from './config';
 
 function ModuleCard({module, onPress}) {
   return (
@@ -35,7 +36,7 @@ function Home({navigation}) {
 
   const fetchModules = async lecturerId => {
     try {
-      const response = await fetch('http://192.168.205.30:3000/modules', {
+      const response = await fetch(serverAddress + '/modules', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

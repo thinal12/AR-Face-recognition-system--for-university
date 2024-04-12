@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {serverAddress} from './config';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -74,21 +75,18 @@ const AttendanceRecord = () => {
       const maxHeight = data.height / 8;
 
       try {
-        const response = await fetch(
-          'http://192.168.205.30:3000/process-frame',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              base64Frame,
-              width: maxWidth,
-              height: maxHeight,
-              prev_names: detectedNames,
-            }),
+        const response = await fetch(serverAddress + '/process-frame', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+          body: JSON.stringify({
+            base64Frame,
+            width: maxWidth,
+            height: maxHeight,
+            prev_names: detectedNames,
+          }),
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -140,19 +138,16 @@ const AttendanceRecord = () => {
 
   const handleConfirmAttendance = async () => {
     try {
-      const response = await fetch(
-        'http://192.168.205.30:3000/confirm-attendance',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            lecture_id,
-            recorded_names: recordedNames,
-          }),
+      const response = await fetch(serverAddress + '/confirm-attendance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({
+          lecture_id,
+          recorded_names: recordedNames,
+        }),
+      });
 
       if (response.ok) {
         console.log('Attendance confirmed successfully');

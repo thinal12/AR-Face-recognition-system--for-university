@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
+import {serverAddress} from './config';
 
 function LecturesCard({lecture, onPress}) {
   return (
@@ -33,7 +34,7 @@ function Lectures({route}) {
 
   const fetchModules = async () => {
     try {
-      const response = await fetch('http://192.168.205.30:3000/lectures', {
+      const response = await fetch(serverAddress + '/lectures', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

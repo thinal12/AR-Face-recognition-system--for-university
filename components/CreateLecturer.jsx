@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import {serverAddress} from './config';
 
 const CreateLecturer = ({navigation}) => {
   const [name, setName] = useState('');
@@ -23,7 +24,7 @@ const CreateLecturer = ({navigation}) => {
       password: password,
     };
 
-    fetch('http://192.168.205.30:3000/create-lecturer', {
+    fetch(serverAddress + '/create-lecturer', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

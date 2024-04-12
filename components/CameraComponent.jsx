@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useNavigation} from '@react-navigation/native';
+import {serverAddress} from './config';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -70,21 +71,18 @@ const CameraComponent = () => {
       const maxHeight = data.height / 8;
 
       try {
-        const response = await fetch(
-          'http://192.168.205.30:3000/process-frame',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              base64Frame,
-              width: maxWidth,
-              height: maxHeight,
-              prev_names: detectedNames,
-            }),
+        const response = await fetch(serverAddress + '/process-frame', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+          body: JSON.stringify({
+            base64Frame,
+            width: maxWidth,
+            height: maxHeight,
+            prev_names: detectedNames,
+          }),
+        });
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -173,7 +171,7 @@ const CameraComponent = () => {
               <View
                 key={index}
                 style={{
-                  position: 'absolute',
+                  position: 'static',
                   top:
                     orientation === 'landscape' ? box[0] * 0.8 : box[0] * 1.2,
                   left:

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
+import {serverAddress} from './config';
 
 const StudentProfile = ({route}) => {
   const {student} = route.params;
@@ -9,17 +10,13 @@ const StudentProfile = ({route}) => {
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
-        // Fetch student attendance data
-        const response = await fetch(
-          'http://192.168.205.30:3000/get-studentattendance',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({student_id: student.student_id}),
+        const response = await fetch(serverAddress + '/get-studentattendance', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
+          body: JSON.stringify({student_id: student.student_id}),
+        });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

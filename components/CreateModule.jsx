@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import {serverAddress} from './config';
 
 const CreateModule = ({navigation}) => {
   const [moduleCode, setModuleCode] = useState('');
@@ -28,7 +29,7 @@ const CreateModule = ({navigation}) => {
     };
 
     // Assuming you have a server endpoint for creating a module
-    fetch('http://192.168.205.30:3000/create-module', {
+    fetch(serverAddress + '/create-module', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

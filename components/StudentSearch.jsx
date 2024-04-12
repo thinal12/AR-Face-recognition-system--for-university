@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
+import {serverAddress} from './config';
 
 const StudentSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -18,7 +19,7 @@ const StudentSearch = () => {
   const handleSearch = query => {
     setSearchQuery(query);
     if (query.trim() !== '') {
-      fetch('http://192.168.205.30:3000/search-students', {
+      fetch(serverAddress + '/search-students', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

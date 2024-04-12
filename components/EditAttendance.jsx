@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {serverAddress} from './config';
 
 const EditAttendance = () => {
   const [student, setStudent] = useState('');
@@ -8,7 +9,7 @@ const EditAttendance = () => {
   const {lecture_id} = route.params;
 
   const handleConfirm = () => {
-    fetch('http://192.168.205.30:3000/edit_attendance', {
+    fetch(serverAddress + '/edit_attendance', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
