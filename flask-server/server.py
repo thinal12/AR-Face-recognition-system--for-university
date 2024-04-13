@@ -276,7 +276,6 @@ def receive_frame():
         base64_frame = data.get("base64Frame")
         width = data.get("width")  
         height = data.get("height") 
-        previous_names = data.get("prev_names")
         result = process_frame(base64_frame, width, height)
         conditions = []
         issues = []
@@ -285,18 +284,15 @@ def receive_frame():
         if result is not None:
             names, boxes = result
             boxes = [[int(y) for y in x] for x in boxes]
-            print(boxes)
-            if set(names) != set(previous_names):
-                print(names)
-                
-                for name in names:
-                    if name == 'Unknown':
-                        conditions.append('none')
-                        issues.append('none')
-                        continue
-                    student = get_condition_from_database(name)
-                    conditions.append(student["existing_conditions"])
-                    issues.append(student["disciplinary_issues"])
+
+            for name in names:
+                if name == 'Unknown':
+                    conditions.append('none')
+                    issues.append('none')
+                    continue
+                student = get_condition_from_database(name)
+                conditions.append(student["existing_conditions"])
+                issues.append(student["disciplinary_issues"])
             
 
             return jsonify({"names": names, "boxes": boxes, "conditions": conditions, "issues": issues})

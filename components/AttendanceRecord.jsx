@@ -44,9 +44,6 @@ const AttendanceRecord = () => {
   const navigation = useNavigation();
   const [orientation, setOrientation] = useState('portrait');
   const [recordedNames, setRecordedNames] = useState([]);
-  const [detectedNames, setDetectedNames] = useState([]);
-  const [conditions, setCondittions] = useState([]);
-  const [issues, setIssues] = useState([]);
 
   let processing = 'false';
   const {lecture_id} = route.params;
@@ -83,7 +80,6 @@ const AttendanceRecord = () => {
             base64Frame,
             width: maxWidth,
             height: maxHeight,
-            prev_names: detectedNames,
           }),
         });
 
@@ -100,12 +96,6 @@ const AttendanceRecord = () => {
             conditions: result.conditions,
             issues: result.issues,
           });
-          if (detectedNames !== result.names) {
-            setDetectedNames(result.names);
-            setCondittions(result.conditions);
-            setIssues(result.issues);
-          }
-          console.log(result.boxes);
         } else {
           console.log(result.names);
         }

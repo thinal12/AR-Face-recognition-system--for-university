@@ -39,9 +39,6 @@ class ErrorBoundary extends React.Component {
 
 const CameraComponent = () => {
   const [processedFrame, setProcessedFrame] = useState(null);
-  const [conditions, setCondittions] = useState([]);
-  const [issues, setIssues] = useState([]);
-  const [detectedNames, setDetectedNames] = useState([]);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
   const [orientation, setOrientation] = useState('portrait');
@@ -80,7 +77,6 @@ const CameraComponent = () => {
             base64Frame,
             width: maxWidth,
             height: maxHeight,
-            prev_names: detectedNames,
           }),
         });
 
@@ -97,11 +93,6 @@ const CameraComponent = () => {
             conditions: result.conditions,
             issues: result.issues,
           });
-          if (detectedNames !== result.names) {
-            setDetectedNames(result.names);
-            setCondittions(result.conditions);
-            setIssues(result.issues);
-          }
         } else {
           console.log(result.names);
         }
@@ -117,7 +108,7 @@ const CameraComponent = () => {
       if (processing === 'false') {
         processFrame();
       }
-    }, 1200);
+    }, 1000);
 
     return () => clearInterval(frameCaptureInterval);
   }, []);
