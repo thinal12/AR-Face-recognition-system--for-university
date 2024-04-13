@@ -66,7 +66,6 @@ const AttendanceRecord = () => {
   const processFrame = async () => {
     if (processing === 'false' && cameraRef.current) {
       processing = 'true';
-      console.log('Processing:', processing);
       const options = {quality: 1, base64: true};
       const data = await cameraRef.current.takePictureAsync(options);
       const base64Frame = data.base64;
@@ -106,6 +105,7 @@ const AttendanceRecord = () => {
             setCondittions(result.conditions);
             setIssues(result.issues);
           }
+          console.log(result.boxes);
         } else {
           console.log(result.names);
         }
@@ -173,48 +173,35 @@ const AttendanceRecord = () => {
 
         {processedFrame && (
           <View style={styles.overlay}>
-            {processedFrame.boxes.map((box, index) => {
-              let top, left;
-              if (index === 0) {
-                top = box[0];
-                left = box[3];
-              } else {
-                x;
-                const prevBox = processedFrame.boxes[index - 1];
-                top = prevBox[0] + (prevBox[2] - prevBox[0]) * 0.5 + 10;
-                left = prevBox[3];
-              }
-
-              return (
-                <View
-                  key={index}
+            {processedFrame.boxes.map((box, index) => (
+              <View
+                key={index}
+                style={{
+                  position: 'relative ',
+                  top: orientation === 'landscape' ? box[0] : box[0],
+                  left: orientation === 'landscape' ? box[3] : box[3],
+                  right: orientation === 'landscape' ? box[3] : box[3],
+                  bottom: orientation === 'landscape' ? box[3] : box[3],
+                  height: box[2] - box[0],
+                  width: box[1] - box[3],
+                  borderWidth: 5,
+                  borderColor:
+                    processedFrame.conditions[index] === 'none'
+                      ? 'green'
+                      : 'red',
+                }}>
+                <Text
                   style={{
-                    ...StyleSheet.absoluteFillObject,
-                    top: top,
-                    left: left,
-                    height: box[2] - box[0],
-                    width: box[1] - box[3],
-                    borderWidth: 5,
-                    borderColor:
+                    color:
                       processedFrame.conditions[index] === 'none'
                         ? 'green'
                         : 'red',
-                    marginBottom: 10,
+                    fontSize: 16,
                   }}>
-                  <Text
-                    style={{
-                      color:
-                        processedFrame.conditions[index] === 'none'
-                          ? 'green'
-                          : 'red',
-                      fontSize: 16,
-                    }}>
-                    {processedFrame.names[index]}
-                  </Text>
-                </View>
-              );
-            })}
-            {renderButtons()}
+                  {processedFrame.names[index]}
+                </Text>
+              </View>
+            ))}
           </View>
         )}
         <TouchableOpacity

@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serverAddress} from './config';
+import Header from './Header';
 
 function ModuleCard({module, onPress}) {
   return (
@@ -61,8 +62,10 @@ function Home({navigation}) {
 
   return (
     <>
+      <Header />
       <View style={styles.container}>
         <Text style={styles.heading}>Modules</Text>
+
         {modules.map((module, index) => (
           <ModuleCard key={index} module={module} onPress={handleModulePress} />
         ))}
@@ -74,11 +77,16 @@ function Home({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#a3abff',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-
+  moduleContainer: {
+    backgroundColor: '#f0f0f0',
+    padding: 20,
+    borderRadius: 10,
+  },
   heading: {
     fontSize: 20,
     fontWeight: 'bold',

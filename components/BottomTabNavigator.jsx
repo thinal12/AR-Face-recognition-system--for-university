@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: '#14151a',
     height: 50,
   },
   tabButton: {
