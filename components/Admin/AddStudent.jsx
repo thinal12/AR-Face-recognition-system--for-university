@@ -1,14 +1,6 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Image,
-  PermissionsAndroid,
-} from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import React, {useState, useRef} from 'react';
+import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import {RNCamera} from 'react-native-camera';
 import Header from '../Lecturer/Header';
 
 const AddStudent = () => {
@@ -17,6 +9,11 @@ const AddStudent = () => {
   const [disciplinaryIssues, setDisciplinaryIssues] = useState('');
   const [existingConditions, setExistingConditions] = useState('');
   const [profilePic, setProfilePic] = useState(null);
+  const [trainingData, setTrainingData] = useState([]);
+  const [isCameraVisible, setCamera] = useState(false);
+  const [isProfilePicMode, setProfilePicMode] = useState(false);
+
+  const cameraRef = useRef(null);
 
   const handleAddStudent = () => {
     console.log('Adding student:', {
@@ -25,109 +22,94 @@ const AddStudent = () => {
       disciplinaryIssues,
       existingConditions,
       profilePic,
+      trainingData,
     });
-
-    setStudentId('');
-    setName('');
-    setDisciplinaryIssues('');
-    setExistingConditions('');
-    setProfilePic(null);
   };
 
-  const requestCameraPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: 'Camera Permission',
-          message: 'App needs access to your camera ',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Camera permission given');
-        chooseImage();
+  const handleShowCamera = (isProfile, isCamera) => {
+    console.log('Showing camera:', isProfile, isCamera);
+    setProfilePicMode(isProfile);
+    setCamera(isCamera);
+  };
+
+  const handleTakePicture = async () => {
+    if (cameraRef.current) {
+      const options = {quality: 0.5, base64: true};
+      const data = await cameraRef.current.takePictureAsync(options);
+      if (isProfilePicMode === true) {
+        setProfilePic(data.base64);
       } else {
-        console.log('Camera permission denied');
+        setTrainingData([...trainingData, data.base64]);
       }
-    } catch (err) {
-      console.warn(err);
     }
-  };
-
-  const chooseImage = () => {
-    const options = {
-      title: 'Select Profile Picture',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-
-    ImagePicker.launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        const source = {uri: response.uri};
-        setProfilePic(source);
-      }
-    });
   };
 
   return (
     <>
-      <Header />
-      <View style={styles.container}>
-        <View style={styles.form}>
-          <Text style={styles.heading}>Add Student</Text>
-
-          <Text style={styles.label}>Student ID:</Text>
-          <TextInput
-            style={styles.input}
-            value={studentId}
-            onChangeText={setStudentId}
-            placeholder="Enter Student ID"
-            keyboardType="numeric"
+      {isCameraVisible && (
+        <>
+          <RNCamera
+            ref={cameraRef}
+            style={{flex: 1, width: '100%'}}
+            type={RNCamera.Constants.Type.front}
           />
+          <Button title="Capture" onPress={handleTakePicture} />
+        </>
+      )}
+      {!isCameraVisible && (
+        <>
+          <Header />
+          <View style={styles.container}>
+            <View style={styles.form}>
+              <Text style={styles.heading}>Add Student</Text>
 
-          <Text style={styles.label}>Name:</Text>
-          <TextInput
-            style={styles.input}
-            value={name}
-            onChangeText={setName}
-            placeholder="Enter name"
-          />
+              <Text style={styles.label}>Student ID:</Text>
+              <TextInput
+                style={styles.input}
+                value={studentId}
+                onChangeText={setStudentId}
+                placeholder="Enter Student ID"
+                keyboardType="numeric"
+              />
 
-          <Text style={styles.label}>Profile Picture:</Text>
-          <Button
-            title="Choose Profile Picture"
-            onPress={requestCameraPermission}
-          />
-          {profilePic && <Image source={profilePic} style={styles.image} />}
+              <Text style={styles.label}>Name:</Text>
+              <TextInput
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
+                placeholder="Enter name"
+              />
 
-          <Text style={styles.label}>Disciplinary Issues:</Text>
-          <TextInput
-            style={styles.input}
-            value={disciplinaryIssues}
-            onChangeText={setDisciplinaryIssues}
-            placeholder="Enter disciplinary issues"
-          />
+              <Text style={styles.label}>Disciplinary Issues:</Text>
+              <TextInput
+                style={styles.input}
+                value={disciplinaryIssues}
+                onChangeText={setDisciplinaryIssues}
+                placeholder="Enter disciplinary issues"
+              />
 
-          <Text style={styles.label}>Existing Conditions:</Text>
-          <TextInput
-            style={styles.input}
-            value={existingConditions}
-            onChangeText={setExistingConditions}
-            placeholder="Enter existing conditions"
-          />
+              <Text style={styles.label}>Existing Conditions:</Text>
+              <TextInput
+                style={styles.input}
+                value={existingConditions}
+                onChangeText={setExistingConditions}
+                placeholder="Enter existing conditions"
+              />
 
-          <Button title="Add Student" onPress={handleAddStudent} />
-        </View>
-      </View>
+              <Button
+                title="Take Profile Picture"
+                onPress={() => handleShowCamera(true, true)}
+              />
+              <Button
+                title="Take Training Picture"
+                onPress={() => handleShowCamera(false, true)}
+              />
+
+              <Button title="Add Student" onPress={handleAddStudent} />
+            </View>
+          </View>
+        </>
+      )}
     </>
   );
 };
