@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {serverAddress} from './config';
+import {serverAddress} from '../config';
 import Header from './Header';
 
 function ModuleCard({module, onPress}) {
@@ -30,9 +30,6 @@ function Home({navigation}) {
 
   useEffect(() => {
     retrieveLecturerIdAndFetchModules();
-  }, []);
-
-  useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       handleBackPress,
@@ -71,20 +68,24 @@ function Home({navigation}) {
     }
   };
 
-  const handleModulePress = modulecode => {
+  const handleModulePress = async modulecode => {
+    await AsyncStorage.setItem('activeTab', 'Lectures');
     navigation.navigate('Lectures', {module_code: modulecode});
   };
-  const handleBackPress = () => {
-    Alert.alert(
-      'Exit App',
-      'Are you sure you want to exit?',
-      [
-        {text: 'Cancel', style: 'cancel'},
-        {text: 'OK', onPress: () => BackHandler.exitApp()},
-      ],
-      {cancelable: false},
-    );
-    return true;
+  const handleBackPress = async () => {
+    const value = await AsyncStorage.getItem('activeTab');
+    if (value === 'Home') {
+      Alert.alert(
+        'Exit App',
+        'Are you sure you want to exit?',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {text: 'OK', onPress: () => BackHandler.exitApp()},
+        ],
+        {cancelable: false},
+      );
+      return BackHandler.remove();
+    }
   };
 
   return (

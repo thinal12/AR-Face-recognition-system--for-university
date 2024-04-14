@@ -1,8 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
-import {serverAddress} from './config';
+import {serverAddress} from '../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from './Header';
 
 function LecturesCard({lecture, onPress}) {
@@ -33,6 +40,20 @@ function Lectures({route}) {
     fetchModules();
   }, []);
 
+  const handleBackPress = () => {
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
+
   const fetchModules = async () => {
     try {
       const response = await fetch(serverAddress + '/lectures', {
@@ -53,8 +74,9 @@ function Lectures({route}) {
       console.error('Error fetching lectures:', error);
     }
   };
-  const handleModulePress = (lectureId, attendance_status) => {
+  const handleModulePress = async (lectureId, attendance_status) => {
     if (attendance_status === 'Confirmed') {
+      await AsyncStorage.setItem('activeTab', 'EditAttendanc');
       navigation.navigate('EditAttendance', {lecture_id: lectureId});
     } else {
       navigation.navigate('AttendanceRecord', {lecture_id: lectureId});

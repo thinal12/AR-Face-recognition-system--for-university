@@ -7,8 +7,8 @@ import {
   Dimensions,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
-import {useNavigation} from '@react-navigation/native';
-import {serverAddress} from './config';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {serverAddress} from '../config';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -37,12 +37,16 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const CameraComponent = () => {
+const AttendanceRecord = () => {
+  const route = useRoute();
   const [processedFrame, setProcessedFrame] = useState(null);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
   const [orientation, setOrientation] = useState('portrait');
+  const [recordedNames, setRecordedNames] = useState([]);
+
   let processing = 'false';
+  const {lecture_id} = route.params;
 
   useEffect(() => {
     const getOrientation = () => {
@@ -59,7 +63,6 @@ const CameraComponent = () => {
   const processFrame = async () => {
     if (processing === 'false' && cameraRef.current) {
       processing = 'true';
-
       const options = {quality: 1, base64: true};
       const data = await cameraRef.current.takePictureAsync(options);
       const base64Frame = data.base64;
@@ -99,8 +102,8 @@ const CameraComponent = () => {
       } catch (error) {
         console.error('Fetch error:', error.message);
       }
+      processing = 'false';
     }
-    processing = 'false';
   };
 
   useEffect(() => {
@@ -113,35 +116,37 @@ const CameraComponent = () => {
     return () => clearInterval(frameCaptureInterval);
   }, []);
 
-  const handleButtonPress = (name, conditions) => {
-    navigation.navigate('ARCamera', {name, conditions});
+  const handleRecordNames = () => {
+    if (processedFrame && processedFrame.names) {
+      const uniqueNames = new Set(recordedNames);
+      processedFrame.names.forEach(name => uniqueNames.add(name));
+      setRecordedNames(Array.from(uniqueNames));
+      console.log(lecture_id);
+      console.log(recordedNames);
+    }
   };
-  const renderButtons = () => {
-    if (!processedFrame) return null;
 
-    return processedFrame.boxes.map((box, index) => {
-      const buttonPosition = {
-        position: 'absolute',
-        top: box[0] * 1.2,
-        left: (box[3] * 0.6 + box[0] * 0.6) / 2,
-        height: 15,
-        width: 30,
-      };
+  const handleConfirmAttendance = async () => {
+    try {
+      const response = await fetch(serverAddress + '/confirm-attendance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lecture_id,
+          recorded_names: recordedNames,
+        }),
+      });
 
-      return (
-        <TouchableOpacity
-          key={index}
-          style={[styles.button, buttonPosition]}
-          onPress={() =>
-            handleButtonPress(
-              processedFrame.names[index],
-              processedFrame.conditions[index],
-            )
-          }>
-          <Text style={styles.buttonText}>{processedFrame.names[index]}</Text>
-        </TouchableOpacity>
-      );
-    });
+      if (response.ok) {
+        console.log('Attendance confirmed successfully');
+      } else {
+        console.error('Failed to confirm attendance:', response.status);
+      }
+    } catch (error) {
+      console.error('Error confirming attendance:', error);
+    }
   };
 
   return (
@@ -162,11 +167,11 @@ const CameraComponent = () => {
               <View
                 key={index}
                 style={{
-                  position: 'static',
-                  top:
-                    orientation === 'landscape' ? box[0] * 0.8 : box[0] * 1.2,
-                  left:
-                    orientation === 'landscape' ? box[3] * 1.55 : box[3] * 0.6,
+                  position: 'relative ',
+                  top: orientation === 'landscape' ? box[0] : box[0],
+                  left: orientation === 'landscape' ? box[3] : box[3],
+                  right: orientation === 'landscape' ? box[3] : box[3],
+                  bottom: orientation === 'landscape' ? box[3] : box[3],
                   height: box[2] - box[0],
                   width: box[1] - box[3],
                   borderWidth: 5,
@@ -187,9 +192,19 @@ const CameraComponent = () => {
                 </Text>
               </View>
             ))}
-            {renderButtons()}
           </View>
         )}
+        <TouchableOpacity
+          style={styles.recordButton}
+          onPress={handleRecordNames}>
+          <Text style={styles.buttonText}>Record Names</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.confirmButton}
+          onPress={handleConfirmAttendance}>
+          <Text style={styles.buttonText}>Confirm Attendance</Text>
+        </TouchableOpacity>
       </View>
     </ErrorBoundary>
   );
@@ -205,8 +220,19 @@ const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
   },
-  button: {
+  recordButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
     backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+  },
+  confirmButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: 'green',
     padding: 10,
     borderRadius: 5,
   },
@@ -214,6 +240,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  errorText: {
+    color: 'red',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 20,
+  },
 });
 
-export default CameraComponent;
+export default AttendanceRecord;

@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import {serverAddress} from './config';
-import Header from './Header';
+import {serverAddress} from '../config';
+import Header from '../Lecturer/Header';
 
 const CreateModule = ({navigation}) => {
   const [moduleCode, setModuleCode] = useState('');

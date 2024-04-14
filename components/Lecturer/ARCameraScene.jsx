@@ -50,7 +50,13 @@ const ARCameraScene = ({route}) => {
     <ViroARSceneNavigator
       autofocus={true}
       initialScene={{
-        scene: () => <ProfileAR name={name} conditions={conditions} />,
+        scene: () => (
+          <ProfileAR
+            name={name}
+            conditions={conditions}
+            style={styles.profile}
+          />
+        ),
       }}
       style={styles.f1}
     />
@@ -65,6 +71,9 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     textAlignVertical: 'center',
     textAlign: 'center',
+  },
+  profile: {
+    backgroundColor: 'black',
   },
 });
 

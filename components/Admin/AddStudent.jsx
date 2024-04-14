@@ -9,7 +9,7 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import Header from './Header';
+import Header from '../Lecturer/Header';
 
 const AddStudent = () => {
   const [studentId, setStudentId] = useState('');

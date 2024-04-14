@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import {serverAddress} from './config';
+import {serverAddress} from '../config';
 import Header from './Header';
 
 const StudentProfile = ({route}) => {

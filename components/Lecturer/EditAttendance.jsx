@@ -1,13 +1,37 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {serverAddress} from './config';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  BackHandler,
+} from 'react-native';
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from '@react-navigation/native';
+import {serverAddress} from '../config';
 import Header from './Header';
 
 const EditAttendance = () => {
   const [student, setStudent] = useState('');
   const route = useRoute();
   const {lecture_id} = route.params;
+  const handleBackPress = async () => {
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   const handleConfirm = () => {
     fetch(serverAddress + '/edit_attendance', {

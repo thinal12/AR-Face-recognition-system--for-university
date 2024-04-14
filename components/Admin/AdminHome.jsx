@@ -1,6 +1,13 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import Header from './Header';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  BackHandler,
+  Alert,
+} from 'react-native';
+import Header from '../Lecturer/Header';
+import React, {useEffect} from 'react';
 
 const AdminHome = ({navigation}) => {
   useEffect(() => {

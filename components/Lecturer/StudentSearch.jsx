@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   TextInput,
@@ -6,15 +6,32 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  BackHandler,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
-import {serverAddress} from './config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {serverAddress} from '../config';
 
 const StudentSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const navigation = useNavigation();
+
+  const handleBackPress = async () => {
+    await AsyncStorage.setItem('activeTab', ' ');
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   const handleSearch = query => {
     setSearchQuery(query);
