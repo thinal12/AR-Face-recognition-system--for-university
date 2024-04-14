@@ -31,6 +31,7 @@ const Login = () => {
         } else {
           await AsyncStorage.setItem('lecturerId', data.lecturer_id.toString());
           await AsyncStorage.setItem('activeTab', 'Home');
+          await AsyncStorage.setItem('previousTab', 'Home');
           navigation.navigate('Home');
         }
       } else {

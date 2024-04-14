@@ -16,6 +16,7 @@ const BottomTabBar = () => {
       navigation.navigate(tabName);
     } else {
       console.log('Active tab:', tabName);
+      await AsyncStorage.setItem('previousTab', value);
       await AsyncStorage.setItem('activeTab', tabName);
       navigation.navigate(tabName);
     }
