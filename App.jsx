@@ -7,6 +7,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import AdminHome from './components/AdminHome';
 import CreateModule from './components/CreateModule';
+import CreateLecturer from './components/CreateLecturer';
 import EditAttendance from './components/EditAttendance';
 import CameraComponent from './components/CameraComponent';
 import ARCameraScene from './components/ARCameraScene';
@@ -78,6 +79,11 @@ const App = () => {
         <Stack.Screen
           name="CreateModule"
           component={CreateModule}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreateLecturer"
+          component={CreateLecturer}
           options={{headerShown: false}}
         />
         <Stack.Screen

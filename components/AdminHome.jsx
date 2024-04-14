@@ -3,6 +3,25 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Header from './Header';
 
 const AdminHome = ({navigation}) => {
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress,
+    );
+    return () => backHandler.remove();
+  }, []);
+  const handleBackPress = () => {
+    Alert.alert(
+      'Exit App',
+      'Are you sure you want to exit?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: () => BackHandler.exitApp()},
+      ],
+      {cancelable: false},
+    );
+    return true;
+  };
   const handleCreateLecturer = () => {
     navigation.navigate('CreateLecturer');
   };

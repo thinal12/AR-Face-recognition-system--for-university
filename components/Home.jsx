@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  BackHandler,
+  Alert,
+} from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serverAddress} from './config';
@@ -23,6 +30,14 @@ function Home({navigation}) {
 
   useEffect(() => {
     retrieveLecturerIdAndFetchModules();
+  }, []);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackPress,
+    );
+    return () => backHandler.remove();
   }, []);
 
   const retrieveLecturerIdAndFetchModules = async () => {
@@ -58,6 +73,18 @@ function Home({navigation}) {
 
   const handleModulePress = modulecode => {
     navigation.navigate('Lectures', {module_code: modulecode});
+  };
+  const handleBackPress = () => {
+    Alert.alert(
+      'Exit App',
+      'Are you sure you want to exit?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'OK', onPress: () => BackHandler.exitApp()},
+      ],
+      {cancelable: false},
+    );
+    return true;
   };
 
   return (
