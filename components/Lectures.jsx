@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
 import {serverAddress} from './config';
+import Header from './Header';
 
 function LecturesCard({lecture, onPress}) {
   return (
@@ -62,6 +63,7 @@ function Lectures({route}) {
 
   return (
     <>
+      <Header />
       <View style={styles.container}>
         <Text style={styles.heading}>Lectures</Text>
         {lectures.map((lecture, index) => (

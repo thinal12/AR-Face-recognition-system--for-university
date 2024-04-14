@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {serverAddress} from './config';
+import Header from './Header';
 
 const CreateModule = ({navigation}) => {
   const [moduleCode, setModuleCode] = useState('');
@@ -48,54 +49,57 @@ const CreateModule = ({navigation}) => {
   };
 
   return (
-    <View style={styles.pageContainer}>
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Create Module</Text>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Module Code:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Module Code"
-            onChangeText={text => setModuleCode(text)}
-            value={moduleCode}
-          />
+    <>
+      <Header />
+      <View style={styles.pageContainer}>
+        <View style={styles.formContainer}>
+          <Text style={styles.title}>Create Module</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Module Code:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Module Code"
+              onChangeText={text => setModuleCode(text)}
+              value={moduleCode}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Module Name:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Module Name"
+              onChangeText={text => setModuleName(text)}
+              value={moduleName}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Lecturer ID:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Lecturer ID"
+              onChangeText={text => setLecturerId(text)}
+              value={lecturerId}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Number of Lectures:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Number of Lectures"
+              onChangeText={text => setNumberOfLectures(text)}
+              value={numberOfLectures}
+              keyboardType="numeric"
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleCreateModule}>
+            <Text style={styles.buttonText}>Create Module</Text>
+          </TouchableOpacity>
+          {errorMessage ? (
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+          ) : null}
         </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Module Name:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Module Name"
-            onChangeText={text => setModuleName(text)}
-            value={moduleName}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Lecturer ID:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Lecturer ID"
-            onChangeText={text => setLecturerId(text)}
-            value={lecturerId}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Number of Lectures:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Number of Lectures"
-            onChangeText={text => setNumberOfLectures(text)}
-            value={numberOfLectures}
-            keyboardType="numeric"
-          />
-        </View>
-        <TouchableOpacity style={styles.button} onPress={handleCreateModule}>
-          <Text style={styles.buttonText}>Create Module</Text>
-        </TouchableOpacity>
-        {errorMessage ? (
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-        ) : null}
       </View>
-    </View>
+    </>
   );
 };
 

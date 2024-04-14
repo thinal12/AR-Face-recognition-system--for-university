@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import Header from './Header';
 
 const AdminHome = ({navigation}) => {
   const handleCreateLecturer = () => {
@@ -14,19 +15,24 @@ const AdminHome = ({navigation}) => {
   };
 
   return (
-    <View style={styles.pageContainer}>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleCreateLecturer}>
-          <Text style={styles.buttonText}>Create Lecturer</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleCreateModule}>
-          <Text style={styles.buttonText}>Create Module</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleAddStudent}>
-          <Text style={styles.buttonText}>Add Student</Text>
-        </TouchableOpacity>
+    <>
+      <Header />
+      <View style={styles.pageContainer}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleCreateLecturer}>
+            <Text style={styles.buttonText}>Create Lecturer</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleCreateModule}>
+            <Text style={styles.buttonText}>Create Module</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleAddStudent}>
+            <Text style={styles.buttonText}>Add Student</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

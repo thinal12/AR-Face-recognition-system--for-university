@@ -9,6 +9,7 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import Header from './Header';
 
 const AddStudent = () => {
   const [studentId, setStudentId] = useState('');
@@ -78,53 +79,56 @@ const AddStudent = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.form}>
-        <Text style={styles.heading}>Add Student</Text>
+    <>
+      <Header />
+      <View style={styles.container}>
+        <View style={styles.form}>
+          <Text style={styles.heading}>Add Student</Text>
 
-        <Text style={styles.label}>Student ID:</Text>
-        <TextInput
-          style={styles.input}
-          value={studentId}
-          onChangeText={setStudentId}
-          placeholder="Enter Student ID"
-          keyboardType="numeric"
-        />
+          <Text style={styles.label}>Student ID:</Text>
+          <TextInput
+            style={styles.input}
+            value={studentId}
+            onChangeText={setStudentId}
+            placeholder="Enter Student ID"
+            keyboardType="numeric"
+          />
 
-        <Text style={styles.label}>Name:</Text>
-        <TextInput
-          style={styles.input}
-          value={name}
-          onChangeText={setName}
-          placeholder="Enter name"
-        />
+          <Text style={styles.label}>Name:</Text>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+            placeholder="Enter name"
+          />
 
-        <Text style={styles.label}>Profile Picture:</Text>
-        <Button
-          title="Choose Profile Picture"
-          onPress={requestCameraPermission}
-        />
-        {profilePic && <Image source={profilePic} style={styles.image} />}
+          <Text style={styles.label}>Profile Picture:</Text>
+          <Button
+            title="Choose Profile Picture"
+            onPress={requestCameraPermission}
+          />
+          {profilePic && <Image source={profilePic} style={styles.image} />}
 
-        <Text style={styles.label}>Disciplinary Issues:</Text>
-        <TextInput
-          style={styles.input}
-          value={disciplinaryIssues}
-          onChangeText={setDisciplinaryIssues}
-          placeholder="Enter disciplinary issues"
-        />
+          <Text style={styles.label}>Disciplinary Issues:</Text>
+          <TextInput
+            style={styles.input}
+            value={disciplinaryIssues}
+            onChangeText={setDisciplinaryIssues}
+            placeholder="Enter disciplinary issues"
+          />
 
-        <Text style={styles.label}>Existing Conditions:</Text>
-        <TextInput
-          style={styles.input}
-          value={existingConditions}
-          onChangeText={setExistingConditions}
-          placeholder="Enter existing conditions"
-        />
+          <Text style={styles.label}>Existing Conditions:</Text>
+          <TextInput
+            style={styles.input}
+            value={existingConditions}
+            onChangeText={setExistingConditions}
+            placeholder="Enter existing conditions"
+          />
 
-        <Button title="Add Student" onPress={handleAddStudent} />
+          <Button title="Add Student" onPress={handleAddStudent} />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {serverAddress} from './config';
+import Header from './Header';
 
 const CreateLecturer = ({navigation}) => {
   const [name, setName] = useState('');
@@ -44,36 +45,41 @@ const CreateLecturer = ({navigation}) => {
   };
 
   return (
-    <View style={styles.pageContainer}>
-      <View style={styles.formContainer}>
-        <Text style={styles.title}>Create Lecturer</Text>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Name:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Name"
-            onChangeText={text => setName(text)}
-            value={name}
-          />
+    <>
+      <Header />
+      <View style={styles.pageContainer}>
+        <View style={styles.formContainer}>
+          <Text style={styles.title}>Create Lecturer</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Name:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Name"
+              onChangeText={text => setName(text)}
+              value={name}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Password:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Password"
+              onChangeText={text => setPassword(text)}
+              value={password}
+              secureTextEntry={true}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleCreateLecturer}>
+            <Text style={styles.buttonText}>Create Lecturer</Text>
+          </TouchableOpacity>
+          {errorMessage ? (
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+          ) : null}
         </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Password:</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Password"
-            onChangeText={text => setPassword(text)}
-            value={password}
-            secureTextEntry={true}
-          />
-        </View>
-        <TouchableOpacity style={styles.button} onPress={handleCreateLecturer}>
-          <Text style={styles.buttonText}>Create Lecturer</Text>
-        </TouchableOpacity>
-        {errorMessage ? (
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-        ) : null}
       </View>
-    </View>
+    </>
   );
 };
 

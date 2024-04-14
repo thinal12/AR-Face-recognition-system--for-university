@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {serverAddress} from './config';
+import Header from './Header';
 
 const StudentProfile = ({route}) => {
   const {student} = route.params;
@@ -39,27 +40,30 @@ const StudentProfile = ({route}) => {
   }, [student]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        {profilePic && (
-          <Image source={{uri: profilePic}} style={styles.profilePic} />
-        )}
-        <View style={styles.profileDetails}>
-          <Text style={styles.profileText}>Name: {student.name}</Text>
-          <Text style={styles.profileText}>
-            Student ID: {student.student_id}
-          </Text>
+    <>
+      <Header />
+      <View style={styles.container}>
+        <View style={styles.profileContainer}>
+          {profilePic && (
+            <Image source={{uri: profilePic}} style={styles.profilePic} />
+          )}
+          <View style={styles.profileDetails}>
+            <Text style={styles.profileText}>Name: {student.name}</Text>
+            <Text style={styles.profileText}>
+              Student ID: {student.student_id}
+            </Text>
+          </View>
         </View>
+        {moduleData.map((module, index) => (
+          <View key={module.module_code}>
+            <Text style={styles.profileText}>Module: {module.module_name}</Text>
+            <Text style={styles.profileText}>
+              Attendance Percentage: {module.attendance_percentage.toFixed(2)}%
+            </Text>
+          </View>
+        ))}
       </View>
-      {moduleData.map((module, index) => (
-        <View key={module.module_code}>
-          <Text style={styles.profileText}>Module: {module.module_name}</Text>
-          <Text style={styles.profileText}>
-            Attendance Percentage: {module.attendance_percentage.toFixed(2)}%
-          </Text>
-        </View>
-      ))}
-    </View>
+    </>
   );
 };
 

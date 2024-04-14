@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {serverAddress} from './config';
+import Header from './Header';
 
 const EditAttendance = () => {
   const [student, setStudent] = useState('');
@@ -32,19 +33,22 @@ const EditAttendance = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Edit Attendance</Text>
-      <View style={styles.formContainer}>
-        <Text style={styles.label}>Enter student name or ID:</Text>
-        <TextInput
-          style={styles.input}
-          value={student}
-          onChangeText={setStudent}
-          placeholder="Enter attendance"
-        />
-        <Button title="Confirm" onPress={handleConfirm} />
+    <>
+      <Header />
+      <View style={styles.container}>
+        <Text style={styles.title}>Edit Attendance</Text>
+        <View style={styles.formContainer}>
+          <Text style={styles.label}>Enter student name or ID:</Text>
+          <TextInput
+            style={styles.input}
+            value={student}
+            onChangeText={setStudent}
+            placeholder="Enter attendance"
+          />
+          <Button title="Confirm" onPress={handleConfirm} />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
