@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import Header from '../Lecturer/Header';
+import {serverAddress} from '../config';
 
 const AddStudent = () => {
   const [studentId, setStudentId] = useState('');
@@ -12,23 +13,39 @@ const AddStudent = () => {
   const [trainingData, setTrainingData] = useState([]);
   const [isCameraVisible, setCamera] = useState(false);
   const [isProfilePicMode, setProfilePicMode] = useState(false);
-
+  const [isTrainingPicMode, setTrainingPicMode] = useState(false);
   const cameraRef = useRef(null);
 
   const handleAddStudent = () => {
-    console.log('Adding student:', {
+    const data = {
       studentId,
       name,
       disciplinaryIssues,
       existingConditions,
       profilePic,
       trainingData,
+    };
+    fetch(serverAddress + '/add_student', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }).catch(error => {
+      console.error('Error adding student:', error);
+      Alert.alert('Error', 'Failed to add student');
     });
   };
 
   const handleShowCamera = (isProfile, isCamera) => {
     console.log('Showing camera:', isProfile, isCamera);
-    setProfilePicMode(isProfile);
+    if (isProfile) {
+      setProfilePicMode(true);
+      setTrainingPicMode(false);
+    } else {
+      setProfilePicMode(false);
+      setTrainingPicMode(true);
+    }
     setCamera(isCamera);
   };
 
@@ -36,12 +53,16 @@ const AddStudent = () => {
     if (cameraRef.current) {
       const options = {quality: 0.5, base64: true};
       const data = await cameraRef.current.takePictureAsync(options);
-      if (isProfilePicMode === true) {
+      if (isProfilePicMode) {
         setProfilePic(data.base64);
+        setCamera(false);
       } else {
         setTrainingData([...trainingData, data.base64]);
       }
     }
+  };
+  const handleCompleteTraining = () => {
+    setCamera(false);
   };
 
   return (
@@ -53,7 +74,15 @@ const AddStudent = () => {
             style={{flex: 1, width: '100%'}}
             type={RNCamera.Constants.Type.front}
           />
-          <Button title="Capture" onPress={handleTakePicture} />
+          {isProfilePicMode && (
+            <Button title="Capture" onPress={handleTakePicture} />
+          )}
+          {isTrainingPicMode && (
+            <>
+              <Button title="Capture" onPress={handleTakePicture} />
+              <Button title="Complete" onPress={handleCompleteTraining} />
+            </>
+          )}
         </>
       )}
       {!isCameraVisible && (

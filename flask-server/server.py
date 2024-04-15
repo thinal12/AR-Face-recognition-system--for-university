@@ -10,6 +10,7 @@ import numpy as np
 import json
 from flask import Flask
 from pymongo import MongoClient
+from imutils import paths
 
 app = Flask(__name__)
 
@@ -26,6 +27,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 
 encodingsP = os.path.join(script_dir, "faces.json")
 cascade = os.path.join(script_dir, "haarcascade_frontalface_default.xml")
+datasetP = os.path.join(script_dir, "dataset")
 currentname = "unknown"
 
 
@@ -231,6 +233,61 @@ def get_condition_from_database(name):
         return student
     else:
         return 'none'
+@app.route('/add_student', methods=['POST'])
+def add_student():
+    data = request.json
+    student_name = data.get('name')
+    student_profile_pic = data.get('profilePic')
+    training_data = data.get('trainingData')
+
+    new_folder_path = os.path.join(datasetP, student_name)
+    os.makedirs(new_folder_path, exist_ok=True)
+
+    for i, img_data in enumerate(training_data):
+        img_path = os.path.join(new_folder_path, f"training_{i}.jpg")
+        save_image(img_path, img_data)
+
+    imagePaths = list(paths.list_images(datasetP))
+
+
+    knownEncodings = []
+    knownNames = []
+
+
+    for (i, imagePath) in enumerate(imagePaths):
+
+        print("[INFO] processing image {}/{}".format(i + 1, len(imagePaths)))
+        name = imagePath.split(os.path.sep)[-2]
+
+
+        image = cv2.imread(imagePath)
+        rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+
+        boxes = face_recognition.face_locations(rgb, model="hog")
+
+
+        encodings = face_recognition.face_encodings(rgb, boxes)
+
+
+        for encoding in encodings:
+            knownEncodings.append(encoding.tolist())
+            knownNames.append(name)
+
+
+    print("[INFO] serializing encodings...")
+    data = {"encodings": knownEncodings, "names": knownNames}
+    with open(encodingsP, "w") as f:
+        json.dump(data, f)
+
+    
+    return jsonify({'message': 'Student added successfully'})
+
+def save_image(file_path, base64_data):
+    with open(file_path, "wb") as f:
+        f.write(base64.b64decode(base64_data))
+        print("Image saved successfully")
+
 
 def process_frame(base64_frame,width, height):
     global currentname

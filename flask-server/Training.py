@@ -6,8 +6,13 @@ from imghdr import what
 
 from imutils import paths
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+encodingsP = os.path.join(script_dir, "faces.json")
+datasetP = os.path.join(script_dir, "dataset")
+
 print("[INFO] start processing faces...")
-imagePaths = list(paths.list_images("dataset"))
+imagePaths = list(paths.list_images(datasetP))
 
 
 knownEncodings = []
@@ -37,5 +42,5 @@ for (i, imagePath) in enumerate(imagePaths):
 
 print("[INFO] serializing encodings...")
 data = {"encodings": knownEncodings, "names": knownNames}
-with open("faces.json", "w") as f:
+with open(encodingsP, "w") as f:
     json.dump(data, f)
