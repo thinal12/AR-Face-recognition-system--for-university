@@ -5,9 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  BackHandler,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serverAddress} from '../config';
 
 class ErrorBoundary extends React.Component {
@@ -43,6 +45,22 @@ const CameraComponent = () => {
   const navigation = useNavigation();
   const [orientation, setOrientation] = useState('portrait');
   let processing = 'false';
+
+  const handleBackPress = async () => {
+    const value = await AsyncStorage.getItem('previousTab');
+    await AsyncStorage.setItem('activeTab', value);
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   useEffect(() => {
     const getOrientation = () => {

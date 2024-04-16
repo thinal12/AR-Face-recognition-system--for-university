@@ -70,8 +70,10 @@ function Home({navigation}) {
 
   const handleModulePress = async modulecode => {
     await AsyncStorage.setItem('activeTab', 'Lectures');
-    navigation.navigate('Lectures', {module_code: modulecode});
+    await AsyncStorage.setItem('moduleCode', modulecode);
+    navigation.navigate('Lectures');
   };
+
   const handleBackPress = async () => {
     const value = await AsyncStorage.getItem('activeTab');
     if (value === 'Home') {

@@ -7,11 +7,7 @@ import {
   StyleSheet,
   BackHandler,
 } from 'react-native';
-import {
-  useNavigation,
-  useRoute,
-  useFocusEffect,
-} from '@react-navigation/native';
+import {useRoute, useFocusEffect} from '@react-navigation/native';
 import {serverAddress} from '../config';
 import Header from './Header';
 
@@ -82,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#a3abff',
   },
   title: {
     fontSize: 24,

@@ -1,12 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, BackHandler} from 'react-native';
 import {serverAddress} from '../config';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Header from './Header';
 
 const StudentProfile = ({route}) => {
   const {student} = route.params;
   const [moduleData, setModuleData] = useState([]);
   const [profilePic, setProfilePic] = useState(null);
+
+  const handleBackPress = async () => {
+    const value = await AsyncStorage.getItem('previousTab');
+    await AsyncStorage.setItem('activeTab', value);
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
@@ -70,7 +87,7 @@ const StudentProfile = ({route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'lightgray',
+    backgroundColor: '#a3abff',
     padding: 15,
   },
   profileContainer: {

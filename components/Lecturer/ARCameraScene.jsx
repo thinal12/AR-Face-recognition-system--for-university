@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
-
+import {useFocusEffect} from '@react-navigation/native';
 import {
   ViroARScene,
   ViroText,
@@ -19,6 +19,22 @@ const ProfileAR = ({name, conditions}) => {
     existingConditions: conditions,
     disciplinaryIssues: 'yes',
   });
+
+  const handleBackPress = async () => {
+    const value = await AsyncStorage.getItem('previousTab');
+    await AsyncStorage.setItem('activeTab', value);
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   const handleCameraTransformUpdate = transform => {
     const cameraPosition = transform.cameraTransform.position;

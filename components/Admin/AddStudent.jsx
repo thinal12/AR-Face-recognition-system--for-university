@@ -1,10 +1,19 @@
 import React, {useState, useRef} from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  BackHandler,
+} from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import {useFocusEffect} from '@react-navigation/native';
 import Header from '../Lecturer/Header';
 import {serverAddress} from '../config';
 
-const AddStudent = () => {
+const AddStudent = ({navigation}) => {
   const [studentId, setStudentId] = useState('');
   const [name, setName] = useState('');
   const [disciplinaryIssues, setDisciplinaryIssues] = useState('');
@@ -15,6 +24,20 @@ const AddStudent = () => {
   const [isProfilePicMode, setProfilePicMode] = useState(false);
   const [isTrainingPicMode, setTrainingPicMode] = useState(false);
   const cameraRef = useRef(null);
+
+  const handleBackPress = async () => {
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   const handleAddStudent = () => {
     const data = {
@@ -149,6 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
+    backgroundColor: '#a3abff',
   },
   heading: {
     fontSize: 24,

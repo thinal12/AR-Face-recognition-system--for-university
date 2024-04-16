@@ -5,7 +5,10 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  BackHandler,
 } from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serverAddress} from '../config';
 import Header from '../Lecturer/Header';
 
@@ -15,6 +18,22 @@ const CreateModule = ({navigation}) => {
   const [lecturerId, setLecturerId] = useState('');
   const [numberOfLectures, setNumberOfLectures] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const handleBackPress = async () => {
+    const value = await AsyncStorage.getItem('previousTab');
+    await AsyncStorage.setItem('activeTab', value);
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   const handleCreateModule = () => {
     if (!moduleCode || !moduleName || !lecturerId || !numberOfLectures) {
@@ -29,7 +48,6 @@ const CreateModule = ({navigation}) => {
       number_of_lectures: numberOfLectures,
     };
 
-    // Assuming you have a server endpoint for creating a module
     fetch(serverAddress + '/create-module', {
       method: 'POST',
       headers: {
@@ -106,7 +124,7 @@ const CreateModule = ({navigation}) => {
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
-    backgroundColor: '#040404',
+    backgroundColor: '#a3abff',
     justifyContent: 'center',
     alignItems: 'center',
   },

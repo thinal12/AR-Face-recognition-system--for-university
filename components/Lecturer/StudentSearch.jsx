@@ -12,6 +12,7 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serverAddress} from '../config';
+import Header from '../Lecturer/Header';
 
 const StudentSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -76,12 +77,13 @@ const StudentSearch = () => {
 
   return (
     <>
+      <Header />
       <View style={styles.container}>
         <View styles>
           <TextInput
             style={{
+              backgroundColor: 'black',
               height: 40,
-              borderColor: 'gray',
               borderWidth: 1,
               margin: 10,
               padding: 5,
@@ -104,6 +106,7 @@ const StudentSearch = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#a3abff',
     flex: 1,
   },
   card: {

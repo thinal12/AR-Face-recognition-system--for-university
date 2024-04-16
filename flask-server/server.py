@@ -222,7 +222,7 @@ def get_modules():
 @app.route('/lectures', methods=['POST'])
 def get_lectures():
     data = request.get_json()
-    module_id = data.get('module_code') 
+    module_id = data.get('module') 
     lectures = collection4.find({'module_code': module_id}, {'_id': 0, 'module_code': 1, 'title': 1, 'lecture_id' : 1, 'attendance_status': 1})
     lectures_list = list(lectures)
     return jsonify(lectures_list)

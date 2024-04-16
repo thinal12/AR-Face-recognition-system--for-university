@@ -5,14 +5,33 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  BackHandler,
 } from 'react-native';
+import {useFocusEffect} from '@react-navigation/native';
 import {serverAddress} from '../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Lecturer/Header';
 
 const CreateLecturer = ({navigation}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const handleBackPress = async () => {
+    const value = await AsyncStorage.getItem('previousTab');
+    await AsyncStorage.setItem('activeTab', value);
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   const handleCreateLecturer = () => {
     if (!name || !password) {
@@ -86,7 +105,7 @@ const CreateLecturer = ({navigation}) => {
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
-    backgroundColor: '#040404',
+    backgroundColor: '#a3abff',
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -6,6 +6,7 @@ import {
   BackHandler,
   Alert,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Lecturer/Header';
 import React, {useEffect} from 'react';
 
@@ -29,14 +30,17 @@ const AdminHome = ({navigation}) => {
     );
     return true;
   };
-  const handleCreateLecturer = () => {
+  const handleCreateLecturer = async () => {
+    await AsyncStorage.setItem('activeTab', 'CreateLecturer');
     navigation.navigate('CreateLecturer');
   };
 
-  const handleCreateModule = () => {
+  const handleCreateModule = async () => {
+    await AsyncStorage.setItem('activeTab', 'CreateModule');
     navigation.navigate('CreateModule');
   };
-  const handleAddStudent = () => {
+  const handleAddStudent = async () => {
+    await AsyncStorage.setItem('activeTab', 'AddStudent');
     navigation.navigate('AddStudent');
   };
 
@@ -65,7 +69,7 @@ const AdminHome = ({navigation}) => {
 const styles = StyleSheet.create({
   pageContainer: {
     flex: 1,
-    backgroundColor: '#040404',
+    backgroundColor: '#a3abff',
     justifyContent: 'center',
     alignItems: 'center',
   },

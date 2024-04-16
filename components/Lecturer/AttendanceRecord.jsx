@@ -5,9 +5,14 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  BackHandler,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {serverAddress} from '../config';
 
 class ErrorBoundary extends React.Component {
@@ -47,6 +52,20 @@ const AttendanceRecord = () => {
 
   let processing = 'false';
   const {lecture_id} = route.params;
+
+  const handleBackPress = async () => {
+    navigation.goBack();
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   useEffect(() => {
     const getOrientation = () => {

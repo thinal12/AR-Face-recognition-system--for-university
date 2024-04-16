@@ -31,13 +31,14 @@ function LecturesCard({lecture, onPress}) {
   );
 }
 
-function Lectures({route}) {
+function Lectures() {
   const [lectures, setLectures] = useState([]);
-  const {module_code} = route.params;
   const navigation = useNavigation();
 
-  useEffect(() => {
-    fetchModules();
+  useEffect(async () => {
+    const module = await AsyncStorage.getItem('moduleCode');
+    console.log('Module:', module);
+    fetchModules(module);
   }, []);
 
   const handleBackPress = () => {
@@ -54,14 +55,14 @@ function Lectures({route}) {
     }, []),
   );
 
-  const fetchModules = async () => {
+  const fetchModules = async module => {
     try {
       const response = await fetch(serverAddress + '/lectures', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({module_code}),
+        body: JSON.stringify({module}),
       });
       if (response.ok) {
         const data = await response.json();
@@ -103,6 +104,7 @@ function Lectures({route}) {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#a3abff',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
