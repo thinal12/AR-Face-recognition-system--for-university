@@ -93,6 +93,7 @@ const CameraComponent = () => {
             conditions: result.conditions,
             issues: result.issues,
           });
+          console.log(result.names);
         } else {
           console.log(result.names);
         }

@@ -239,6 +239,9 @@ def add_student():
     student_name = data.get('name')
     student_profile_pic = data.get('profilePic')
     training_data = data.get('trainingData')
+    disciplinary_issues = data.get('disciplinaryIssues')
+    existing_conditions = data.get('existingConditions')
+    student_id = int(data.get('studentId'))
 
     new_folder_path = os.path.join(datasetP, student_name)
     os.makedirs(new_folder_path, exist_ok=True)
@@ -249,10 +252,8 @@ def add_student():
 
     imagePaths = list(paths.list_images(datasetP))
 
-
     knownEncodings = []
     knownNames = []
-
 
     for (i, imagePath) in enumerate(imagePaths):
 
@@ -279,7 +280,20 @@ def add_student():
     data = {"encodings": knownEncodings, "names": knownNames}
     with open(encodingsP, "w") as f:
         json.dump(data, f)
+    record = {
+                'student_id': student_id,
+                'name': student_name,
+                'disciplinary_issues': disciplinary_issues,
+                'existing_conditions': existing_conditions,
+            }
+    
+    collection2.insert_one(record)
 
+    record2 = {
+                'name': student_name,
+                'image': student_profile_pic
+            }
+    collection6.insert_one(record2)
     
     return jsonify({'message': 'Student added successfully'})
 
