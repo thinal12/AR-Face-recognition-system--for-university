@@ -69,6 +69,7 @@ function Home({navigation}) {
   };
 
   const handleModulePress = async modulecode => {
+    await AsyncStorage.setItem('previousTab', 'Home');
     await AsyncStorage.setItem('activeTab', 'Lectures');
     await AsyncStorage.setItem('moduleCode', modulecode);
     navigation.navigate('Lectures');

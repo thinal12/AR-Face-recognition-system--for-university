@@ -7,7 +7,11 @@ import {
   StyleSheet,
   BackHandler,
 } from 'react-native';
-import {useRoute, useFocusEffect} from '@react-navigation/native';
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {serverAddress} from '../config';
 import Header from './Header';
 
@@ -15,6 +19,8 @@ const EditAttendance = () => {
   const [student, setStudent] = useState('');
   const route = useRoute();
   const {lecture_id} = route.params;
+  const navigation = useNavigation();
+
   const handleBackPress = async () => {
     navigation.goBack();
     return true;

@@ -1,15 +1,36 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet, BackHandler} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  BackHandler,
+  Dimensions,
+} from 'react-native';
 import {serverAddress} from '../config';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Header from './Header';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const ProgressBar = ({percentage}) => {
+  const barWidth = Dimensions.get('window').width - 40; // Adjust as needed
+  const progressWidth = (percentage * barWidth) / 100;
+
+  return (
+    <View style={styles.progressBar}>
+      <View style={{...styles.progress, width: progressWidth}} />
+      <Text style={styles.percentageText}>{percentage}%</Text>
+    </View>
+  );
+};
+
 const StudentProfile = ({route}) => {
   const {student} = route.params;
   const [moduleData, setModuleData] = useState([]);
   const [profilePic, setProfilePic] = useState(null);
+  const [disciplinaryIssues, setDisciplinaryIssues] = useState(null);
+  const [existingConditions, setExistingConditions] = useState(null);
   const navigation = useNavigation();
 
   const handleBackPress = async () => {
@@ -41,14 +62,21 @@ const StudentProfile = ({route}) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const {modules, module_attendance, profile_pic_base64} =
-          await response.json();
+        const {
+          modules,
+          module_attendance,
+          disciplinary_issues,
+          existing_conditions,
+          profile_pic_base64,
+        } = await response.json();
 
         const moduleData = modules.map((module, index) => ({
           ...module,
           attendance_percentage: module_attendance[index],
         }));
         setModuleData(moduleData);
+        setDisciplinaryIssues(disciplinary_issues);
+        setExistingConditions(existing_conditions);
 
         setProfilePic(`data:image/jpeg;base64, ${profile_pic_base64}`);
       } catch (error) {
@@ -64,24 +92,37 @@ const StudentProfile = ({route}) => {
       <Header />
       <View style={styles.container}>
         <View style={styles.profileContainer}>
-          {profilePic && (
-            <Image source={{uri: profilePic}} style={styles.profilePic} />
-          )}
           <View style={styles.profileDetails}>
-            <Text style={styles.profileText}>Name: {student.name}</Text>
+            {profilePic && (
+              <View style={styles.profilePicContainer}>
+                <Image source={{uri: profilePic}} style={styles.profilePic} />
+              </View>
+            )}
+            <View style={styles.profileNameContainer}>
+              <Text style={styles.profileName}>{student.name}</Text>
+            </View>
             <Text style={styles.profileText}>
               Student ID: {student.student_id}
             </Text>
-          </View>
-        </View>
-        {moduleData.map((module, index) => (
-          <View key={module.module_code}>
-            <Text style={styles.profileText}>Module: {module.module_name}</Text>
             <Text style={styles.profileText}>
-              Attendance Percentage: {module.attendance_percentage.toFixed(2)}%
+              Disciplinary Issues: {disciplinaryIssues}
+            </Text>
+            <Text style={styles.profileText}>
+              Existing Conditions: {existingConditions}
             </Text>
           </View>
-        ))}
+        </View>
+        <Text style={styles.profileText}>Attendance Module:</Text>
+        <View key={module.module_code} style={styles.moduleContainer}>
+          {moduleData.map((module, index) => (
+            <View key={module.module_code}>
+              <Text style={styles.profileText}>
+                Module: {module.module_name}
+              </Text>
+              <ProgressBar percentage={module.attendance_percentage} />
+            </View>
+          ))}
+        </View>
       </View>
       <BottomTabNavigator />
     </>
@@ -95,23 +136,65 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   profileContainer: {
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
+    padding: 10,
+  },
+  profilePicContainer: {
+    borderRadius: 50,
+    overflow: 'hidden',
+    alignItems: 'center',
   },
   profilePic: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    marginRight: 20,
   },
   profileDetails: {
     flex: 1,
+    paddingLeft: 10,
   },
   profileText: {
     fontSize: 16,
     marginBottom: 5,
+  },
+  profileName: {
+    alignItems: 'center',
+    fontSize: 18,
+  },
+  profileNameContainer: {
+    alignItems: 'center',
+    fontSize: 18,
+    marginBottom: 5,
+    padding: 10,
+  },
+  moduleContainer: {
+    backgroundColor: 'black',
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 8,
+  },
+  progressBar: {
+    backgroundColor: '#ddd',
+    height: 10,
+    borderRadius: 5,
+    marginTop: 5,
+  },
+  progress: {
+    backgroundColor: 'green',
+    height: 10,
+    borderRadius: 5,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  percentageText: {
+    position: 'absolute',
+    right: 0,
+    top: -20,
+    fontSize: 12,
   },
 });
 

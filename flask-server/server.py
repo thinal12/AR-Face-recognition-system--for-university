@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 import json
 from flask import Flask
+import re
 from pymongo import MongoClient
 from imutils import paths
 
@@ -128,14 +129,23 @@ def login():
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
 
+
+
 @app.route('/search-students', methods=['POST'])
 def search_students():
     try:
         data = request.get_json()
         search_query = data.get('searchQuery')
+        print(search_query)
+        student_id_pattern = re.compile(f'^{re.escape(search_query)}$', re.IGNORECASE)
         
-        students = collection2.find({"name": {"$regex": search_query, "$options": "i"}})
-        
+        students = collection2.find({
+            "$or": [
+                {"name": {"$regex": search_query, "$options": "i"}},
+                {"student_id": student_id_pattern}
+            ]
+        })
+
         search_results = []
         for student in students:
             student_info = {
@@ -149,6 +159,7 @@ def search_students():
         return jsonify(search_results), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
 
 
 @app.route('/get-studentattendance',methods=['POST'])
@@ -179,7 +190,7 @@ def get_student_attendance():
         module_attendance.append(attendance_percentage)
     student = collection2.find_one({'student_id': student_id})
     images =collection6.find_one({'name': student['name']})
-    return jsonify({'modules': modules, 'module_attendance': module_attendance,'profile_pic_base64': images['image']}), 200
+    return jsonify({'modules': modules, 'module_attendance': module_attendance,'disciplinary_issues':student['disciplinary_issues'], 'existing_conditions':student['existing_conditions'],'profile_pic_base64': images['image']}), 200
 
 
     
@@ -233,6 +244,7 @@ def get_condition_from_database(name):
         return student
     else:
         return 'none'
+    
 @app.route('/add_student', methods=['POST'])
 def add_student():
     data = request.json

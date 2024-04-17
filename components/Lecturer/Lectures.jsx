@@ -41,7 +41,10 @@ function Lectures() {
     fetchModules(module);
   }, []);
 
-  const handleBackPress = () => {
+  const handleBackPress = async () => {
+    const value = await AsyncStorage.getItem('previousTab');
+    await AsyncStorage.setItem('activeTab', value);
+    await AsyncStorage.removeItem('moduleCode');
     navigation.goBack();
     return true;
   };
@@ -49,9 +52,6 @@ function Lectures() {
   useFocusEffect(
     React.useCallback(() => {
       BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-      };
     }, []),
   );
 
@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
   },
+  lectureContainer: {},
 });
 
 export default Lectures;
