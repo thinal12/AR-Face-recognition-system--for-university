@@ -3,11 +3,14 @@ import {View, Text, Image, StyleSheet, BackHandler} from 'react-native';
 import {serverAddress} from '../config';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Header from './Header';
+import BottomTabNavigator from './BottomTabNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const StudentProfile = ({route}) => {
   const {student} = route.params;
   const [moduleData, setModuleData] = useState([]);
   const [profilePic, setProfilePic] = useState(null);
+  const navigation = useNavigation();
 
   const handleBackPress = async () => {
     const value = await AsyncStorage.getItem('previousTab');
@@ -80,6 +83,7 @@ const StudentProfile = ({route}) => {
           </View>
         ))}
       </View>
+      <BottomTabNavigator />
     </>
   );
 };

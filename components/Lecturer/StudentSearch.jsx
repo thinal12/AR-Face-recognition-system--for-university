@@ -71,7 +71,8 @@ const StudentSearch = () => {
     </TouchableOpacity>
   );
 
-  const handleCardPress = student => {
+  const handleCardPress = async student => {
+    await AsyncStorage.setItem('activeTab', 'StudentProfile');
     navigation.navigate('StudentProfile', {student: student});
   };
 
