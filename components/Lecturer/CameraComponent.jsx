@@ -11,6 +11,7 @@ import {RNCamera} from 'react-native-camera';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serverAddress} from '../config';
+import Orientation from 'react-native-orientation-locker';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -47,6 +48,7 @@ const CameraComponent = () => {
   let processing = 'false';
 
   const handleBackPress = async () => {
+    Orientation.lockToPortrait();
     const value = await AsyncStorage.getItem('previousTab');
     await AsyncStorage.setItem('activeTab', value);
     navigation.goBack();
@@ -63,6 +65,7 @@ const CameraComponent = () => {
   );
 
   useEffect(() => {
+    Orientation.unlockAllOrientations();
     const getOrientation = () => {
       const {width, height} = Dimensions.get('window');
       setOrientation(width > height ? 'landscape' : 'portrait');

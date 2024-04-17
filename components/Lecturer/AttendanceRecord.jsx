@@ -14,6 +14,7 @@ import {
   useFocusEffect,
 } from '@react-navigation/native';
 import {serverAddress} from '../config';
+import Orientation from 'react-native-orientation-locker';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -54,6 +55,7 @@ const AttendanceRecord = () => {
   const {lecture_id} = route.params;
 
   const handleBackPress = async () => {
+    Orientation.lockToPortrait();
     navigation.goBack();
     return true;
   };
@@ -68,6 +70,7 @@ const AttendanceRecord = () => {
   );
 
   useEffect(() => {
+    Orientation.unlockAllOrientations();
     const getOrientation = () => {
       const {width, height} = Dimensions.get('window');
       setOrientation(width > height ? 'landscape' : 'portrait');
