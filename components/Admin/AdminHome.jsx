@@ -5,6 +5,7 @@ import {
   StyleSheet,
   BackHandler,
   Alert,
+  Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Lecturer/Header';
@@ -54,9 +55,13 @@ const AdminHome = ({navigation}) => {
             onPress={handleCreateLecturer}>
             <Text style={styles.buttonText}>Create Lecturer</Text>
           </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={handleCreateModule}>
             <Text style={styles.buttonText}>Create Module</Text>
           </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={handleAddStudent}>
             <Text style={styles.buttonText}>Add Student</Text>
           </TouchableOpacity>
@@ -74,9 +79,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 20,
   },
   button: {
     backgroundColor: '#119DA4',
@@ -85,7 +90,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
   },
   buttonText: {
     color: '#D7D9CE',

@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   profileContainer: {
+    backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
