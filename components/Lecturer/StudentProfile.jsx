@@ -14,13 +14,28 @@ import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProgressBar = ({percentage}) => {
-  const barWidth = Dimensions.get('window').width - 40; // Adjust as needed
+  const barWidth = Dimensions.get('window').width - 50;
   const progressWidth = (percentage * barWidth) / 100;
+  let color = 'green';
+
+  if (percentage < 70 && percentage >= 50) {
+    color = 'yellow';
+  } else if (percentage < 50) {
+    color = 'red';
+  }
 
   return (
     <View style={styles.progressBar}>
-      <View style={{...styles.progress, width: progressWidth}} />
-      <Text style={styles.percentageText}>{percentage}%</Text>
+      <View
+        style={{
+          ...styles.progress,
+          width: progressWidth,
+          backgroundColor: color,
+        }}
+      />
+      <Text style={{...styles.percentageText, color: color}}>
+        {percentage}%
+      </Text>
     </View>
   );
 };
@@ -116,9 +131,7 @@ const StudentProfile = ({route}) => {
         <View key={module.module_code} style={styles.moduleContainer}>
           {moduleData.map((module, index) => (
             <View key={module.module_code}>
-              <Text style={styles.profileText}>
-                Module: {module.module_name}
-              </Text>
+              <Text style={styles.profileText}>{module.module_name}</Text>
               <ProgressBar percentage={module.attendance_percentage} />
             </View>
           ))}
@@ -163,6 +176,7 @@ const styles = StyleSheet.create({
   profileName: {
     alignItems: 'center',
     fontSize: 18,
+    fontWeight: 'bold',
   },
   profileNameContainer: {
     alignItems: 'center',

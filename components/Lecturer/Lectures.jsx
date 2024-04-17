@@ -88,14 +88,18 @@ function Lectures() {
     <>
       <Header />
       <View style={styles.container}>
-        <Text style={styles.heading}>Lectures</Text>
-        {lectures.map((lecture, index) => (
-          <LecturesCard
-            key={index}
-            lecture={lecture}
-            onPress={handleModulePress}
-          />
-        ))}
+        <View>
+          <View style={styles.headingContainer}>
+            <Text style={styles.heading}>Lectures</Text>
+          </View>
+          {lectures.map((lecture, index) => (
+            <LecturesCard
+              key={index}
+              lecture={lecture}
+              onPress={handleModulePress}
+            />
+          ))}
+        </View>
       </View>
       <BottomTabNavigator />
     </>
@@ -107,12 +111,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#a3abff',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   heading: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,
+  },
+  headingContainer: {
+    paddingTop: 30,
+    alignItems: 'center',
+    paddingBottom: 10,
   },
   card: {
     width: 300,

@@ -95,11 +95,18 @@ function Home({navigation}) {
     <>
       <Header />
       <View style={styles.container}>
-        <Text style={styles.heading}>Modules</Text>
-
-        {modules.map((module, index) => (
-          <ModuleCard key={index} module={module} onPress={handleModulePress} />
-        ))}
+        <View style={styles.headingContainer}>
+          <Text style={styles.heading}>Modules</Text>
+        </View>
+        <View>
+          {modules.map((module, index) => (
+            <ModuleCard
+              key={index}
+              module={module}
+              onPress={handleModulePress}
+            />
+          ))}
+        </View>
       </View>
       <BottomTabNavigator />
     </>
@@ -111,7 +118,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#a3abff',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+  },
+
+  headingContainer: {
+    paddingTop: 30,
+    alignItems: 'center',
+    paddingBottom: 10,
   },
   moduleContainer: {
     backgroundColor: '#f0f0f0',
@@ -119,7 +131,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,
   },
