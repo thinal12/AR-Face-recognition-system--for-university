@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, BackHandler} from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {
   ViroARScene,
   ViroText,
@@ -10,6 +10,7 @@ import {
   ViroBox,
   ViroARCamera,
 } from '@viro-community/react-viro';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfileAR = ({id, name, conditions, issues}) => {
   const [textPosition, setTextPosition] = useState([0, 0, -1]);
@@ -20,22 +21,6 @@ const ProfileAR = ({id, name, conditions, issues}) => {
     existingConditions: conditions,
     disciplinaryIssues: issues,
   });
-
-  const handleBackPress = async () => {
-    const value = await AsyncStorage.getItem('previousTab');
-    await AsyncStorage.setItem('activeTab', value);
-    navigation.goBack();
-    return true;
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-      };
-    }, []),
-  );
 
   const handleCameraTransformUpdate = transform => {
     const cameraPosition = transform.cameraTransform.position;
@@ -64,6 +49,25 @@ const ARCameraScene = ({route}) => {
   const name = route.params.name;
   const conditions = route.params.conditions;
   const issues = route.params.issues;
+  const navigation = useNavigation();
+
+  const handleBackPress = async () => {
+    const value = await AsyncStorage.getItem('previousTab');
+    navigation.navigate(value);
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackPress,
+      );
+      return () => {
+        backHandler.remove();
+      };
+    }, []),
+  );
 
   return (
     <ViroARSceneNavigator

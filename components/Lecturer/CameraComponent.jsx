@@ -145,10 +145,13 @@ const CameraComponent = () => {
     return processedFrame.boxes.map((box, index) => {
       const buttonPosition = {
         position: 'absolute',
-        top: box[0] * 1.2,
-        left: (box[3] * 0.6 + box[0] * 0.6) / 2,
-        height: 15,
-        width: 30,
+        top: orientation === 'landscape' ? box[2] * 0.8 : box[2] * 1.2,
+        left:
+          orientation === 'landscape'
+            ? box[1] * 1.55 + (box[1] - box[3]) / 6
+            : box[1] * 0.6 + (box[1] - box[3]) / 6,
+        height: 20,
+        width: 80,
       };
 
       return (
@@ -163,7 +166,7 @@ const CameraComponent = () => {
               processedFrame.issues[index],
             )
           }>
-          <Text style={styles.buttonText}>{processedFrame.names[index]}</Text>
+          <Text style={styles.buttonText}>View Profile</Text>
         </TouchableOpacity>
       );
     });
@@ -184,22 +187,7 @@ const CameraComponent = () => {
         {processedFrame && (
           <View style={styles.overlay}>
             {processedFrame.boxes.map((box, index) => (
-              <View
-                key={index}
-                style={{
-                  position: 'static',
-                  top:
-                    orientation === 'landscape' ? box[0] * 0.8 : box[0] * 1.2,
-                  left:
-                    orientation === 'landscape' ? box[3] * 1.55 : box[3] * 0.6,
-                  height: box[2] - box[0],
-                  width: box[1] - box[3],
-                  borderWidth: 5,
-                  borderColor:
-                    processedFrame.conditions[index] === 'none'
-                      ? 'green'
-                      : 'red',
-                }}>
+              <>
                 <Text
                   style={{
                     color:
@@ -207,12 +195,37 @@ const CameraComponent = () => {
                         ? 'green'
                         : 'red',
                     fontSize: 16,
+                    top:
+                      orientation === 'landscape' ? box[0] * 0.9 : box[0] * 1.2,
+                    left:
+                      orientation === 'landscape'
+                        ? box[3] * 1.55
+                        : box[3] * 0.6,
                   }}>
                   {processedFrame.names[index]}
                 </Text>
-              </View>
+
+                <View
+                  key={index}
+                  style={{
+                    position: 'static',
+                    top:
+                      orientation === 'landscape' ? box[0] * 0.8 : box[0] * 1.2,
+                    left:
+                      orientation === 'landscape'
+                        ? box[3] * 1.55
+                        : box[3] * 0.6,
+                    height: box[2] - box[0],
+                    width: box[1] - box[3],
+                    borderWidth: 5,
+                    borderColor:
+                      processedFrame.conditions[index] === 'none'
+                        ? 'green'
+                        : 'red',
+                  }}></View>
+                {renderButtons()}
+              </>
             ))}
-            {renderButtons()}
           </View>
         )}
       </View>
@@ -232,12 +245,12 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: 'blue',
-    padding: 10,
     borderRadius: 5,
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 12,
+    textAlign: 'center',
   },
 });
 
