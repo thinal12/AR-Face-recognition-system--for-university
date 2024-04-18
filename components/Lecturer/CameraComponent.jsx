@@ -109,6 +109,7 @@ const CameraComponent = () => {
 
         if (result.names && result.boxes) {
           setProcessedFrame({
+            ids: result.ids,
             names: result.names,
             boxes: result.boxes,
             conditions: result.conditions,
@@ -135,8 +136,8 @@ const CameraComponent = () => {
     return () => clearInterval(frameCaptureInterval);
   }, []);
 
-  const handleButtonPress = (name, conditions) => {
-    navigation.navigate('ARCamera', {name, conditions});
+  const handleButtonPress = (id, name, conditions, issues) => {
+    navigation.navigate('ARCamera', {id, name, conditions, issues});
   };
   const renderButtons = () => {
     if (!processedFrame) return null;
@@ -156,8 +157,10 @@ const CameraComponent = () => {
           style={[styles.button, buttonPosition]}
           onPress={() =>
             handleButtonPress(
+              processedFrame.ids[index],
               processedFrame.names[index],
               processedFrame.conditions[index],
+              processedFrame.issues[index],
             )
           }>
           <Text style={styles.buttonText}>{processedFrame.names[index]}</Text>

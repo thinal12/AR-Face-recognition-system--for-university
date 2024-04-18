@@ -362,6 +362,7 @@ def receive_frame():
         result = process_frame(base64_frame, width, height)
         conditions = []
         issues = []
+        student_ids = []
         
         
         if result is not None:
@@ -374,11 +375,12 @@ def receive_frame():
                     issues.append('none')
                     continue
                 student = get_condition_from_database(name)
+                student_ids.append(student['student_id'])
                 conditions.append(student["existing_conditions"])
                 issues.append(student["disciplinary_issues"])
             
 
-            return jsonify({"names": names, "boxes": boxes, "conditions": conditions, "issues": issues})
+            return jsonify({'ids':student_ids,"names": names, "boxes": boxes, "conditions": conditions, "issues": issues})
         else:
             return jsonify({"error": "No faces recognized in the frame."}), 404
         
@@ -389,4 +391,4 @@ def receive_frame():
 
 
 if __name__ == "__main__":
-    app.run(host='192.168.225.30', port=3000, debug=True)
+    app.run(host='192.168.143.30', port=3000, debug=True)

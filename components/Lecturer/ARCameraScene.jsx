@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, BackHandler} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {
   ViroARScene,
@@ -11,13 +11,14 @@ import {
   ViroARCamera,
 } from '@viro-community/react-viro';
 
-const ProfileAR = ({name, conditions}) => {
+const ProfileAR = ({id, name, conditions, issues}) => {
   const [textPosition, setTextPosition] = useState([0, 0, -1]);
   const [boxPosition, setBoxPosition] = useState([0, 0, -1]);
   const [student, setStudent] = useState({
+    id: id,
     name: name,
     existingConditions: conditions,
-    disciplinaryIssues: 'yes',
+    disciplinaryIssues: issues,
   });
 
   const handleBackPress = async () => {
@@ -50,7 +51,7 @@ const ProfileAR = ({name, conditions}) => {
   return (
     <ViroARScene>
       <ViroText
-        text={`Name: ${student.name}\nExisting Conditions: ${student.existingConditions}\nDisciplinary Issues: ${student.disciplinaryIssues}`}
+        text={`Student ID: ${student.id}\nName: ${student.name}\nExisting Conditions: ${student.existingConditions}\nDisciplinary Issues: ${student.disciplinaryIssues}`}
         scale={[0.5, 0.5, 0.5]}
         position={[0, -0.5, -1]}
       />
@@ -59,8 +60,10 @@ const ProfileAR = ({name, conditions}) => {
 };
 
 const ARCameraScene = ({route}) => {
+  const id = route.params.id;
   const name = route.params.name;
   const conditions = route.params.conditions;
+  const issues = route.params.issues;
 
   return (
     <ViroARSceneNavigator
@@ -68,8 +71,10 @@ const ARCameraScene = ({route}) => {
       initialScene={{
         scene: () => (
           <ProfileAR
+            id={id}
             name={name}
             conditions={conditions}
+            issues={issues}
             style={styles.profile}
           />
         ),

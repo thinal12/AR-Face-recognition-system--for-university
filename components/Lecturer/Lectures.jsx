@@ -87,7 +87,7 @@ function Lectures() {
 
   return (
     <ImageBackground
-      source={require('../images/Background2.jpg')}
+      source={require('../images/Background.jpg')}
       style={styles.backgroundImage}>
       <Header />
       <View style={styles.container}>

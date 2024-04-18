@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ImageBackground,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -48,37 +49,45 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.pageContainer}>
-      <View style={styles.loginContainer}>
-        <Text style={styles.title}>Login</Text>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Username</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your username"
-            onChangeText={text => setUsername(text)}
-            value={username}
-          />
+    <ImageBackground
+      source={require('./images/LoginBackground.png')}
+      style={styles.backgroundImage}>
+      <View style={styles.pageContainer}>
+        <View style={styles.loginContainer}>
+          <Text style={styles.title}>Login</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Username</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your username"
+              onChangeText={text => setUsername(text)}
+              value={username}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your password"
+              onChangeText={text => setPassword(text)}
+              value={password}
+              secureTextEntry={true}
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter your password"
-            onChangeText={text => setPassword(text)}
-            value={password}
-            secureTextEntry={true}
-          />
-        </View>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   pageContainer: {
     flex: 1,
     backgroundColor: '#040404',

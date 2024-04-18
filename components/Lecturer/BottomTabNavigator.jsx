@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -25,17 +25,20 @@ const BottomTabBar = () => {
       <TouchableOpacity
         style={[styles.tabButton]}
         onPress={() => handleTabPress('Home')}>
-        <Text>Home</Text>
+        <Image source={require('../images/Home2.png')} style={styles.tabIcon} />
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.tabButton]}
         onPress={() => handleTabPress('StudentSearch')}>
-        <Text>Student Search</Text>
+        <Image
+          source={require('../images/Search2.png' + '')}
+          style={styles.tabIcon}
+        />
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.tabButton]}
         onPress={() => handleTabPress('Camera')}>
-        <Text>AR Profile</Text>
+        <Image source={require('../images/AR2.png')} style={styles.tabIcon} />
       </TouchableOpacity>
     </View>
   );
@@ -49,7 +52,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#14151a',
-    height: 50,
+    height: 75,
+  },
+  tabIcon: {
+    width: 125,
+    height: 75,
   },
   tabButton: {
     flex: 1,
