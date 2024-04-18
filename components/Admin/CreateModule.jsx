@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   BackHandler,
+  ImageBackground,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -67,7 +68,9 @@ const CreateModule = ({navigation}) => {
   };
 
   return (
-    <>
+    <ImageBackground
+      source={require('../images/Background2.jpg')}
+      style={styles.backgroundImage}>
       <Header />
       <View style={styles.pageContainer}>
         <View style={styles.formContainer}>
@@ -117,11 +120,15 @@ const CreateModule = ({navigation}) => {
           ) : null}
         </View>
       </View>
-    </>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   pageContainer: {
     flex: 1,
     backgroundColor: '#a3abff',

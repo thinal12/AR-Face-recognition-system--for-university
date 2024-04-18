@@ -6,6 +6,7 @@ import {
   StyleSheet,
   BackHandler,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
 import {serverAddress} from '../config';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
@@ -103,7 +104,9 @@ const StudentProfile = ({route}) => {
   }, [student]);
 
   return (
-    <>
+    <ImageBackground
+      source={require('../images/Background2.jpg')}
+      style={styles.backgroundImage}>
       <Header />
       <View style={styles.container}>
         <View style={styles.profileContainer}>
@@ -138,14 +141,17 @@ const StudentProfile = ({route}) => {
         </View>
       </View>
       <BottomTabNavigator />
-    </>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#a3abff',
     padding: 15,
   },
   profileContainer: {

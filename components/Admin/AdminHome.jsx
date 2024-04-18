@@ -6,6 +6,7 @@ import {
   BackHandler,
   Alert,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Lecturer/Header';
@@ -46,7 +47,9 @@ const AdminHome = ({navigation}) => {
   };
 
   return (
-    <>
+    <ImageBackground
+      source={require('../images/Background2.jpg')}
+      style={styles.backgroundImage}>
       <Header />
       <View style={styles.pageContainer}>
         <View style={styles.buttonContainer}>
@@ -67,11 +70,15 @@ const AdminHome = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-    </>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   pageContainer: {
     flex: 1,
     backgroundColor: '#a3abff',

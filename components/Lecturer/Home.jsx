@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   BackHandler,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -92,7 +93,9 @@ function Home({navigation}) {
   };
 
   return (
-    <>
+    <ImageBackground
+      source={require('../images/Background2.jpg')}
+      style={styles.backgroundImage}>
       <Header />
       <View style={styles.container}>
         <View style={styles.headingContainer}>
@@ -109,19 +112,22 @@ function Home({navigation}) {
         </View>
       </View>
       <BottomTabNavigator />
-    </>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   container: {
-    backgroundColor: '#a3abff',
     flex: 1,
     alignItems: 'center',
   },
 
   headingContainer: {
-    paddingTop: 30,
+    paddingTop: 38,
     alignItems: 'center',
     paddingBottom: 10,
   },
@@ -131,6 +137,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   heading: {
+    color: 'black',
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,

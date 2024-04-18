@@ -6,6 +6,7 @@ import {
   Button,
   StyleSheet,
   BackHandler,
+  ImageBackground,
 } from 'react-native';
 import {
   useNavigation,
@@ -59,7 +60,9 @@ const EditAttendance = () => {
   };
 
   return (
-    <>
+    <ImageBackground
+      source={require('../images/Background2.jpg')}
+      style={styles.backgroundImage}>
       <Header />
       <View style={styles.container}>
         <Text style={styles.title}>Edit Attendance</Text>
@@ -74,7 +77,7 @@ const EditAttendance = () => {
           <Button title="Confirm" onPress={handleConfirm} />
         </View>
       </View>
-    </>
+    </ImageBackground>
   );
 };
 
@@ -84,16 +87,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#a3abff',
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
   },
   title: {
+    color: 'black',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
   },
   formContainer: {
     width: '80%',
-    backgroundColor: 'white',
+    backgroundColor: '#14151a',
     padding: 20,
     borderRadius: 10,
     shadowColor: '#000',
@@ -108,7 +115,8 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 5,
-    color: 'black',
+    color: 'white',
+    paddingBottom: 10,
   },
   input: {
     height: 40,
@@ -117,7 +125,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 20,
     paddingHorizontal: 10,
-    color: 'black',
+    backgroundColor: 'black',
+    color: 'white',
   },
 });
 

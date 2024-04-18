@@ -160,7 +160,8 @@ const AttendanceRecord = () => {
           recorded_names: recordedNames,
         }),
       });
-
+      await AsyncStorage.setItem('activeTab', 'Lectures');
+      navigation.navigate('Lectures');
       if (response.ok) {
         console.log('Attendance confirmed successfully');
       } else {

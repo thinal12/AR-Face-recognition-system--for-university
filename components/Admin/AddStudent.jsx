@@ -7,6 +7,7 @@ import {
   Button,
   StyleSheet,
   BackHandler,
+  ImageBackground,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useFocusEffect} from '@react-navigation/native';
@@ -89,7 +90,9 @@ const AddStudent = ({navigation}) => {
   };
 
   return (
-    <>
+    <ImageBackground
+      source={require('../images/Background2.jpg')}
+      style={styles.backgroundImage}>
       {isCameraVisible && (
         <>
           <RNCamera
@@ -162,11 +165,15 @@ const AddStudent = ({navigation}) => {
           </View>
         </>
       )}
-    </>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

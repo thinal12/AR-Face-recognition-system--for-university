@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   BackHandler,
+  ImageBackground,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -85,7 +86,9 @@ function Lectures() {
   };
 
   return (
-    <>
+    <ImageBackground
+      source={require('../images/Background2.jpg')}
+      style={styles.backgroundImage}>
       <Header />
       <View style={styles.container}>
         <View>
@@ -102,23 +105,27 @@ function Lectures() {
         </View>
       </View>
       <BottomTabNavigator />
-    </>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#a3abff',
     flex: 1,
     alignItems: 'center',
   },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   heading: {
+    color: 'black',
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,
   },
   headingContainer: {
-    paddingTop: 30,
+    paddingTop: 38,
     alignItems: 'center',
     paddingBottom: 10,
   },
