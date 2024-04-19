@@ -8,7 +8,7 @@ import {
   Dimensions,
   ImageBackground,
 } from 'react-native';
-import {serverAddress} from '../config';
+import {serverAddress} from '../other/config';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import Header from './Header';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -130,7 +130,7 @@ const StudentProfile = ({route}) => {
             </Text>
           </View>
         </View>
-        <Text style={styles.profileText}>Attendance Module:</Text>
+        <Text style={styles.profileText}>Module Attendance:</Text>
         <View key={module.module_code} style={styles.moduleContainer}>
           {moduleData.map((module, index) => (
             <View key={module.module_code}>

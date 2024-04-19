@@ -11,7 +11,7 @@ import CreateLecturer from './components/Admin/CreateLecturer';
 import EditAttendance from './components/Lecturer/EditAttendance';
 import CameraComponent from './components/Lecturer/CameraComponent';
 import ARCameraScene from './components/Lecturer/ARCameraScene';
-import Login from './components/Login';
+import Login from './components/other/Login';
 import StudentSearch from './components/Lecturer/StudentSearch';
 import StudentProfile from './components/Lecturer/StudentProfile';
 import Home from './components/Lecturer/Home';

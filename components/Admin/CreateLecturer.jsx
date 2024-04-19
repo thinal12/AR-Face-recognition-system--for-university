@@ -9,7 +9,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
-import {serverAddress} from '../config';
+import {serverAddress} from '../other/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Lecturer/Header';
 

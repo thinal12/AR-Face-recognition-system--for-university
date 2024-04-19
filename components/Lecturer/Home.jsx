@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {serverAddress} from '../config';
+import {serverAddress} from '../other/config';
 import Header from './Header';
 
 function ModuleCard({module, onPress}) {

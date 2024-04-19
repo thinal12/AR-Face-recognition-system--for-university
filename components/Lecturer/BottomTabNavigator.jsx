@@ -5,6 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BottomTabBar = () => {
   const navigation = useNavigation();
+  const [home, setHome] = useState(require('../images/Home.png'));
+  const [search, setSearch] = useState(require('../images/Search.png'));
+  const [ar, setAR] = useState(require('../images/AR.png'));
 
   const handleTabPress = async tabName => {
     const value = await AsyncStorage.getItem('activeTab');
@@ -25,20 +28,17 @@ const BottomTabBar = () => {
       <TouchableOpacity
         style={[styles.tabButton]}
         onPress={() => handleTabPress('Home')}>
-        <Image source={require('../images/Home2.png')} style={styles.tabIcon} />
+        <Image source={home} style={styles.tabIcon} />
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.tabButton]}
         onPress={() => handleTabPress('StudentSearch')}>
-        <Image
-          source={require('../images/Search2.png' + '')}
-          style={styles.tabIcon}
-        />
+        <Image source={search} style={styles.tabIcon} />
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.tabButton]}
         onPress={() => handleTabPress('Camera')}>
-        <Image source={require('../images/AR2.png')} style={styles.tabIcon} />
+        <Image source={ar} style={styles.tabIcon} />
       </TouchableOpacity>
     </View>
   );

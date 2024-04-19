@@ -12,7 +12,7 @@ import {
 import {RNCamera} from 'react-native-camera';
 import {useFocusEffect} from '@react-navigation/native';
 import Header from '../Lecturer/Header';
-import {serverAddress} from '../config';
+import {serverAddress} from '../other/config';
 
 const AddStudent = ({navigation}) => {
   const [studentId, setStudentId] = useState('');

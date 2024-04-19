@@ -38,6 +38,7 @@ const Login = () => {
           await AsyncStorage.setItem('lecturerId', data.lecturer_id.toString());
           await AsyncStorage.setItem('activeTab', 'Home');
           await AsyncStorage.setItem('previousTab', 'Home');
+
           navigation.navigate('Home');
         }
       } else {
@@ -50,7 +51,7 @@ const Login = () => {
 
   return (
     <ImageBackground
-      source={require('./images/LoginBackground.png')}
+      source={require('../images/LoginBackground.png')}
       style={styles.backgroundImage}>
       <View style={styles.pageContainer}>
         <View style={styles.loginContainer}>

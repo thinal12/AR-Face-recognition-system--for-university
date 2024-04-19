@@ -12,7 +12,7 @@ import {
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {serverAddress} from '../config';
+import {serverAddress} from '../other/config';
 import Header from '../Lecturer/Header';
 
 const StudentSearch = () => {

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
-import {serverAddress} from '../config';
+import {serverAddress} from '../other/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from './Header';
 

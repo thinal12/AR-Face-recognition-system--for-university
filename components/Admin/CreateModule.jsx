@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {serverAddress} from '../config';
+import {serverAddress} from '../other/config';
 import Header from '../Lecturer/Header';
 
 const CreateModule = ({navigation}) => {

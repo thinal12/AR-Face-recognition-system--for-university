@@ -13,7 +13,7 @@ import {
   useRoute,
   useFocusEffect,
 } from '@react-navigation/native';
-import {serverAddress} from '../config';
+import {serverAddress} from '../other/config';
 import Orientation from 'react-native-orientation-locker';
 
 class ErrorBoundary extends React.Component {
