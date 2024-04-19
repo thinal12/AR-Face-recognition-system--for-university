@@ -4,13 +4,18 @@ import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {
   ViroARScene,
   ViroText,
-  ViroTrackingStateConstants,
   ViroARSceneNavigator,
-  ViroTrackingReason,
   ViroBox,
-  ViroARCamera,
+  ViroMaterials,
+  ViroImage,
 } from '@viro-community/react-viro';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+ViroMaterials.createMaterials({
+  profile: {
+    diffuseColor: 'black',
+  },
+});
 
 const ProfileAR = ({id, name, conditions, issues}) => {
   const [textPosition, setTextPosition] = useState([0, 0, -1]);
@@ -32,12 +37,17 @@ const ProfileAR = ({id, name, conditions, issues}) => {
       cameraPosition[2] - 2,
     ]);
   };
-  console.log(name);
+
   return (
     <ViroARScene>
+      <ViroBox
+        position={[0, -0.7, -1.5]}
+        scale={[0.8, 0.7, 0.1]}
+        materials={['profile']}
+      />
       <ViroText
         text={`Student ID: ${student.id}\nName: ${student.name}\nExisting Conditions: ${student.existingConditions}\nDisciplinary Issues: ${student.disciplinaryIssues}`}
-        scale={[0.5, 0.5, 0.5]}
+        scale={[0.4, 0.3, 0.5]}
         position={[0, -0.5, -1]}
       />
     </ViroARScene>
@@ -53,6 +63,7 @@ const ARCameraScene = ({route}) => {
 
   const handleBackPress = async () => {
     const value = await AsyncStorage.getItem('previousTab');
+    await AsyncStorage.setItem('activeTab', value);
     navigation.navigate(value);
     return true;
   };
@@ -79,7 +90,6 @@ const ARCameraScene = ({route}) => {
             name={name}
             conditions={conditions}
             issues={issues}
-            style={styles.profile}
           />
         ),
       }}
@@ -89,17 +99,7 @@ const ARCameraScene = ({route}) => {
 };
 
 const styles = StyleSheet.create({
-  f1: {flex: 1},
-  helloWorldTextStyle: {
-    fontFamily: 'Arial',
-    fontSize: 30,
-    color: '#ffffff',
-    textAlignVertical: 'center',
-    textAlign: 'center',
-  },
-  profile: {
-    backgroundColor: 'black',
-  },
+  f1: {},
 });
 
 export default ARCameraScene;
