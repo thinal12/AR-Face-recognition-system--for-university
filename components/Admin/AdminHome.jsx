@@ -47,30 +47,34 @@ const AdminHome = ({navigation}) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../images/Background.jpg')}
-      style={styles.backgroundImage}>
+    <>
       <Header />
-      <View style={styles.pageContainer}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleCreateLecturer}>
-            <Text style={styles.buttonText}>Create Lecturer</Text>
-          </TouchableOpacity>
+      <ImageBackground
+        source={require('../images/Background3.jpg')}
+        style={styles.backgroundImage}>
+        <View style={styles.pageContainer}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleCreateLecturer}>
+              <Text style={styles.buttonText}>Create Lecturer</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleCreateModule}>
+              <Text style={styles.buttonText}>Create Module</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={handleAddStudent}>
+              <Text style={styles.buttonText}>Add Student</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleCreateModule}>
-            <Text style={styles.buttonText}>Create Module</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleAddStudent}>
-            <Text style={styles.buttonText}>Add Student</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </>
   );
 };
 

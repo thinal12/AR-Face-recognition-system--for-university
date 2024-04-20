@@ -51,11 +51,11 @@ const Login = () => {
 
   return (
     <ImageBackground
-      source={require('../images/LoginBackground.png')}
+      source={require('../images/LoginBackground7.jpg')}
       style={styles.backgroundImage}>
       <View style={styles.pageContainer}>
+        <Text style={styles.title}>VisageAR</Text>
         <View style={styles.loginContainer}>
-          <Text style={styles.title}>Login</Text>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Username</Text>
             <TextInput
@@ -75,9 +75,11 @@ const Login = () => {
               secureTextEntry={true}
             />
           </View>
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
+          <View style={styles}>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ImageBackground>
@@ -91,7 +93,6 @@ const styles = StyleSheet.create({
   },
   pageContainer: {
     flex: 1,
-    backgroundColor: '#040404',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -122,6 +123,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: '#D7D9CE',
   },
+  buttonContainer: {
+    alignItems: 'center',
+  },
   button: {
     backgroundColor: '#119DA4',
     width: '100%',
@@ -131,6 +135,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
+    padding: 5,
     color: '#D7D9CE',
     fontSize: 16,
     fontWeight: 'bold',

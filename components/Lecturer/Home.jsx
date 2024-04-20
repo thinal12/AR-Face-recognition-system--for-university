@@ -12,22 +12,28 @@ import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serverAddress} from '../other/config';
 import Header from './Header';
+import Banner1 from '../images/Banner1.jpg';
+import Banner2 from '../images/Banner2.jpg';
+import Banner3 from '../images/Banner3.jpg';
 
-function ModuleCard({module, onPress}) {
+function ModuleCard({module, onPress, bannerImage}) {
   return (
-    <TouchableOpacity
-      style={styles.card}
-      onPress={() => onPress(module.module_code)}>
-      <Text style={styles.cardText}>
-        {module.module_code} - {module.module_name}
-      </Text>
-    </TouchableOpacity>
+    <ImageBackground source={bannerImage} style={styles.bannerImage}>
+      <TouchableOpacity
+        style={[styles.card, styles.moduleContainer]}
+        onPress={() => onPress(module.module_code)}>
+        <Text style={styles.cardText}>
+          {module.module_code} - {module.module_name}
+        </Text>
+      </TouchableOpacity>
+    </ImageBackground>
   );
 }
 
 function Home({navigation}) {
   const [modules, setModules] = useState([]);
   const [lecturerId, setLecturerId] = useState(null);
+  const bannerImages = [Banner1, Banner2, Banner3];
 
   useEffect(() => {
     retrieveLecturerIdAndFetchModules();
@@ -93,26 +99,29 @@ function Home({navigation}) {
   };
 
   return (
-    <ImageBackground
-      source={require('../images/Background.jpg')}
-      style={styles.backgroundImage}>
+    <>
       <Header />
-      <View style={styles.container}>
-        <View style={styles.headingContainer}>
-          <Text style={styles.heading}>Modules</Text>
+      <ImageBackground
+        source={require('../images/Background3.jpg')}
+        style={styles.backgroundImage}>
+        <View style={styles.container}>
+          <View style={styles.headingContainer}>
+            <Text style={styles.heading}>Modules</Text>
+          </View>
+          <View>
+            {modules.map((module, index) => (
+              <ModuleCard
+                key={index}
+                module={module}
+                onPress={handleModulePress}
+                bannerImage={bannerImages[index % bannerImages.length]}
+              />
+            ))}
+          </View>
         </View>
-        <View>
-          {modules.map((module, index) => (
-            <ModuleCard
-              key={index}
-              module={module}
-              onPress={handleModulePress}
-            />
-          ))}
-        </View>
-      </View>
+      </ImageBackground>
       <BottomTabNavigator />
-    </ImageBackground>
+    </>
   );
 }
 
@@ -132,7 +141,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   moduleContainer: {
-    backgroundColor: '#f0f0f0',
     padding: 20,
     borderRadius: 10,
   },
@@ -146,7 +154,7 @@ const styles = StyleSheet.create({
     width: 300,
     padding: 20,
     marginBottom: 10,
-    backgroundColor: 'black',
+
     borderRadius: 10,
     shadowColor: '#000000',
     shadowOffset: {

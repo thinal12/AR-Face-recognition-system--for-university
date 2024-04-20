@@ -78,33 +78,35 @@ const StudentSearch = () => {
   };
 
   return (
-    <ImageBackground
-      source={require('../images/Background.jpg')}
-      style={styles.backgroundImage}>
+    <>
       <Header />
-      <View style={styles.container}>
-        <View styles>
-          <TextInput
-            style={{
-              backgroundColor: 'black',
-              height: 40,
-              borderWidth: 1,
-              margin: 10,
-              padding: 5,
-            }}
-            onChangeText={handleSearch}
-            value={searchQuery}
-            placeholder="Search for students..."
-          />
-          <FlatList
-            data={searchResults}
-            renderItem={renderStudentCard}
-            keyExtractor={item => item.student_id}
-          />
+      <ImageBackground
+        source={require('../images/Background3.jpg')}
+        style={styles.backgroundImage}>
+        <View style={styles.container}>
+          <View styles>
+            <TextInput
+              style={{
+                backgroundColor: 'black',
+                height: 40,
+                borderWidth: 1,
+                margin: 10,
+                padding: 5,
+              }}
+              onChangeText={handleSearch}
+              value={searchQuery}
+              placeholder="Search for students..."
+            />
+            <FlatList
+              data={searchResults}
+              renderItem={renderStudentCard}
+              keyExtractor={item => item.student_id}
+            />
+          </View>
         </View>
-      </View>
+      </ImageBackground>
       <BottomTabNavigator styles={{bottom: 0}} />
-    </ImageBackground>
+    </>
   );
 };
 

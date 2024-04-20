@@ -90,9 +90,7 @@ const AddStudent = ({navigation}) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../images/Background.jpg')}
-      style={styles.backgroundImage}>
+    <>
       {isCameraVisible && (
         <>
           <RNCamera
@@ -114,58 +112,62 @@ const AddStudent = ({navigation}) => {
       {!isCameraVisible && (
         <>
           <Header />
-          <View style={styles.container}>
-            <View style={styles.form}>
-              <Text style={styles.heading}>Add Student</Text>
+          <ImageBackground
+            source={require('../images/Background3.jpg')}
+            style={styles.backgroundImage}>
+            <View style={styles.container}>
+              <View style={styles.form}>
+                <Text style={styles.heading}>Add Student</Text>
 
-              <Text style={styles.label}>Student ID:</Text>
-              <TextInput
-                style={styles.input}
-                value={studentId}
-                onChangeText={setStudentId}
-                placeholder="Enter Student ID"
-                keyboardType="numeric"
-              />
+                <Text style={styles.label}>Student ID:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={studentId}
+                  onChangeText={setStudentId}
+                  placeholder="Enter Student ID"
+                  keyboardType="numeric"
+                />
 
-              <Text style={styles.label}>Name:</Text>
-              <TextInput
-                style={styles.input}
-                value={name}
-                onChangeText={setName}
-                placeholder="Enter name"
-              />
+                <Text style={styles.label}>Name:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={name}
+                  onChangeText={setName}
+                  placeholder="Enter name"
+                />
 
-              <Text style={styles.label}>Disciplinary Issues:</Text>
-              <TextInput
-                style={styles.input}
-                value={disciplinaryIssues}
-                onChangeText={setDisciplinaryIssues}
-                placeholder="Enter disciplinary issues"
-              />
+                <Text style={styles.label}>Disciplinary Issues:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={disciplinaryIssues}
+                  onChangeText={setDisciplinaryIssues}
+                  placeholder="Enter disciplinary issues"
+                />
 
-              <Text style={styles.label}>Existing Conditions:</Text>
-              <TextInput
-                style={styles.input}
-                value={existingConditions}
-                onChangeText={setExistingConditions}
-                placeholder="Enter existing conditions"
-              />
+                <Text style={styles.label}>Existing Conditions:</Text>
+                <TextInput
+                  style={styles.input}
+                  value={existingConditions}
+                  onChangeText={setExistingConditions}
+                  placeholder="Enter existing conditions"
+                />
 
-              <Button
-                title="Take Profile Picture"
-                onPress={() => handleShowCamera(true, true)}
-              />
-              <Button
-                title="Take Training Picture"
-                onPress={() => handleShowCamera(false, true)}
-              />
+                <Button
+                  title="Take Profile Picture"
+                  onPress={() => handleShowCamera(true, true)}
+                />
+                <Button
+                  title="Take Training Picture"
+                  onPress={() => handleShowCamera(false, true)}
+                />
 
-              <Button title="Add Student" onPress={handleAddStudent} />
+                <Button title="Add Student" onPress={handleAddStudent} />
+              </View>
             </View>
-          </View>
+          </ImageBackground>
         </>
       )}
-    </ImageBackground>
+    </>
   );
 };
 

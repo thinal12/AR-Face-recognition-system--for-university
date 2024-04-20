@@ -86,26 +86,28 @@ function Lectures() {
   };
 
   return (
-    <ImageBackground
-      source={require('../images/Background.jpg')}
-      style={styles.backgroundImage}>
+    <>
       <Header />
-      <View style={styles.container}>
-        <View>
-          <View style={styles.headingContainer}>
-            <Text style={styles.heading}>Lectures</Text>
+      <ImageBackground
+        source={require('../images/Background3.jpg')}
+        style={styles.backgroundImage}>
+        <View style={styles.container}>
+          <View>
+            <View style={styles.headingContainer}>
+              <Text style={styles.heading}>Lectures</Text>
+            </View>
+            {lectures.map((lecture, index) => (
+              <LecturesCard
+                key={index}
+                lecture={lecture}
+                onPress={handleModulePress}
+              />
+            ))}
           </View>
-          {lectures.map((lecture, index) => (
-            <LecturesCard
-              key={index}
-              lecture={lecture}
-              onPress={handleModulePress}
-            />
-          ))}
         </View>
-      </View>
+      </ImageBackground>
       <BottomTabNavigator />
-    </ImageBackground>
+    </>
   );
 }
 

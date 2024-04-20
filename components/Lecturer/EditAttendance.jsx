@@ -60,24 +60,26 @@ const EditAttendance = () => {
   };
 
   return (
-    <ImageBackground
-      source={require('../images/Background.jpg')}
-      style={styles.backgroundImage}>
+    <>
       <Header />
-      <View style={styles.container}>
-        <Text style={styles.title}>Edit Attendance</Text>
-        <View style={styles.formContainer}>
-          <Text style={styles.label}>Enter student name or ID:</Text>
-          <TextInput
-            style={styles.input}
-            value={student}
-            onChangeText={setStudent}
-            placeholder="Enter attendance"
-          />
-          <Button title="Confirm" onPress={handleConfirm} />
+      <ImageBackground
+        source={require('../images/Background3.jpg')}
+        style={styles.backgroundImage}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Edit Attendance</Text>
+          <View style={styles.formContainer}>
+            <Text style={styles.label}>Enter student name or ID:</Text>
+            <TextInput
+              style={styles.input}
+              value={student}
+              onChangeText={setStudent}
+              placeholder="Enter attendance"
+            />
+            <Button title="Confirm" onPress={handleConfirm} />
+          </View>
         </View>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </>
   );
 };
 
