@@ -69,10 +69,10 @@ const CreateModule = ({navigation}) => {
 
   return (
     <>
-      <Header />
       <ImageBackground
         source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>
+        <Header />
         <View style={styles.pageContainer}>
           <View style={styles.formContainer}>
             <Text style={styles.title}>Create Module</Text>
@@ -140,8 +140,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   formContainer: {
+    position: 'relative',
     backgroundColor: '#13505B',
     padding: 20,
+    width: '70%',
     borderRadius: 10,
   },
   title: {

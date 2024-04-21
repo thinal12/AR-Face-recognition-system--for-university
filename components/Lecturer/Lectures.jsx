@@ -36,17 +36,20 @@ function Lectures() {
   const [lectures, setLectures] = useState([]);
   const navigation = useNavigation();
 
-  useEffect(async () => {
+  useEffect(() => {
+    callFetchModules();
+  }, []);
+
+  const callFetchModules = async () => {
     const module = await AsyncStorage.getItem('moduleCode');
     console.log('Module:', module);
     fetchModules(module);
-  }, []);
-
+  };
   const handleBackPress = async () => {
     const value = await AsyncStorage.getItem('previousTab');
     await AsyncStorage.setItem('activeTab', value);
     await AsyncStorage.removeItem('moduleCode');
-    navigation.goBack();
+    navigation.navigate(value);
     return true;
   };
 

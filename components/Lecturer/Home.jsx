@@ -10,39 +10,69 @@ import {
 } from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {serverAddress} from '../other/config';
 import Header from './Header';
 import Banner1 from '../images/Banner1.jpg';
 import Banner2 from '../images/Banner2.jpg';
 import Banner3 from '../images/Banner3.jpg';
 
-function ModuleCard({module, onPress, bannerImage}) {
+function ModuleCard({module}) {
+  const navigation = useNavigation();
+
+  const handleModulePress = async modulecode => {
+    await AsyncStorage.setItem('previousTab', 'Home');
+    await AsyncStorage.setItem('activeTab', 'Lectures');
+    await AsyncStorage.setItem('moduleCode', modulecode);
+    navigation.navigate('Lectures');
+  };
+
   return (
-    <ImageBackground source={bannerImage} style={styles.bannerImage}>
-      <TouchableOpacity
-        style={[styles.card, styles.moduleContainer]}
-        onPress={() => onPress(module.module_code)}>
-        <Text style={styles.cardText}>
-          {module.module_code} - {module.module_name}
-        </Text>
-      </TouchableOpacity>
-    </ImageBackground>
+    <TouchableOpacity
+      style={[styles.card, styles.moduleContainer]}
+      onPress={() => handleModulePress(module.module_code)}>
+      <Text style={styles.cardText}>
+        {module.module_code} - {module.module_name}
+      </Text>
+    </TouchableOpacity>
   );
 }
 
-function Home({navigation}) {
+function Home() {
   const [modules, setModules] = useState([]);
   const [lecturerId, setLecturerId] = useState(null);
   const bannerImages = [Banner1, Banner2, Banner3];
 
   useEffect(() => {
     retrieveLecturerIdAndFetchModules();
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      handleBackPress,
-    );
-    return () => backHandler.remove();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const handleBackPress = async () => {
+        const value = await AsyncStorage.getItem('activeTab');
+        console.log('Active tab now:', value);
+        if (value === 'Home') {
+          Alert.alert(
+            'Exit App',
+            'Are you sure you want to exit?',
+            [
+              {text: 'Cancel', style: 'cancel'},
+              {text: 'OK', onPress: () => BackHandler.exitApp()},
+            ],
+            {cancelable: false},
+          );
+          return true;
+        }
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
 
   const retrieveLecturerIdAndFetchModules = async () => {
     try {
@@ -75,47 +105,19 @@ function Home({navigation}) {
     }
   };
 
-  const handleModulePress = async modulecode => {
-    await AsyncStorage.setItem('previousTab', 'Home');
-    await AsyncStorage.setItem('activeTab', 'Lectures');
-    await AsyncStorage.setItem('moduleCode', modulecode);
-    navigation.navigate('Lectures');
-  };
-
-  const handleBackPress = async () => {
-    const value = await AsyncStorage.getItem('activeTab');
-    if (value === 'Home') {
-      Alert.alert(
-        'Exit App',
-        'Are you sure you want to exit?',
-        [
-          {text: 'Cancel', style: 'cancel'},
-          {text: 'OK', onPress: () => BackHandler.exitApp()},
-        ],
-        {cancelable: false},
-      );
-      return BackHandler.remove();
-    }
-  };
-
   return (
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background3.jpg')}
+        source={require('../images/Background11.jpg')}
         style={styles.backgroundImage}>
         <View style={styles.container}>
           <View style={styles.headingContainer}>
             <Text style={styles.heading}>Modules</Text>
           </View>
-          <View>
+          <View style={styles.module}>
             {modules.map((module, index) => (
-              <ModuleCard
-                key={index}
-                module={module}
-                onPress={handleModulePress}
-                bannerImage={bannerImages[index % bannerImages.length]}
-              />
+              <ModuleCard key={index} module={module} />
             ))}
           </View>
         </View>
@@ -140,12 +142,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 10,
   },
+  bannerImage: {
+    resizeMode: 'cover',
+    paddingBottom: 10,
+
+    width: 300,
+  },
+
   moduleContainer: {
-    padding: 20,
     borderRadius: 10,
   },
   heading: {
-    color: 'black',
+    color: 'white',
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,
@@ -153,8 +161,8 @@ const styles = StyleSheet.create({
   card: {
     width: 300,
     padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     marginBottom: 10,
-
     borderRadius: 10,
     shadowColor: '#000000',
     shadowOffset: {
