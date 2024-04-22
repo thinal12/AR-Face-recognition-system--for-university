@@ -18,6 +18,7 @@ import Home from './components/Lecturer/Home';
 import Lectures from './components/Lecturer/Lectures';
 import AttendanceRecord from './components/Lecturer/AttendanceRecord';
 import AddStudent from './components/Admin/AddStudent';
+import Help from './components/Lecturer/Help';
 
 const Stack = createStackNavigator();
 
@@ -89,6 +90,11 @@ const App = () => {
         <Stack.Screen
           name="AddStudent"
           component={AddStudent}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Help"
+          component={Help}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
