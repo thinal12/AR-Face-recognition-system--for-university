@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   BackHandler,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -91,30 +92,37 @@ function Lectures() {
   return (
     <>
       <Header />
+
       <ImageBackground
         source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>
-        <View style={styles.container}>
-          <View>
-            <View style={styles.headingContainer}>
-              <Text style={styles.heading}>Lectures</Text>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.container}>
+            <View>
+              <View style={styles.headingContainer}>
+                <Text style={styles.heading}>Lectures</Text>
+              </View>
+              {lectures.map((lecture, index) => (
+                <LecturesCard
+                  key={index}
+                  lecture={lecture}
+                  onPress={handleModulePress}
+                />
+              ))}
             </View>
-            {lectures.map((lecture, index) => (
-              <LecturesCard
-                key={index}
-                lecture={lecture}
-                onPress={handleModulePress}
-              />
-            ))}
           </View>
-        </View>
+        </ScrollView>
       </ImageBackground>
+
       <BottomTabNavigator />
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
