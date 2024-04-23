@@ -13,9 +13,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {serverAddress} from '../other/config';
 import Header from './Header';
-import Banner1 from '../images/Banner1.jpg';
-import Banner2 from '../images/Banner2.jpg';
-import Banner3 from '../images/Banner3.jpg';
 
 function ModuleCard({module}) {
   const navigation = useNavigation();
@@ -41,7 +38,6 @@ function ModuleCard({module}) {
 function Home() {
   const [modules, setModules] = useState([]);
   const [lecturerId, setLecturerId] = useState(null);
-  const bannerImages = [Banner1, Banner2, Banner3];
 
   useEffect(() => {
     retrieveLecturerIdAndFetchModules();
@@ -109,7 +105,7 @@ function Home() {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background11.jpg')}
+        source={require('../images/Background142.jpg')}
         style={styles.backgroundImage}>
         <View style={styles.container}>
           <View style={styles.headingContainer}>
@@ -161,7 +157,7 @@ const styles = StyleSheet.create({
   card: {
     width: 300,
     padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: '#14151a',
     marginBottom: 10,
     borderRadius: 10,
     shadowColor: '#000000',
