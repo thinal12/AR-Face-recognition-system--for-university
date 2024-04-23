@@ -23,7 +23,9 @@ const StudentSearch = () => {
   const handleBackPress = async () => {
     const value = await AsyncStorage.getItem('previousTab');
     await AsyncStorage.setItem('activeTab', value);
-    navigation.goBack();
+    console.log('Active tab now:', value);
+    await AsyncStorage.removeItem('moduleCode');
+    navigation.navigate(value);
     return true;
   };
 

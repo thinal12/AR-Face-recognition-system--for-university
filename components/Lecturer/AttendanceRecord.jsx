@@ -14,6 +14,7 @@ import {
   useFocusEffect,
 } from '@react-navigation/native';
 import {serverAddress} from '../other/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Orientation from 'react-native-orientation-locker';
 
 class ErrorBoundary extends React.Component {
@@ -43,13 +44,14 @@ class ErrorBoundary extends React.Component {
   }
 }
 
+let recordedNames = [];
+
 const AttendanceRecord = () => {
   const route = useRoute();
   const [processedFrame, setProcessedFrame] = useState(null);
   const cameraRef = useRef(null);
   const navigation = useNavigation();
   const [orientation, setOrientation] = useState('portrait');
-  const [recordedNames, setRecordedNames] = useState([]);
 
   let processing = 'false';
   const {lecture_id} = route.params;
@@ -140,12 +142,13 @@ const AttendanceRecord = () => {
 
   const handleRecordNames = () => {
     if (processedFrame && processedFrame.names) {
-      const uniqueNames = new Set(recordedNames);
-      processedFrame.names.forEach(name => uniqueNames.add(name));
-      setRecordedNames(Array.from(uniqueNames));
-      console.log(lecture_id);
-      console.log(recordedNames);
+      processedFrame.names.forEach(name => {
+        if (!recordedNames.includes(name)) {
+          recordedNames.push(name);
+        }
+      });
     }
+    console.log(recordedNames);
   };
 
   const handleConfirmAttendance = async () => {
@@ -173,63 +176,57 @@ const AttendanceRecord = () => {
   };
 
   return (
-    <ErrorBoundary>
-      <View style={styles.container}>
-        <RNCamera
-          ref={ref => {
-            cameraRef.current = ref;
-          }}
-          style={styles.camera}
-          type={RNCamera.Constants.Type.back}
-          captureAudio={false}
-        />
+    <View style={styles.container}>
+      <RNCamera
+        ref={ref => {
+          cameraRef.current = ref;
+        }}
+        style={styles.camera}
+        type={RNCamera.Constants.Type.back}
+        captureAudio={false}
+      />
 
-        {processedFrame && (
-          <View style={styles.overlay}>
-            {processedFrame.boxes.map((box, index) => (
-              <View
-                key={index}
+      {processedFrame && (
+        <View style={styles.overlay}>
+          {processedFrame.boxes.map((box, index) => (
+            <View
+              key={index}
+              style={{
+                position: 'relative ',
+                top: orientation === 'landscape' ? box[0] : box[0],
+                left: orientation === 'landscape' ? box[3] : box[3],
+                right: orientation === 'landscape' ? box[3] : box[3],
+                bottom: orientation === 'landscape' ? box[3] : box[3],
+                height: box[2] - box[0],
+                width: box[1] - box[3],
+                borderWidth: 5,
+                borderColor:
+                  processedFrame.conditions[index] === 'none' ? 'green' : 'red',
+              }}>
+              <Text
                 style={{
-                  position: 'relative ',
-                  top: orientation === 'landscape' ? box[0] : box[0],
-                  left: orientation === 'landscape' ? box[3] : box[3],
-                  right: orientation === 'landscape' ? box[3] : box[3],
-                  bottom: orientation === 'landscape' ? box[3] : box[3],
-                  height: box[2] - box[0],
-                  width: box[1] - box[3],
-                  borderWidth: 5,
-                  borderColor:
+                  color:
                     processedFrame.conditions[index] === 'none'
                       ? 'green'
                       : 'red',
+                  fontSize: 16,
                 }}>
-                <Text
-                  style={{
-                    color:
-                      processedFrame.conditions[index] === 'none'
-                        ? 'green'
-                        : 'red',
-                    fontSize: 16,
-                  }}>
-                  {processedFrame.names[index]}
-                </Text>
-              </View>
-            ))}
-          </View>
-        )}
-        <TouchableOpacity
-          style={styles.recordButton}
-          onPress={handleRecordNames}>
-          <Text style={styles.buttonText}>Record Names</Text>
-        </TouchableOpacity>
+                {processedFrame.names[index]}
+              </Text>
+            </View>
+          ))}
+        </View>
+      )}
+      <TouchableOpacity style={styles.recordButton} onPress={handleRecordNames}>
+        <Text style={styles.buttonText}>Record Names</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.confirmButton}
-          onPress={handleConfirmAttendance}>
-          <Text style={styles.buttonText}>Confirm Attendance</Text>
-        </TouchableOpacity>
-      </View>
-    </ErrorBoundary>
+      <TouchableOpacity
+        style={styles.confirmButton}
+        onPress={handleConfirmAttendance}>
+        <Text style={styles.buttonText}>Confirm Attendance</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 

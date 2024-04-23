@@ -46,17 +46,22 @@ function Lectures() {
     console.log('Module:', module);
     fetchModules(module);
   };
-  const handleBackPress = async () => {
-    const value = await AsyncStorage.getItem('previousTab');
-    await AsyncStorage.setItem('activeTab', value);
-    await AsyncStorage.removeItem('moduleCode');
-    navigation.navigate(value);
-    return true;
-  };
 
   useFocusEffect(
     React.useCallback(() => {
+      const handleBackPress = async () => {
+        await AsyncStorage.setItem('activeTab', 'Home');
+
+        await AsyncStorage.removeItem('moduleCode');
+        navigation.navigate('Home');
+        return true;
+      };
+
       BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
     }, []),
   );
 
