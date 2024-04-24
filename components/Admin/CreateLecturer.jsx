@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
+    maxWidth: 180,
     height: 40,
     borderColor: '#D7D9CE',
     borderWidth: 1,

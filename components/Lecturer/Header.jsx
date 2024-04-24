@@ -1,10 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Header = () => {
   const navigation = useNavigation();
-  const handleHelpPress = () => {
+  const handleHelpPress = async () => {
+    await AsyncStorage.setItem('activeTab', 'Help');
     navigation.navigate('Help');
   };
 

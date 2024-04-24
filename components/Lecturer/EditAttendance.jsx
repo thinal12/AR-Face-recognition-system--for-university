@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   title: {
-    color: 'black',
+    color: 'white',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    maxWidth: 250,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,

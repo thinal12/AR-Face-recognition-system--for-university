@@ -51,7 +51,6 @@ function Lectures() {
     React.useCallback(() => {
       const handleBackPress = async () => {
         await AsyncStorage.setItem('activeTab', 'Home');
-
         await AsyncStorage.removeItem('moduleCode');
         navigation.navigate('Home');
         return true;
