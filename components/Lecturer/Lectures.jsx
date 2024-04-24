@@ -99,7 +99,7 @@ function Lectures() {
       <Header />
 
       <ImageBackground
-        source={require('../images/Background3.jpg')}
+        source={require('../images/Background.jpg')}
         style={styles.backgroundImage}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.container}>
