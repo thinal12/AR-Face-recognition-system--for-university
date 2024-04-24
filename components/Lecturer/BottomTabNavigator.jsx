@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#14151a',
-    height: 85,
+    height: 75,
   },
   tabIcon: {
     width: 125,
-    height: 80,
+    height: 75,
   },
   tabButton: {
     flex: 1,

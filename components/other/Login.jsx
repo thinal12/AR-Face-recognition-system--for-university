@@ -52,7 +52,7 @@ const Login = () => {
 
   return (
     <ImageBackground
-      source={require('../images/LoginBackground7.jpg')}
+      source={require('../images/LoginBackground.jpg')}
       style={styles.backgroundImage}>
       <View style={styles.pageContainer}>
         <Text style={styles.title}>VisageAR</Text>

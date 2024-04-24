@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
   },
   pageContainer: {
     flex: 1,
-    backgroundColor: '#a3abff',
     justifyContent: 'center',
     alignItems: 'center',
   },
