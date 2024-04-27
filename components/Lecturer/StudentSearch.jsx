@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   BackHandler,
   ImageBackground,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -107,12 +108,15 @@ const StudentSearch = () => {
           </View>
         </View>
       </ImageBackground>
-      <BottomTabNavigator styles={{bottom: 0}} />
+      <BottomTabNavigator styles={styles.bottomNav} />
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  bottomNav: {
+    bottom: 0,
+  },
   container: {
     flex: 1,
   },

@@ -31,6 +31,8 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   header: {
+    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: '#14151a',
     paddingVertical: 20,
     alignItems: 'center',

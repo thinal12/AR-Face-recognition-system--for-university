@@ -25,6 +25,8 @@ const AddStudent = ({navigation}) => {
   const [isCameraVisible, setCamera] = useState(false);
   const [isProfilePicMode, setProfilePicMode] = useState(false);
   const [isTrainingPicMode, setTrainingPicMode] = useState(false);
+  const [isProfilePicTaken, setProfilePicTaken] = useState(false);
+  const [isTrainingPicTaken, setTrainingPicTaken] = useState(false);
   const cameraRef = useRef(null);
 
   const handleBackPress = async () => {
@@ -80,8 +82,10 @@ const AddStudent = ({navigation}) => {
       const data = await cameraRef.current.takePictureAsync(options);
       if (isProfilePicMode) {
         setProfilePic(data.base64);
+        setProfilePicTaken(true);
         setCamera(false);
       } else {
+        setTrainingPicTaken(true);
         setTrainingData([...trainingData, data.base64]);
       }
     }
@@ -97,7 +101,7 @@ const AddStudent = ({navigation}) => {
           <RNCamera
             ref={cameraRef}
             style={{flex: 1, width: '100%'}}
-            type={RNCamera.Constants.Type.front}
+            type={RNCamera.Constants.Type.back}
           />
           {isProfilePicMode && (
             <Button title="Capture" onPress={handleTakePicture} />
@@ -154,16 +158,40 @@ const AddStudent = ({navigation}) => {
                     placeholder="Enter existing conditions"
                   />
 
-                  <Button
-                    title="Take Profile Picture"
-                    onPress={() => handleShowCamera(true, true)}
-                  />
-                  <Button
-                    title="Take Training Picture"
-                    onPress={() => handleShowCamera(false, true)}
-                  />
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      title="Take Profile Picture"
+                      onPress={() => handleShowCamera(true, true)}
+                    />
+                  </View>
+                  <Text
+                    style={[
+                      styles.PicText,
+                      isProfilePicTaken ? styles.greenText : styles.whiteText,
+                    ]}>
+                    {isProfilePicTaken
+                      ? '* Profile Picture Taken'
+                      : '* Profile Required'}
+                  </Text>
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      title="Take Training Picture"
+                      onPress={() => handleShowCamera(false, true)}
+                    />
+                  </View>
+                  <Text
+                    style={[
+                      styles.PicText,
+                      isTrainingPicTaken ? styles.greenText : styles.whiteText,
+                    ]}>
+                    {isTrainingPicTaken
+                      ? '* Profile Picture Taken'
+                      : '* Profile Required'}
+                  </Text>
 
-                  <Button title="Add Student" onPress={handleAddStudent} />
+                  <View style={styles.buttonContainer}>
+                    <Button title="Add Student" onPress={handleAddStudent} />
+                  </View>
                 </View>
               </View>
             </ScrollView>
@@ -179,6 +207,11 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
   },
+
+  buttonContainer: {
+    marginBottom: 10,
+  },
+
   scrollContainer: {
     flexGrow: 1,
   },
@@ -194,7 +227,8 @@ const styles = StyleSheet.create({
   },
   form: {
     width: '80%',
-    backgroundColor: '#13505B',
+    height: '90%',
+    backgroundColor: '#14151a',
     padding: 20,
     borderRadius: 10,
   },
@@ -216,6 +250,18 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginBottom: 10,
+  },
+
+  PicText: {
+    fontSize: 12,
+    color: 'green',
+    marginBottom: 10,
+  },
+  greenText: {
+    color: 'green',
+  },
+  whiteText: {
+    color: 'white',
   },
 });
 

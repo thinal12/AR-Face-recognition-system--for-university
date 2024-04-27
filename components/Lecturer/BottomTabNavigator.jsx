@@ -48,11 +48,14 @@ export default BottomTabBar;
 
 const styles = StyleSheet.create({
   tabBarContainer: {
+    position: 'absolute',
+    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#14151a',
     height: 75,
+    width: '100%',
   },
   tabIcon: {
     width: 125,

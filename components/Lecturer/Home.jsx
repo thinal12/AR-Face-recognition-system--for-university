@@ -105,7 +105,7 @@ function Home() {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background.jpg')}
+        source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>
         <View style={styles.container}>
           <View style={styles.headingContainer}>
