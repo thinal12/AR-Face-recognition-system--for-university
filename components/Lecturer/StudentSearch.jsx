@@ -9,6 +9,7 @@ import {
   BackHandler,
   ImageBackground,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -19,7 +20,28 @@ import Header from '../Lecturer/Header';
 const StudentSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [isBottomNavVisible, setIsBottomNavVisible] = useState(true); // State for bottom navigation visibility
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setIsBottomNavVisible(false);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setIsBottomNavVisible(true);
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   const handleBackPress = async () => {
     const value = await AsyncStorage.getItem('previousTab');
@@ -84,9 +106,9 @@ const StudentSearch = () => {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background.jpg')}
+        source={require('../images/Background10.jpg')}
         style={styles.backgroundImage}>
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
           <View styles>
             <TextInput
               style={{
@@ -106,9 +128,9 @@ const StudentSearch = () => {
               keyExtractor={item => item.student_id}
             />
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </ImageBackground>
-      <BottomTabNavigator styles={styles.bottomNav} />
+      {isBottomNavVisible && <BottomTabNavigator styles={styles.bottomNav} />}
     </>
   );
 };

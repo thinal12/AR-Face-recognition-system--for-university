@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loginContainer: {
-    backgroundColor: '#13505B',
+    backgroundColor: '#14151a',
     padding: 20,
     borderRadius: 10,
   },
