@@ -47,6 +47,7 @@ const StudentProfile = ({route}) => {
   const [profilePic, setProfilePic] = useState(null);
   const [disciplinaryIssues, setDisciplinaryIssues] = useState(null);
   const [existingConditions, setExistingConditions] = useState(null);
+  const [gpa, setGpa] = useState(null);
   const navigation = useNavigation();
 
   const handleBackPress = async () => {
@@ -83,6 +84,7 @@ const StudentProfile = ({route}) => {
           module_attendance,
           disciplinary_issues,
           existing_conditions,
+          gpa,
           profile_pic_base64,
         } = await response.json();
 
@@ -93,7 +95,7 @@ const StudentProfile = ({route}) => {
         setModuleData(moduleData);
         setDisciplinaryIssues(disciplinary_issues);
         setExistingConditions(existing_conditions);
-
+        setGpa(gpa);
         setProfilePic(`data:image/jpeg;base64, ${profile_pic_base64}`);
       } catch (error) {
         console.error('Error fetching attendance data:', error);
@@ -129,6 +131,7 @@ const StudentProfile = ({route}) => {
               <Text style={styles.profileText}>
                 Existing Conditions: {existingConditions}
               </Text>
+              <Text style={styles.profileText}>GPA: {gpa}</Text>
             </View>
           </View>
           <Text style={styles.profileText}>Module Attendance:</Text>

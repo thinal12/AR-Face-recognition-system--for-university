@@ -190,7 +190,7 @@ def get_student_attendance():
         module_attendance.append(attendance_percentage)
     student = collection2.find_one({'student_id': student_id})
     images =collection6.find_one({'name': student['name']})
-    return jsonify({'modules': modules, 'module_attendance': module_attendance,'disciplinary_issues':student['disciplinary_issues'], 'existing_conditions':student['existing_conditions'],'profile_pic_base64': images['image']}), 200
+    return jsonify({'modules': modules, 'module_attendance': module_attendance,'disciplinary_issues':student['disciplinary_issues'], 'existing_conditions':student['existing_conditions'],'gpa':student['gpa'],'profile_pic_base64': images['image']}), 200
 
 
     

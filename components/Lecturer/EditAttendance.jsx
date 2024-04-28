@@ -63,7 +63,7 @@ const EditAttendance = () => {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background.jpg')}
+        source={require('../images/Background10.jpg')}
         style={styles.backgroundImage}>
         <View style={styles.container}>
           <Text style={styles.title}>Edit Attendance</Text>
