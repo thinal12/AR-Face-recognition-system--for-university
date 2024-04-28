@@ -1,5 +1,4 @@
 import React, {useState, useRef} from 'react';
-
 import {
   View,
   Text,
@@ -9,6 +8,7 @@ import {
   BackHandler,
   ImageBackground,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useFocusEffect} from '@react-navigation/native';
@@ -22,6 +22,7 @@ const AddStudent = ({navigation}) => {
   const [existingConditions, setExistingConditions] = useState('');
   const [profilePic, setProfilePic] = useState(null);
   const [trainingData, setTrainingData] = useState([]);
+  const [gpa, setGPA] = useState(''); // New state for GPA
   const [isCameraVisible, setCamera] = useState(false);
   const [isProfilePicMode, setProfilePicMode] = useState(false);
   const [isTrainingPicMode, setTrainingPicMode] = useState(false);
@@ -51,6 +52,7 @@ const AddStudent = ({navigation}) => {
       existingConditions,
       profilePic,
       trainingData,
+      gpa,
     };
     fetch(serverAddress + '/add_student', {
       method: 'POST',
@@ -90,6 +92,7 @@ const AddStudent = ({navigation}) => {
       }
     }
   };
+
   const handleCompleteTraining = () => {
     setCamera(false);
   };
@@ -117,14 +120,13 @@ const AddStudent = ({navigation}) => {
       {!isCameraVisible && (
         <>
           <Header />
-          <ImageBackground
-            source={require('../images/Background.jpg')}
-            style={styles.backgroundImage}>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <ImageBackground
+              source={require('../images/Background.jpg')}
+              style={styles.backgroundImage}>
               <View style={styles.container}>
                 <View style={styles.form}>
                   <Text style={styles.heading}>Add Student</Text>
-
                   <Text style={styles.label}>Student ID:</Text>
                   <TextInput
                     style={styles.input}
@@ -133,7 +135,6 @@ const AddStudent = ({navigation}) => {
                     placeholder="Enter Student ID"
                     keyboardType="numeric"
                   />
-
                   <Text style={styles.label}>Name:</Text>
                   <TextInput
                     style={styles.input}
@@ -141,7 +142,6 @@ const AddStudent = ({navigation}) => {
                     onChangeText={setName}
                     placeholder="Enter name"
                   />
-
                   <Text style={styles.label}>Disciplinary Issues:</Text>
                   <TextInput
                     style={styles.input}
@@ -149,7 +149,6 @@ const AddStudent = ({navigation}) => {
                     onChangeText={setDisciplinaryIssues}
                     placeholder="Enter disciplinary issues"
                   />
-
                   <Text style={styles.label}>Existing Conditions:</Text>
                   <TextInput
                     style={styles.input}
@@ -157,7 +156,14 @@ const AddStudent = ({navigation}) => {
                     onChangeText={setExistingConditions}
                     placeholder="Enter existing conditions"
                   />
-
+                  <Text style={styles.label}>GPA:</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={gpa}
+                    onChangeText={setGPA}
+                    placeholder="Enter GPA"
+                    keyboardType="numeric"
+                  />
                   <View style={styles.buttonContainer}>
                     <Button
                       title="Take Profile Picture"
@@ -188,14 +194,13 @@ const AddStudent = ({navigation}) => {
                       ? '* Profile Picture Taken'
                       : '* Profile Required'}
                   </Text>
-
                   <View style={styles.buttonContainer}>
                     <Button title="Add Student" onPress={handleAddStudent} />
                   </View>
                 </View>
               </View>
-            </ScrollView>
-          </ImageBackground>
+            </ImageBackground>
+          </ScrollView>
         </>
       )}
     </>
@@ -216,6 +221,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   container: {
+    paddingTop: 38,
+    paddingBottom: 10,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -227,7 +234,6 @@ const styles = StyleSheet.create({
   },
   form: {
     width: '80%',
-    height: '90%',
     backgroundColor: '#14151a',
     padding: 20,
     borderRadius: 10,
