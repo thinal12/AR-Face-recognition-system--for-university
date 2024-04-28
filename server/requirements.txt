@@ -1,11 +1,12 @@
 numpy==1.26.3
 imutils==0.5.4
 pillow==10.2.0
-cmake==3.29.2
-dlib-19.24.2-cp311-cp311-win_amd64.whl
+click==8.0.1
+dlib==19.22.0
+face-recognition==1.3.0
+face-recognition-models==0.3.0
 dnspython==2.6.1
 Flask==3.0.1
 gunicorn==22.0.0
 opencv-python==4.9.0.80
 pymongo==4.6.2
-face-recognition==1.3.0
