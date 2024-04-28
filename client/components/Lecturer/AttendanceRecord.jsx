@@ -16,6 +16,7 @@ import {
 import {serverAddress} from '../other/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Orientation from 'react-native-orientation-locker';
+import {get} from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -56,17 +57,25 @@ const AttendanceRecord = () => {
   let processing = 'false';
   const {lecture_id} = route.params;
 
+  const backHandlerSubscription = useRef(null);
+  const dimensionsSubscription = useRef(null);
+
   const handleBackPress = async () => {
     Orientation.lockToPortrait();
+    dimensionsSubscription.current && dimensionsSubscription.current.remove();
     navigation.goBack();
     return true;
   };
 
   useFocusEffect(
     React.useCallback(() => {
-      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      backHandlerSubscription.current = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackPress,
+      );
       return () => {
-        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+        backHandlerSubscription.current &&
+          backHandlerSubscription.current.remove();
       };
     }, []),
   );
@@ -77,67 +86,76 @@ const AttendanceRecord = () => {
       const {width, height} = Dimensions.get('window');
       setOrientation(width > height ? 'landscape' : 'portrait');
     };
-
-    Dimensions.addEventListener('change', getOrientation);
+    dimensionsSubscription.current = Dimensions.addEventListener(
+      'change',
+      getOrientation,
+    );
     return () => {
-      Dimensions.removeEventListener('change', getOrientation);
+      dimensionsSubscription.current && dimensionsSubscription.current.remove();
     };
   }, []);
 
-  const processFrame = async () => {
-    if (processing === 'false' && cameraRef.current) {
-      processing = 'true';
-      const options = {quality: 1, base64: true};
-      const data = await cameraRef.current.takePictureAsync(options);
-      const base64Frame = data.base64;
-
-      const maxWidth = data.width / 8;
-      const maxHeight = data.height / 8;
-
-      try {
-        const response = await fetch(serverAddress + '/process-frame', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            base64Frame,
-            width: maxWidth,
-            height: maxHeight,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.names && result.boxes) {
-          setProcessedFrame({
-            names: result.names,
-            boxes: result.boxes,
-            conditions: result.conditions,
-            issues: result.issues,
-          });
-        } else {
-          console.log(result.names);
-        }
-      } catch (error) {
-        console.error('Fetch error:', error.message);
-      }
-      processing = 'false';
-    }
-  };
-
   useEffect(() => {
+    let isMounted = true;
+
+    const processFrame = async () => {
+      if (processing === 'false' && cameraRef.current) {
+        processing = 'true';
+        const options = {quality: 1, base64: true};
+        const data = await cameraRef.current.takePictureAsync(options);
+        const base64Frame = data.base64;
+
+        const maxWidth = data.width / 8;
+        const maxHeight = data.height / 8;
+
+        try {
+          const response = await fetch(serverAddress + '/process-frame', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              base64Frame,
+              width: maxWidth,
+              height: maxHeight,
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const result = await response.json();
+
+          if (result.names && result.boxes) {
+            if (isMounted) {
+              setProcessedFrame({
+                names: result.names,
+                boxes: result.boxes,
+                conditions: result.conditions,
+                issues: result.issues,
+              });
+            }
+          } else {
+            console.log(result.names);
+          }
+        } catch (error) {
+          console.error('Fetch error:', error.message);
+        }
+        processing = 'false';
+      }
+    };
+
     const frameCaptureInterval = setInterval(() => {
       if (processing === 'false') {
         processFrame();
       }
     }, 1000);
 
-    return () => clearInterval(frameCaptureInterval);
+    return () => {
+      isMounted = false;
+      clearInterval(frameCaptureInterval);
+    };
   }, []);
 
   const handleRecordNames = () => {
@@ -164,6 +182,7 @@ const AttendanceRecord = () => {
         }),
       });
       await AsyncStorage.setItem('activeTab', 'Lectures');
+      dimensionsSubscription.current && dimensionsSubscription.current.remove();
       navigation.navigate('Lectures');
       if (response.ok) {
         console.log('Attendance confirmed successfully');
@@ -187,35 +206,58 @@ const AttendanceRecord = () => {
       />
 
       {processedFrame && (
-        <View style={styles.overlay}>
+        <>
           {processedFrame.boxes.map((box, index) => (
-            <View
-              key={index}
-              style={{
-                position: 'relative ',
-                top: orientation === 'landscape' ? box[0] : box[0],
-                left: orientation === 'landscape' ? box[3] : box[3],
-                right: orientation === 'landscape' ? box[3] : box[3],
-                bottom: orientation === 'landscape' ? box[3] : box[3],
-                height: box[2] - box[0],
-                width: box[1] - box[3],
-                borderWidth: 5,
-                borderColor:
-                  processedFrame.conditions[index] === 'none' ? 'green' : 'red',
-              }}>
-              <Text
+            <>
+              <View
                 style={{
-                  color:
-                    processedFrame.conditions[index] === 'none'
-                      ? 'green'
-                      : 'red',
-                  fontSize: 16,
+                  ...StyleSheet.absoluteFillObject,
+                  flex: 1,
+                  flexDirection: 'column',
+                  position: 'absolute',
+                  height: box[2] - box[0] + 40,
+                  width: box[1] - box[3],
                 }}>
-                {processedFrame.names[index]}
-              </Text>
-            </View>
+                <Text
+                  style={{
+                    color:
+                      processedFrame.conditions[index] === 'none'
+                        ? 'green'
+                        : 'red',
+                    fontSize: 16,
+                    top:
+                      orientation === 'landscape' ? box[0] * 0.9 : box[0] * 1.2,
+                    left:
+                      orientation === 'landscape'
+                        ? box[3] * 1.55
+                        : box[3] * 0.7,
+                  }}>
+                  {processedFrame.names[index]}
+                </Text>
+
+                <View
+                  key={index}
+                  style={{
+                    top:
+                      orientation === 'landscape' ? box[0] * 0.9 : box[0] * 1.2,
+
+                    left:
+                      orientation === 'landscape'
+                        ? box[3] * 1.55
+                        : box[3] * 0.7,
+
+                    borderWidth: 5,
+                    borderColor:
+                      processedFrame.conditions[index] === 'none'
+                        ? 'green'
+                        : 'red',
+                    height: box[2] - box[0],
+                    width: box[1] - box[3],
+                  }}></View>
+              </View>
+            </>
           ))}
-        </View>
+        </>
       )}
       <TouchableOpacity style={styles.recordButton} onPress={handleRecordNames}>
         <Text style={styles.buttonText}>Record Names</Text>

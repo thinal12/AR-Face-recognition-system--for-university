@@ -47,8 +47,12 @@ const CameraComponent = () => {
   const [orientation, setOrientation] = useState('portrait');
   let processing = 'false';
 
+  const backHandlerSubscription = useRef(null);
+  const dimensionsSubscription = useRef(null);
+
   const handleBackPress = async () => {
     Orientation.lockToPortrait();
+    dimensionsSubscription.current && dimensionsSubscription.current.remove();
     const value = await AsyncStorage.getItem('previousTab');
     await AsyncStorage.setItem('activeTab', value);
     navigation.goBack();
@@ -57,9 +61,13 @@ const CameraComponent = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      backHandlerSubscription.current = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackPress,
+      );
       return () => {
-        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+        backHandlerSubscription.current &&
+          backHandlerSubscription.current.remove();
       };
     }, []),
   );
@@ -70,10 +78,12 @@ const CameraComponent = () => {
       const {width, height} = Dimensions.get('window');
       setOrientation(width > height ? 'landscape' : 'portrait');
     };
-
-    Dimensions.addEventListener('change', getOrientation);
+    dimensionsSubscription.current = Dimensions.addEventListener(
+      'change',
+      getOrientation,
+    );
     return () => {
-      Dimensions.removeEventListener('change', getOrientation);
+      dimensionsSubscription.current && dimensionsSubscription.current.remove();
     };
   }, []);
 

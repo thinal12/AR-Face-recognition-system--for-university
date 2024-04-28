@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {serverAddress} from '../other/config';
 import Header from './Header';
+import Orientation from 'react-native-orientation-locker';
 
 function ModuleCard({module}) {
   const navigation = useNavigation();
@@ -46,6 +47,7 @@ function Home() {
   useFocusEffect(
     React.useCallback(() => {
       const handleBackPress = async () => {
+        Orientation.lockToPortrait();
         const value = await AsyncStorage.getItem('activeTab');
         console.log('Active tab now:', value);
         if (value === 'Home') {

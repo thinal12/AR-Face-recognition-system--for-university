@@ -20,7 +20,7 @@ import Header from '../Lecturer/Header';
 const StudentSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [isBottomNavVisible, setIsBottomNavVisible] = useState(true); // State for bottom navigation visibility
+  const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -45,11 +45,15 @@ const StudentSearch = () => {
 
   const handleBackPress = async () => {
     const value = await AsyncStorage.getItem('previousTab');
-    await AsyncStorage.setItem('activeTab', value);
-    console.log('Active tab now:', value);
-    await AsyncStorage.removeItem('moduleCode');
-    navigation.navigate(value);
-    return true;
+    if (value === 'StudentSearch') {
+      await AsyncStorage.setItem('activeTab', 'Home');
+      navigation.navigate('Home');
+      return true;
+    } else {
+      await AsyncStorage.setItem('activeTab', value);
+      navigation.navigate(value);
+      return true;
+    }
   };
 
   useFocusEffect(

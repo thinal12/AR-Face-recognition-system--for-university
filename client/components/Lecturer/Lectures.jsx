@@ -39,7 +39,7 @@ function Lectures() {
 
   useEffect(() => {
     callFetchModules();
-  }, []);
+  }, [navigation]);
 
   const callFetchModules = async () => {
     const module = await AsyncStorage.getItem('moduleCode');

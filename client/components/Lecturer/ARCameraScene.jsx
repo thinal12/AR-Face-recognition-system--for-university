@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet, BackHandler} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, BackHandler, Dimensions} from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {
   ViroARScene,
@@ -10,6 +10,7 @@ import {
   ViroImage,
 } from '@viro-community/react-viro';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Orientation from 'react-native-orientation-locker';
 
 ViroMaterials.createMaterials({
   profile: {
@@ -60,25 +61,45 @@ const ARCameraScene = ({route}) => {
   const conditions = route.params.conditions;
   const issues = route.params.issues;
   const navigation = useNavigation();
+  const [orientation, setOrientation] = useState('portrait');
+
+  const backHandlerSubscription = useRef(null);
+  const dimensionsSubscription = useRef(null);
 
   const handleBackPress = async () => {
-    const value = await AsyncStorage.getItem('previousTab');
-    await AsyncStorage.setItem('activeTab', value);
-    navigation.navigate(value);
+    dimensionsSubscription.current && dimensionsSubscription.current.remove();
+    Orientation.lockToPortrait();
+    navigation.goBack();
     return true;
   };
 
   useFocusEffect(
     React.useCallback(() => {
-      const backHandler = BackHandler.addEventListener(
+      backHandlerSubscription.current = BackHandler.addEventListener(
         'hardwareBackPress',
         handleBackPress,
       );
       return () => {
-        backHandler.remove();
+        backHandlerSubscription.current &&
+          backHandlerSubscription.current.remove();
       };
     }, []),
   );
+
+  useEffect(() => {
+    Orientation.unlockAllOrientations();
+    const getOrientation = () => {
+      const {width, height} = Dimensions.get('window');
+      setOrientation(width > height ? 'landscape' : 'portrait');
+    };
+    dimensionsSubscription.current = Dimensions.addEventListener(
+      'change',
+      getOrientation,
+    );
+    return () => {
+      dimensionsSubscription.current && dimensionsSubscription.current.remove();
+    };
+  }, []);
 
   return (
     <ViroARSceneNavigator
