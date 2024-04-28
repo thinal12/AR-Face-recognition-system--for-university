@@ -1,9 +1,10 @@
+numpy==1.26.3
+imutils==0.5.4
+pillow==10.2.0
+cmake==3.29.2
 dnspython==2.6.1
-face-recognition==1.3.0
 Flask==3.0.1
 gunicorn==22.0.0
-imutils==0.5.4
-numpy==1.26.3
 opencv-python==4.9.0.80
-pillow==10.2.0
 pymongo==4.6.2
+face-recognition==1.3.0
