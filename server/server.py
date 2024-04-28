@@ -253,6 +253,7 @@ def add_student():
     training_data = data.get('trainingData')
     disciplinary_issues = data.get('disciplinaryIssues')
     existing_conditions = data.get('existingConditions')
+    gpa = float(data.get('gpa'))
     student_id = int(data.get('studentId'))
 
     new_folder_path = os.path.join(datasetP, student_name)
@@ -297,6 +298,7 @@ def add_student():
                 'name': student_name,
                 'disciplinary_issues': disciplinary_issues,
                 'existing_conditions': existing_conditions,
+                'gpa': gpa
             }
     
     collection2.insert_one(record)
