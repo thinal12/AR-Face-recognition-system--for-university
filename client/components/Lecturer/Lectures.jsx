@@ -18,7 +18,13 @@ function LecturesCard({lecture, onPress}) {
   return (
     <TouchableOpacity style={styles.card}>
       <Text style={styles.cardText}>{lecture.title}</Text>
-      <TouchableOpacity style={styles.markAttendanceButton}>
+      <TouchableOpacity
+        style={[
+          styles.markAttendanceButton,
+          lecture.attendance_status === 'Confirmed'
+            ? styles.editAttendanceButton
+            : styles.markAttendanceButton,
+        ]}>
         <Text
           style={styles.markAttendanceText}
           onPress={() =>
@@ -86,7 +92,7 @@ function Lectures() {
   };
   const handleModulePress = async (lectureId, attendance_status) => {
     if (attendance_status === 'Confirmed') {
-      await AsyncStorage.setItem('activeTab', 'EditAttendanc');
+      await AsyncStorage.setItem('activeTab', 'EditAttendance');
       navigation.navigate('EditAttendance', {lecture_id: lectureId});
     } else {
       navigation.navigate('AttendanceRecord', {lecture_id: lectureId});
@@ -130,6 +136,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    paddingBottom: 70,
   },
   backgroundImage: {
     flex: 1,
@@ -172,6 +179,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     backgroundColor: 'blue',
     borderRadius: 5,
+  },
+  markAttendanceButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  editAttendanceButton: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
   },
   markAttendanceText: {
     color: 'white',

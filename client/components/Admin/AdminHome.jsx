@@ -7,6 +7,7 @@ import {
   Alert,
   Dimensions,
   ImageBackground,
+  Button,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Lecturer/Header';
@@ -50,27 +51,33 @@ const AdminHome = ({navigation}) => {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background.jpg')}
+        source={require('../images/Background10.jpg')}
         style={styles.backgroundImage}>
         <View style={styles.pageContainer}>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleCreateLecturer}>
-              <Text style={styles.buttonText}>Create Lecturer</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleCreateModule}>
-              <Text style={styles.buttonText}>Create Module</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleAddStudent}>
-              <Text style={styles.buttonText}>Add Student</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <Button
+                title="Create Lecturer"
+                onPress={handleCreateLecturer}
+                style={styles.button}
+              />
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <Button
+                title="Create Module"
+                onPress={handleCreateModule}
+                style={styles.button}
+              />
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <Button
+                title="Add Student"
+                onPress={handleAddStudent}
+                style={styles.button}
+              />
+            </View>
           </View>
         </View>
       </ImageBackground>
@@ -90,16 +97,14 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: 20,
-  },
-  button: {
-    backgroundColor: '#119DA4',
     width: 150,
     height: 50,
+  },
+  button: {
+    width: 200,
+    height: 50,
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   buttonText: {
     color: '#D7D9CE',

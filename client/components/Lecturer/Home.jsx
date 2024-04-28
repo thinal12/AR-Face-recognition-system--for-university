@@ -7,6 +7,7 @@ import {
   BackHandler,
   Alert,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import BottomTabNavigator from './BottomTabNavigator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -109,16 +110,18 @@ function Home() {
       <ImageBackground
         source={require('../images/Background10.jpg')}
         style={styles.backgroundImage}>
-        <View style={styles.container}>
-          <View style={styles.headingContainer}>
-            <Text style={styles.heading}>Modules</Text>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.container}>
+            <View style={styles.headingContainer}>
+              <Text style={styles.heading}>Modules</Text>
+            </View>
+            <View style={styles.module}>
+              {modules.map((module, index) => (
+                <ModuleCard key={index} module={module} />
+              ))}
+            </View>
           </View>
-          <View style={styles.module}>
-            {modules.map((module, index) => (
-              <ModuleCard key={index} module={module} />
-            ))}
-          </View>
-        </View>
+        </ScrollView>
       </ImageBackground>
       <BottomTabNavigator />
     </>
@@ -133,6 +136,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    paddingBottom: 70,
   },
 
   headingContainer: {
