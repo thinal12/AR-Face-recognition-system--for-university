@@ -2,7 +2,7 @@ numpy==1.26.3
 imutils==0.5.4
 pillow==10.2.0
 cmake==3.29.2
-dlib-19.24.2-cp310-cp310-win_amd64.whl
+dlib-19.24.2-cp311-cp311-win_amd64.whl
 dnspython==2.6.1
 Flask==3.0.1
 gunicorn==22.0.0
