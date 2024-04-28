@@ -80,7 +80,7 @@ const CameraComponent = () => {
   const processFrame = async () => {
     if (processing === 'false' && cameraRef.current) {
       processing = 'true';
-
+      console.log(processing);
       const options = {quality: 1, base64: true};
       const data = await cameraRef.current.takePictureAsync(options);
       const base64Frame = data.base64;
@@ -124,6 +124,7 @@ const CameraComponent = () => {
       }
     }
     processing = 'false';
+    console.log(processing);
   };
 
   useEffect(() => {
@@ -139,38 +140,6 @@ const CameraComponent = () => {
   const handleButtonPress = (id, name, conditions, issues) => {
     navigation.navigate('ARCamera', {id, name, conditions, issues});
   };
-  const renderButtons = () => {
-    if (!processedFrame) return null;
-
-    return processedFrame.boxes.map((box, index) => {
-      const buttonPosition = {
-        position: 'absolute',
-        top: orientation === 'landscape' ? box[2] * 0.8 : box[2] * 1.2,
-        left:
-          orientation === 'landscape'
-            ? box[1] * 1.55 + (box[1] - box[3]) / 6
-            : box[1] * 0.6 + (box[1] - box[3]) / 6,
-        height: 20,
-        width: 80,
-      };
-
-      return (
-        <TouchableOpacity
-          key={index}
-          style={[styles.button, buttonPosition]}
-          onPress={() =>
-            handleButtonPress(
-              processedFrame.ids[index],
-              processedFrame.names[index],
-              processedFrame.conditions[index],
-              processedFrame.issues[index],
-            )
-          }>
-          <Text style={styles.buttonText}>View Profile</Text>
-        </TouchableOpacity>
-      );
-    });
-  };
 
   return (
     <ErrorBoundary>
@@ -185,48 +154,88 @@ const CameraComponent = () => {
         />
 
         {processedFrame && (
-          <View style={styles.overlay}>
+          <>
             {processedFrame.boxes.map((box, index) => (
               <>
-                <Text
-                  style={{
-                    color:
-                      processedFrame.conditions[index] === 'none'
-                        ? 'green'
-                        : 'red',
-                    fontSize: 16,
-                    top:
-                      orientation === 'landscape' ? box[0] * 0.9 : box[0] * 1.2,
-                    left:
-                      orientation === 'landscape'
-                        ? box[3] * 1.55
-                        : box[3] * 0.6,
-                  }}>
-                  {processedFrame.names[index]}
-                </Text>
-
                 <View
-                  key={index}
                   style={{
-                    position: 'static',
-                    top:
-                      orientation === 'landscape' ? box[0] * 0.8 : box[0] * 1.2,
-                    left:
-                      orientation === 'landscape'
-                        ? box[3] * 1.55
-                        : box[3] * 0.6,
-                    height: box[2] - box[0],
+                    ...StyleSheet.absoluteFillObject,
+                    flex: 1,
+                    flexDirection: 'column',
+                    position: 'absolute',
+                    height: box[2] - box[0] + 40,
                     width: box[1] - box[3],
-                    borderWidth: 5,
-                    borderColor:
-                      processedFrame.conditions[index] === 'none'
-                        ? 'green'
-                        : 'red',
-                  }}></View>
-                {renderButtons()}
+                  }}>
+                  <Text
+                    style={{
+                      color:
+                        processedFrame.conditions[index] === 'none'
+                          ? 'green'
+                          : 'red',
+                      fontSize: 16,
+                      top:
+                        orientation === 'landscape'
+                          ? box[0] * 0.9
+                          : box[0] * 1.2,
+                      left:
+                        orientation === 'landscape'
+                          ? box[3] * 1.55
+                          : box[3] * 0.7,
+                    }}>
+                    {processedFrame.names[index]}
+                  </Text>
+
+                  <View
+                    key={index}
+                    style={{
+                      top:
+                        orientation === 'landscape'
+                          ? box[0] * 0.9
+                          : box[0] * 1.2,
+
+                      left:
+                        orientation === 'landscape'
+                          ? box[3] * 1.55
+                          : box[3] * 0.7,
+
+                      borderWidth: 5,
+                      borderColor:
+                        processedFrame.conditions[index] === 'none'
+                          ? 'green'
+                          : 'red',
+                      height: box[2] - box[0],
+                      width: box[1] - box[3],
+                    }}></View>
+
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: 'blue',
+                      borderRadius: 5,
+                      justifyContent: 'center',
+
+                      top:
+                        orientation === 'landscape'
+                          ? box[0] * 0.9
+                          : box[0] * 1.2,
+                      left:
+                        orientation === 'landscape'
+                          ? box[3] * 1.55
+                          : box[3] * 0.7,
+                    }}
+                    onPress={() =>
+                      handleButtonPress(
+                        processedFrame.ids[index],
+                        processedFrame.names[index],
+                        processedFrame.conditions[index],
+                        processedFrame.issues[index],
+                      )
+                    }>
+                    <Text style={styles.buttonText}>View Profile</Text>
+                  </TouchableOpacity>
+                </View>
               </>
             ))}
-          </View>
+          </>
         )}
       </View>
     </ErrorBoundary>
@@ -242,10 +251,13 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
+    flex: 1,
+    flexDirection: 'column',
   },
   button: {
     backgroundColor: 'blue',
     borderRadius: 5,
+    justifyContent: 'center',
   },
   buttonText: {
     color: 'white',
