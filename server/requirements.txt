@@ -1,6 +1,9 @@
+boost==0.1
 numpy==1.26.3
 imutils==0.5.4
 pillow==10.2.0
+cmake==3.29.2
+boost-py==0.0.2
 dlib==19.22.1
 face-recognition==1.3.0
 face-recognition-models==0.3.0

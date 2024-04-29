@@ -254,7 +254,6 @@ const AddStudent = ({navigation}) => {
   );
 };
 
-// Define styles
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
