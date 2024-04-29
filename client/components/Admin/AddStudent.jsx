@@ -9,6 +9,8 @@ import {
   ImageBackground,
   ScrollView,
   Alert,
+  ActivityIndicator,
+  Modal,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useFocusEffect} from '@react-navigation/native';
@@ -22,12 +24,14 @@ const AddStudent = ({navigation}) => {
   const [existingConditions, setExistingConditions] = useState('');
   const [profilePic, setProfilePic] = useState(null);
   const [trainingData, setTrainingData] = useState([]);
-  const [gpa, setGPA] = useState(''); // New state for GPA
+  const [gpa, setGPA] = useState('');
   const [isCameraVisible, setCamera] = useState(false);
   const [isProfilePicMode, setProfilePicMode] = useState(false);
   const [isTrainingPicMode, setTrainingPicMode] = useState(false);
   const [isProfilePicTaken, setProfilePicTaken] = useState(false);
   const [isTrainingPicTaken, setTrainingPicTaken] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const cameraRef = useRef(null);
 
   const handleBackPress = async () => {
@@ -44,30 +48,58 @@ const AddStudent = ({navigation}) => {
     }, []),
   );
 
-  const handleAddStudent = () => {
-    const data = {
-      studentId,
-      name,
-      disciplinaryIssues,
-      existingConditions,
-      profilePic,
-      trainingData,
-      gpa,
-    };
-    fetch(serverAddress + '/add_student', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    }).catch(error => {
+  const handleAddStudent = async () => {
+    if (!studentId || !name || !gpa || !profilePic || !trainingData.length) {
+      Alert.alert('Error', 'Please fill in all required fields');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      setLoadingMessage('Adding student...');
+
+      const data = {
+        studentId,
+        name,
+        disciplinaryIssues,
+        existingConditions,
+        profilePic,
+        trainingData,
+        gpa,
+      };
+
+      const response = await fetch(serverAddress + '/add_student', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add student');
+      }
+
+      setStudentId('');
+      setName('');
+      setDisciplinaryIssues('');
+      setExistingConditions('');
+      setProfilePic(null);
+      setTrainingData([]);
+      setGPA('');
+      setProfilePicTaken(false);
+      setTrainingPicTaken(false);
+
+      Alert.alert('Success', 'Student added successfully');
+    } catch (error) {
       console.error('Error adding student:', error);
       Alert.alert('Error', 'Failed to add student');
-    });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleShowCamera = (isProfile, isCamera) => {
-    console.log('Showing camera:', isProfile, isCamera);
     if (isProfile) {
       setProfilePicMode(true);
       setTrainingPicMode(false);
@@ -99,6 +131,21 @@ const AddStudent = ({navigation}) => {
 
   return (
     <>
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={isLoading}
+        onRequestClose={() => {
+          setIsLoading(false);
+        }}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <ActivityIndicator size="large" color="#0000ff" />
+            <Text style={styles.loadingText}> Loading training data</Text>
+          </View>
+        </View>
+      </Modal>
+
       {isCameraVisible && (
         <>
           <RNCamera
@@ -191,8 +238,8 @@ const AddStudent = ({navigation}) => {
                       isTrainingPicTaken ? styles.greenText : styles.whiteText,
                     ]}>
                     {isTrainingPicTaken
-                      ? '* Profile Picture Taken'
-                      : '* Profile Required'}
+                      ? '* Training Picture Taken'
+                      : '* Training Required'}
                   </Text>
                   <View style={styles.buttonContainer}>
                     <Button title="Add Student" onPress={handleAddStudent} />
@@ -207,16 +254,15 @@ const AddStudent = ({navigation}) => {
   );
 };
 
+// Define styles
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover',
   },
-
   buttonContainer: {
     marginBottom: 10,
   },
-
   scrollContainer: {
     flexGrow: 1,
   },
@@ -257,7 +303,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginBottom: 10,
   },
-
   PicText: {
     fontSize: 12,
     color: 'green',
@@ -268,6 +313,22 @@ const styles = StyleSheet.create({
   },
   whiteText: {
     color: 'white',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    flexDirection: 'row',
+    backgroundColor: 'black',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 16,
   },
 });
 

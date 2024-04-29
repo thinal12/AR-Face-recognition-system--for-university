@@ -15,6 +15,8 @@ import Orientation from 'react-native-orientation-locker';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -22,6 +24,21 @@ const Login = () => {
   }, []);
 
   const handleLogin = async () => {
+    // Input validation
+    if (!username || !password) {
+      if (!username) {
+        setUsernameError('*Please enter your username');
+      } else {
+        setUsernameError('');
+      }
+      if (!password) {
+        setPasswordError('*Please enter your password');
+      } else {
+        setPasswordError('');
+      }
+      return;
+    }
+
     try {
       const response = await fetch(serverAddress + '/login', {
         method: 'POST',
@@ -43,7 +60,12 @@ const Login = () => {
           navigation.navigate('Home');
         }
       } else {
-        throw new Error('Login failed');
+        const errorData = await response.json();
+        if (errorData && errorData.error === 'IncorrectPassword') {
+          setPasswordError('Incorrect password or username');
+        } else {
+          setPasswordError('*Incorrect password or username');
+        }
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -62,21 +84,29 @@ const Login = () => {
             <TextInput
               style={styles.input}
               placeholder="Enter your username"
-              onChangeText={text => setUsername(text)}
+              onChangeText={text => {
+                setUsername(text);
+                setUsernameError('');
+              }}
               value={username}
             />
+            <Text style={styles.errorText}>{usernameError}</Text>
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Password</Text>
             <TextInput
               style={styles.input}
               placeholder="Enter your password"
-              onChangeText={text => setPassword(text)}
+              onChangeText={text => {
+                setPassword(text);
+                setPasswordError('');
+              }}
               value={password}
               secureTextEntry={true}
             />
+            <Text style={styles.errorText}>{passwordError}</Text>
           </View>
-          <View style={styles}>
+          <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
               <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
@@ -109,7 +139,7 @@ const styles = StyleSheet.create({
     color: '#D7D9CE',
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   label: {
     marginBottom: 5,
@@ -120,6 +150,7 @@ const styles = StyleSheet.create({
     maxWidth: 165,
     height: 40,
     borderColor: '#D7D9CE',
+    backgroundColor: 'black',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
@@ -141,6 +172,11 @@ const styles = StyleSheet.create({
     color: '#D7D9CE',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  errorText: {
+    color: 'red',
+
+    fontSize: 10,
   },
 });
 

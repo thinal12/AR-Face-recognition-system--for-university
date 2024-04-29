@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   header: {
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: '#14151a',
+    backgroundColor: 'black',
     paddingVertical: 20,
     alignItems: 'center',
     justifyContent: 'space-between',
