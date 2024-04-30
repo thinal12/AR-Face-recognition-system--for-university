@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   heading: {
-    color: 'white',
+    color: 'black',
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,

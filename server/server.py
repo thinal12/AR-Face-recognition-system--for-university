@@ -15,7 +15,16 @@ from imutils import paths
 
 app = Flask(__name__)
 
-client = MongoClient("mongodb+srv://thinalpethiyagoda:321t071np@universitysystem.009rjim.mongodb.net/")
+username = "thinalpethiyagoda"
+password = "321t071np"
+dbname = "universitysystem"
+cluster = "universitysystem.009rjim.mongodb.net"
+
+connection_string = "mongodb+srv://thinalpethiyagoda:321t071np@universitysystem.009rjim.mongodb.net/"
+
+
+
+client = MongoClient(connection_string)
 db = client["universitysystem"]
 collection = db["lecturers"]
 collection2 = db["students"]
@@ -393,4 +402,4 @@ def receive_frame():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=os.environ.get('PORT', 3000), debug=True)
+    app.run(host='192.168.94.30', port=3000, debug=True)

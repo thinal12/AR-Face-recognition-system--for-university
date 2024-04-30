@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {StyleSheet, BackHandler, Dimensions} from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {
@@ -69,7 +69,7 @@ const ARCameraScene = ({route}) => {
   const handleBackPress = async () => {
     dimensionsSubscription.current && dimensionsSubscription.current.remove();
     Orientation.lockToPortrait();
-    navigation.goBack();
+    navigation.navigate('Home');
     return true;
   };
 

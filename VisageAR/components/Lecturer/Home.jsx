@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   heading: {
-    color: 'white',
+    color: 'black',
     fontSize: 25,
     fontWeight: 'bold',
     marginBottom: 10,
