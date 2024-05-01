@@ -6,6 +6,7 @@ import {
   StyleSheet,
   BackHandler,
   Dimensions,
+  ScrollView,
   ImageBackground,
 } from 'react-native';
 import {serverAddress} from '../other/config';
@@ -109,41 +110,46 @@ const StudentProfile = ({route}) => {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background.jpg')}
+        source={require('../images/profileBackground2.jpg')}
         style={styles.backgroundImage}>
-        <View style={styles.container}>
-          <View style={styles.profileContainer}>
-            <View style={styles.profileDetails}>
-              {profilePic && (
-                <View style={styles.profilePicContainer}>
-                  <Image source={{uri: profilePic}} style={styles.profilePic} />
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.container}>
+            <View style={styles.profileContainer}>
+              <View style={styles.profileDetails}>
+                {profilePic && (
+                  <View style={styles.profilePicContainer}>
+                    <Image
+                      source={{uri: profilePic}}
+                      style={styles.profilePic}
+                    />
+                  </View>
+                )}
+                <View style={styles.profileNameContainer}>
+                  <Text style={styles.profileName}>{student.name}</Text>
                 </View>
-              )}
-              <View style={styles.profileNameContainer}>
-                <Text style={styles.profileName}>{student.name}</Text>
+                <Text style={styles.profileText}>
+                  Student ID: {student.student_id}
+                </Text>
+                <Text style={styles.profileText}>
+                  Disciplinary Issues: {disciplinaryIssues}
+                </Text>
+                <Text style={styles.profileText}>
+                  Existing Conditions: {existingConditions}
+                </Text>
+                <Text style={styles.profileText}>GPA: {gpa}</Text>
               </View>
-              <Text style={styles.profileText}>
-                Student ID: {student.student_id}
-              </Text>
-              <Text style={styles.profileText}>
-                Disciplinary Issues: {disciplinaryIssues}
-              </Text>
-              <Text style={styles.profileText}>
-                Existing Conditions: {existingConditions}
-              </Text>
-              <Text style={styles.profileText}>GPA: {gpa}</Text>
+            </View>
+            <Text style={styles.profileText}>Module Attendance:</Text>
+            <View key={module.module_code} style={styles.moduleContainer}>
+              {moduleData.map((module, index) => (
+                <View key={module.module_code}>
+                  <Text style={styles.profileText}>{module.module_name}</Text>
+                  <ProgressBar percentage={module.attendance_percentage} />
+                </View>
+              ))}
             </View>
           </View>
-          <Text style={styles.profileText}>Module Attendance:</Text>
-          <View key={module.module_code} style={styles.moduleContainer}>
-            {moduleData.map((module, index) => (
-              <View key={module.module_code}>
-                <Text style={styles.profileText}>{module.module_name}</Text>
-                <ProgressBar percentage={module.attendance_percentage} />
-              </View>
-            ))}
-          </View>
-        </View>
+        </ScrollView>
       </ImageBackground>
       <BottomTabNavigator />
     </>

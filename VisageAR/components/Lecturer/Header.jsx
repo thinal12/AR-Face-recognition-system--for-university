@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Header = () => {
   const navigation = useNavigation();
+
   const handleHelpPress = async () => {
     await AsyncStorage.setItem('activeTab', 'Help');
     navigation.navigate('Help');
@@ -16,7 +17,14 @@ const Header = () => {
 
   return (
     <View style={styles.header}>
-      <Text style={styles.headerText}>VisageAR</Text>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require('../images/logo8.jpg')}
+          style={styles.logo}
+          resizeMode="cover"
+        />
+        <Text style={styles.headerText}>VisageAR</Text>
+      </View>
       <View style={styles.iconsContainer}>
         <TouchableOpacity onPress={handleHelpPress}>
           <Text style={{color: 'white'}}>Help</Text>
@@ -39,6 +47,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+    borderRadius: 50,
+  },
   headerText: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -46,6 +64,11 @@ const styles = StyleSheet.create({
   },
   iconsContainer: {
     flexDirection: 'row',
+  },
+  icon: {
+    color: 'white',
+    fontSize: 20,
+    marginLeft: 10,
   },
 });
 

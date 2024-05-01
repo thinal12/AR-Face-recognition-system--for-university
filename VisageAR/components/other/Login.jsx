@@ -7,6 +7,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   ImageBackground,
+  Image,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -74,12 +75,20 @@ const Login = () => {
 
   return (
     <ImageBackground
-      source={require('../images/LoginBackground.jpg')}
+      source={require('../images/LoginBackground5.jpg')}
       style={styles.backgroundImage}>
       <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
         <View style={styles.pageContainer}>
-          <Text style={styles.title}>VisageAR</Text>
           <View style={styles.loginContainer}>
+            <View style={styles.logoContainer}>
+              <Image
+                source={require('../images/logo8.jpg')}
+                style={styles.logo}
+                resizeMode="cover"
+              />
+              <Text style={styles.title}>VisageAR</Text>
+            </View>
+
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Username</Text>
               <TextInput
@@ -133,6 +142,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#14151a',
     padding: 20,
     borderRadius: 10,
+  },
+  logoContainer: {
+    flexDirection: '',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
   },
   title: {
     fontSize: 24,
