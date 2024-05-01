@@ -5,9 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BottomTabBar = () => {
   const navigation = useNavigation();
-  const [home, setHome] = useState(require('../images/Home.png'));
-  const [search, setSearch] = useState(require('../images/Search.png'));
-  const [ar, setAR] = useState(require('../images/AR.png'));
+  const [home, setHome] = useState(require('../images/Home2.png'));
+  const [search, setSearch] = useState(require('../images/Search2.png'));
+  const [ar, setAR] = useState(require('../images/AR2.png'));
 
   const handleTabPress = async tabName => {
     const value = await AsyncStorage.getItem('activeTab');
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#14151a',
+    backgroundColor: 'black',
     height: 75,
     width: '100%',
   },

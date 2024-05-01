@@ -73,7 +73,6 @@ const EditAttendance = () => {
               style={styles.input}
               value={student}
               onChangeText={setStudent}
-              placeholder="Enter attendance"
             />
             <Button title="Confirm" onPress={handleConfirm} />
           </View>
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   title: {
-    color: 'white',
+    color: 'black',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,

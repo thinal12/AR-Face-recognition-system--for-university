@@ -20,11 +20,11 @@ import {serverAddress} from '../other/config';
 const AddStudent = ({navigation}) => {
   const [studentId, setStudentId] = useState('');
   const [name, setName] = useState('');
-  const [disciplinaryIssues, setDisciplinaryIssues] = useState('');
-  const [existingConditions, setExistingConditions] = useState('');
+  const [disciplinaryIssues, setDisciplinaryIssues] = useState('None');
+  const [existingConditions, setExistingConditions] = useState('None');
   const [profilePic, setProfilePic] = useState(null);
   const [trainingData, setTrainingData] = useState([]);
-  const [gpa, setGPA] = useState('');
+  const [gpa, setGPA] = useState('0.0');
   const [isCameraVisible, setCamera] = useState(false);
   const [isProfilePicMode, setProfilePicMode] = useState(false);
   const [isTrainingPicMode, setTrainingPicMode] = useState(false);
@@ -169,7 +169,7 @@ const AddStudent = ({navigation}) => {
           <Header />
           <ScrollView contentContainerStyle={styles.scrollContainer}>
             <ImageBackground
-              source={require('../images/Background.jpg')}
+              source={require('../images/Background3.jpg')}
               style={styles.backgroundImage}>
               <View style={styles.container}>
                 <View style={styles.form}>

@@ -68,7 +68,7 @@ const CreateLecturer = ({navigation}) => {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background.jpg')}
+        source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>
         <View style={styles.pageContainer}>
           <View style={styles.formContainer}>

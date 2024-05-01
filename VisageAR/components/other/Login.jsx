@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
   ImageBackground,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -24,7 +25,6 @@ const Login = () => {
   }, []);
 
   const handleLogin = async () => {
-    // Input validation
     if (!username || !password) {
       if (!username) {
         setUsernameError('*Please enter your username');
@@ -76,43 +76,45 @@ const Login = () => {
     <ImageBackground
       source={require('../images/LoginBackground.jpg')}
       style={styles.backgroundImage}>
-      <View style={styles.pageContainer}>
-        <Text style={styles.title}>VisageAR</Text>
-        <View style={styles.loginContainer}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Username</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your username"
-              onChangeText={text => {
-                setUsername(text);
-                setUsernameError('');
-              }}
-              value={username}
-            />
-            <Text style={styles.errorText}>{usernameError}</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your password"
-              onChangeText={text => {
-                setPassword(text);
-                setPasswordError('');
-              }}
-              value={password}
-              secureTextEntry={true}
-            />
-            <Text style={styles.errorText}>{passwordError}</Text>
-          </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
+      <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
+        <View style={styles.pageContainer}>
+          <Text style={styles.title}>VisageAR</Text>
+          <View style={styles.loginContainer}>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Username</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your username"
+                onChangeText={text => {
+                  setUsername(text);
+                  setUsernameError('');
+                }}
+                value={username}
+              />
+              <Text style={styles.errorText}>{usernameError}</Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Password</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your password"
+                onChangeText={text => {
+                  setPassword(text);
+                  setPasswordError('');
+                }}
+                value={password}
+                secureTextEntry={true}
+              />
+              <Text style={styles.errorText}>{passwordError}</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 };
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#D7D9CE',
+    color: 'white',
   },
   inputContainer: {
     marginBottom: 10,
@@ -149,7 +151,7 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 165,
     height: 40,
-    borderColor: '#D7D9CE',
+    borderColor: 'gray',
     backgroundColor: 'black',
     borderWidth: 1,
     borderRadius: 5,

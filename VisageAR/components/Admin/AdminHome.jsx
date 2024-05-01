@@ -51,10 +51,17 @@ const AdminHome = ({navigation}) => {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background10.jpg')}
+        source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>
         <View style={styles.pageContainer}>
-          <Text style={styles.title}>Admin Home</Text>
+          <View
+            styles={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={styles.title}>Admin Home</Text>
+          </View>
           <View style={styles.buttonContainer}>
             <View style={styles.buttonContainer}>
               <Button
@@ -92,18 +99,19 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   pageContainer: {
-    flex: 1,
+    paddingTop: 100,
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   title: {
+    paddingBottom: 20,
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'white',
-    marginTop: 20,
+    color: 'black',
+    alignItems: 'center',
   },
   buttonContainer: {
-    justifyContent: 'center',
     marginBottom: 20,
     width: 150,
     height: 50,

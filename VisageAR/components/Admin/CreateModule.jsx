@@ -70,7 +70,7 @@ const CreateModule = ({navigation}) => {
   return (
     <>
       <ImageBackground
-        source={require('../images/Background.jpg')}
+        source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>
         <Header />
         <View style={styles.pageContainer}>
