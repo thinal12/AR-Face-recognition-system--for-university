@@ -19,13 +19,19 @@ import Lectures from './components/Lecturer/Lectures';
 import AttendanceRecord from './components/Lecturer/AttendanceRecord';
 import AddStudent from './components/Admin/AddStudent';
 import Help from './components/Lecturer/Help';
+import ServerAddressInput from './components/other/SeverAddressInput';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="ServerAddressInput">
+        <Stack.Screen
+          name="ServerAddressInput"
+          component={ServerAddressInput}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Login"
           component={Login}

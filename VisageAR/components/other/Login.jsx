@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {serverAddress} from './config';
 import Orientation from 'react-native-orientation-locker';
 
 const Login = () => {
@@ -39,7 +38,7 @@ const Login = () => {
       }
       return;
     }
-
+    const serverAddress = await AsyncStorage.getItem('serverAddress');
     try {
       const response = await fetch(serverAddress + '/login', {
         method: 'POST',

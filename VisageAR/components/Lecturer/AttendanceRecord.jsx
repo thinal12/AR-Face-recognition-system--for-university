@@ -237,7 +237,6 @@ const AttendanceRecord = () => {
                 </Text>
 
                 <View
-                  key={index}
                   style={{
                     top:
                       orientation === 'landscape' ? box[0] * 0.9 : box[0] * 1.2,

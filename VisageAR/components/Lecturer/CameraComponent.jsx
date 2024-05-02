@@ -10,7 +10,7 @@ import {
 import {RNCamera} from 'react-native-camera';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {serverAddress} from '../other/config';
+
 import Orientation from 'react-native-orientation-locker';
 
 class ErrorBoundary extends React.Component {
@@ -97,6 +97,8 @@ const CameraComponent = () => {
 
       const maxWidth = data.width / 8;
       const maxHeight = data.height / 8;
+
+      const serverAddress = await AsyncStorage.getItem('serverAddress');
 
       try {
         const response = await fetch(serverAddress + '/process-frame', {
@@ -196,7 +198,6 @@ const CameraComponent = () => {
                   </Text>
 
                   <View
-                    key={index}
                     style={{
                       top:
                         orientation === 'landscape'
