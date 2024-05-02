@@ -196,8 +196,10 @@ def get_student_attendance():
             print(list(attendance_records))
             if attendance > 0:
                 total_attended += 1
-        
-        attendance_percentage = (total_attended / total_lectures) * 100
+        if total_lectures == 0:
+            attendance_percentage = 0;  
+        else:
+            attendance_percentage = (total_attended / total_lectures) * 100
         
         module['_id'] = str(module['_id'])  
         module_attendance.append(attendance_percentage)
