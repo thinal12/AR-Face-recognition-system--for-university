@@ -34,7 +34,7 @@ const CreateLecturer = ({navigation}) => {
     }, []),
   );
 
-  const handleCreateLecturer = () => {
+  const handleCreateLecturer = async () => {
     if (!name || !password) {
       setErrorMessage('Please fill in all fields');
       return;
@@ -44,6 +44,7 @@ const CreateLecturer = ({navigation}) => {
       name: name,
       password: password,
     };
+    const serverAddress = await AsyncStorage.getItem('serverAddress');
 
     fetch(serverAddress + '/create-lecturer', {
       method: 'POST',
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   formContainer: {
-    backgroundColor: '#13505B',
+    backgroundColor: '#14151a',
     padding: 20,
     borderRadius: 10,
   },

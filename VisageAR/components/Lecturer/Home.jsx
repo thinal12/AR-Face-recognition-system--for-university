@@ -84,6 +84,7 @@ function Home() {
   };
 
   const fetchModules = async lecturerId => {
+    const serverAddress = await AsyncStorage.getItem('serverAddress');
     try {
       const response = await fetch(serverAddress + '/modules', {
         method: 'POST',

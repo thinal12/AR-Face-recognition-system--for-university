@@ -69,6 +69,7 @@ const StudentProfile = ({route}) => {
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
+      const serverAddress = await AsyncStorage.getItem('serverAddress');
       try {
         const response = await fetch(serverAddress + '/get-studentattendance', {
           method: 'POST',

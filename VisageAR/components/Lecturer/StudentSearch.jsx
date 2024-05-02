@@ -65,9 +65,10 @@ const StudentSearch = () => {
     }, []),
   );
 
-  const handleSearch = query => {
+  const handleSearch = async query => {
     setSearchQuery(query);
     if (query.trim() !== '') {
+      const serverAddress = await AsyncStorage.getItem('serverAddress');
       fetch(serverAddress + '/search-students', {
         method: 'POST',
         headers: {

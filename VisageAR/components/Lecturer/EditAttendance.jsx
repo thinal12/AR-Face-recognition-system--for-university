@@ -36,7 +36,8 @@ const EditAttendance = () => {
     }, []),
   );
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    const serverAddress = await AsyncStorage.getItem('serverAddress');
     fetch(serverAddress + '/edit_attendance', {
       method: 'POST',
       headers: {

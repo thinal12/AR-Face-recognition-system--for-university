@@ -67,6 +67,7 @@ const AddStudent = ({navigation}) => {
         trainingData,
         gpa,
       };
+      const serverAddress = await AsyncStorage.getItem('serverAddress');
 
       const response = await fetch(serverAddress + '/add_student', {
         method: 'POST',

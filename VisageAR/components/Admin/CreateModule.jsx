@@ -36,7 +36,7 @@ const CreateModule = ({navigation}) => {
     }, []),
   );
 
-  const handleCreateModule = () => {
+  const handleCreateModule = async () => {
     if (!moduleCode || !moduleName || !lecturerId || !numberOfLectures) {
       setErrorMessage('Please fill in all fields');
       return;
@@ -48,6 +48,8 @@ const CreateModule = ({navigation}) => {
       lecturer_id: lecturerId,
       number_of_lectures: numberOfLectures,
     };
+
+    const serverAddress = await AsyncStorage.getItem('serverAddress');
 
     fetch(serverAddress + '/create-module', {
       method: 'POST',
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     position: 'relative',
-    backgroundColor: '#13505B',
+    backgroundColor: '#14151a',
     padding: 20,
     width: '70%',
     borderRadius: 10,
