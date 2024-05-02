@@ -16,7 +16,7 @@ import Header from './Header';
 
 function LecturesCard({lecture, onPress}) {
   return (
-    <TouchableOpacity style={styles.card}>
+    <View style={styles.card}>
       <Text style={styles.cardText}>{lecture.title}</Text>
       <TouchableOpacity
         style={[
@@ -35,7 +35,7 @@ function LecturesCard({lecture, onPress}) {
             : 'Mark Attendance'}
         </Text>
       </TouchableOpacity>
-    </TouchableOpacity>
+    </View>
   );
 }
 

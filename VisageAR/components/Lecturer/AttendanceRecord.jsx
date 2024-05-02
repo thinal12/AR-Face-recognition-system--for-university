@@ -16,7 +16,6 @@ import {
 import {serverAddress} from '../other/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Orientation from 'react-native-orientation-locker';
-import {get} from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -259,6 +258,13 @@ const AttendanceRecord = () => {
           ))}
         </>
       )}
+
+      <View style={styles.countContainer}>
+        <Text style={styles.countText}>
+          Students Recorded: {recordedNames.length}
+        </Text>
+      </View>
+
       <TouchableOpacity style={styles.recordButton} onPress={handleRecordNames}>
         <Text style={styles.buttonText}>Record Names</Text>
       </TouchableOpacity>
@@ -307,6 +313,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     marginTop: 20,
+  },
+  countContainer: {
+    position: 'absolute',
+    top: 20,
+    alignSelf: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 10,
+    borderRadius: 5,
+  },
+  countText: {
+    color: 'white',
+    fontSize: 14,
   },
 });
 
