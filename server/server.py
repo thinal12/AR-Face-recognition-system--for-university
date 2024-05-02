@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 import json
 from flask import Flask
+from bson import ObjectId
 import re
 from pymongo import MongoClient
 from imutils import paths
@@ -140,21 +141,23 @@ def login():
 
 
 
+
 @app.route('/search-students', methods=['POST'])
 def search_students():
     try:
         data = request.get_json()
         search_query = data.get('searchQuery')
-        print(search_query)
-        student_id_pattern = re.compile(f'^{re.escape(search_query)}$', re.IGNORECASE)
         
-        students = collection2.find({
-            "$or": [
-                {"name": {"$regex": search_query, "$options": "i"}},
-                {"student_id": student_id_pattern}
-            ]
-        })
-
+        # Check if the search query is a digit (student ID)
+        if search_query.isdigit():
+            students = collection2.find({"$or": [
+                {"student_id": int(search_query)},
+                {"name": {"$regex": search_query, "$options": "i"}}
+            ]})
+        else:
+            # Search by name
+            students = collection2.find({"name": {"$regex": search_query, "$options": "i"}})
+        
         search_results = []
         for student in students:
             student_info = {
@@ -164,10 +167,11 @@ def search_students():
                 'existing_conditions': student.get('existing_conditions')
             }
             search_results.append(student_info)
-
+        
         return jsonify(search_results), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
 
 
 

@@ -61,6 +61,7 @@ const AttendanceRecord = () => {
 
   const handleBackPress = async () => {
     Orientation.lockToPortrait();
+    recordedNames = [];
     dimensionsSubscription.current && dimensionsSubscription.current.remove();
     navigation.goBack();
     return true;
@@ -180,6 +181,7 @@ const AttendanceRecord = () => {
           recorded_names: recordedNames,
         }),
       });
+      recordedNames = [];
       await AsyncStorage.setItem('activeTab', 'Lectures');
       dimensionsSubscription.current && dimensionsSubscription.current.remove();
       navigation.navigate('Lectures');
