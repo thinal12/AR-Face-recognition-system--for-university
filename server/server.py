@@ -47,6 +47,10 @@ with open(encodingsP, "r") as file:
     data = json.load(file)
 detector = cv2.CascadeClassifier(cascade)
 
+@app.route('/')
+def index():
+    return 'Welcome to my Flask app!'
+
 @app.route('/create-lecturer', methods=['POST'])
 def create_lecturer():
     try:
