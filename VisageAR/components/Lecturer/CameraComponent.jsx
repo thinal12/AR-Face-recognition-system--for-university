@@ -10,8 +10,8 @@ import {
 import {RNCamera} from 'react-native-camera';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import Orientation from 'react-native-orientation-locker';
+import {serverAddress} from '../other/config';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {

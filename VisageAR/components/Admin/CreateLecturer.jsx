@@ -44,7 +44,6 @@ const CreateLecturer = ({navigation}) => {
       name: name,
       password: password,
     };
-    const serverAddress = await AsyncStorage.getItem('serverAddress');
 
     fetch(serverAddress + '/create-lecturer', {
       method: 'POST',

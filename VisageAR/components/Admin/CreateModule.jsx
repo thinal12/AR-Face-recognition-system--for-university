@@ -49,8 +49,6 @@ const CreateModule = ({navigation}) => {
       number_of_lectures: numberOfLectures,
     };
 
-    const serverAddress = await AsyncStorage.getItem('serverAddress');
-
     fetch(serverAddress + '/create-module', {
       method: 'POST',
       headers: {

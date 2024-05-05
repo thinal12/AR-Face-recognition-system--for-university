@@ -108,8 +108,6 @@ const AttendanceRecord = () => {
         const maxWidth = data.width / 8;
         const maxHeight = data.height / 8;
 
-        const serverAddress = await AsyncStorage.getItem('serverAddress');
-
         try {
           const response = await fetch(serverAddress + '/process-frame', {
             method: 'POST',
@@ -172,7 +170,6 @@ const AttendanceRecord = () => {
   };
 
   const handleConfirmAttendance = async () => {
-    const serverAddress = await AsyncStorage.getItem('serverAddress');
     try {
       const response = await fetch(serverAddress + '/confirm-attendance', {
         method: 'POST',
