@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Lecturer/Header';
+import AdminHeader from './AdminHeader';
 import React, {useEffect} from 'react';
 
 const AdminHome = ({navigation}) => {
@@ -49,7 +50,7 @@ const AdminHome = ({navigation}) => {
 
   return (
     <>
-      <Header />
+      <AdminHeader />
       <ImageBackground
         source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>

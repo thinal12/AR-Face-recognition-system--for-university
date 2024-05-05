@@ -51,7 +51,7 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         if (username === 'Admin') {
-          await AsyncStorage.setItem('lecturerId', data.lecturer_id.toString());
+          await AsyncStorage.setItem('lecturerId', '0');
           navigation.navigate('AdminHome');
         } else {
           await AsyncStorage.setItem('lecturerId', data.lecturer_id.toString());

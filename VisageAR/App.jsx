@@ -20,6 +20,7 @@ import AttendanceRecord from './components/Lecturer/AttendanceRecord';
 import AddStudent from './components/Admin/AddStudent';
 import Help from './components/Lecturer/Help';
 import ServerAddressInput from './components/other/SeverAddressInput';
+import AdminHelp from './components/Admin/AdminHelp';
 
 const Stack = createStackNavigator();
 
@@ -101,6 +102,11 @@ const App = () => {
         <Stack.Screen
           name="Help"
           component={Help}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AdminHelp"
+          component={AdminHelp}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
