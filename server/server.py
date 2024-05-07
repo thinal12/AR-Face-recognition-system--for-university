@@ -152,14 +152,13 @@ def search_students():
         data = request.get_json()
         search_query = data.get('searchQuery')
         
-        # Check if the search query is a digit (student ID)
+       
         if search_query.isdigit():
             students = collection2.find({"$or": [
                 {"student_id": int(search_query)},
                 {"name": {"$regex": search_query, "$options": "i"}}
             ]})
         else:
-            # Search by name
             students = collection2.find({"name": {"$regex": search_query, "$options": "i"}})
         
         search_results = []

@@ -24,12 +24,9 @@ function LecturesCard({lecture, onPress}) {
           lecture.attendance_status === 'Confirmed'
             ? styles.editAttendanceButton
             : styles.markAttendanceButton,
-        ]}>
-        <Text
-          style={styles.markAttendanceText}
-          onPress={() =>
-            onPress(lecture.lecture_id, lecture.attendance_status)
-          }>
+        ]}
+        onPress={() => onPress(lecture.lecture_id, lecture.attendance_status)}>
+        <Text style={styles.markAttendanceText}>
           {lecture.attendance_status === 'Confirmed'
             ? 'Edit Attendance'
             : 'Mark Attendance'}
@@ -44,52 +41,34 @@ function Lectures() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    callFetchModules();
+    const fetchModules = async () => {
+      try {
+        const module = await AsyncStorage.getItem('moduleCode');
+        console.log('Module:', module);
+        const response = await fetch(serverAddress + '/lectures', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({module}),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setLectures(data);
+          console.log('Modules:', data);
+        } else {
+          console.error('Failed to fetch lectures:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching lectures:', error);
+      }
+    };
+
+    const unsubscribe = navigation.addListener('focus', fetchModules);
+
+    return unsubscribe;
   }, [navigation]);
 
-  const callFetchModules = async () => {
-    const module = await AsyncStorage.getItem('moduleCode');
-    console.log('Module:', module);
-    fetchModules(module);
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      const handleBackPress = async () => {
-        await AsyncStorage.setItem('activeTab', 'Home');
-        await AsyncStorage.removeItem('moduleCode');
-        navigation.navigate('Home');
-        return true;
-      };
-
-      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-      };
-    }, []),
-  );
-
-  const fetchModules = async module => {
-    try {
-      const response = await fetch(serverAddress + '/lectures', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({module}),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setLectures(data);
-        console.log('Modules:', data);
-      } else {
-        console.error('Failed to fetch lectures:', response.status);
-      }
-    } catch (error) {
-      console.error('Error fetching lectures:', error);
-    }
-  };
   const handleModulePress = async (lectureId, attendance_status) => {
     if (attendance_status === 'Confirmed') {
       await AsyncStorage.setItem('activeTab', 'EditAttendance');
