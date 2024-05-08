@@ -56,7 +56,7 @@ const CreateLecturer = ({navigation}) => {
     })
       .then(response => {
         if (response.ok) {
-          navigation.navigate('LecturerCreated');
+          navigation.navigate('AdminHome');
         } else if (response.status === 400) {
           return response.json();
         } else {
@@ -146,6 +146,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#14151a',
     padding: 20,
     borderRadius: 10,
+    width: '60%',
   },
   title: {
     fontSize: 24,
