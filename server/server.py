@@ -81,9 +81,16 @@ def create_module():
         module_code = data.get('module_code')
         module_name = data.get('module_name')
         lecturer_id = int(data.get('lecturer_id'))  
-        number_of_lectures = int(data.get('number_of_lectures'))  
+        number_of_lectures = int(data.get('number_of_lectures'))
 
-        
+        existing_lecturer = collection.find_one({'lecturer_id': lecturer_id})
+        if not existing_lecturer:
+            return jsonify({'error': 'Lecturer does not exist'}), 400  
+
+        existing_module = collection3.find_one({'module_code': module_code})
+        if existing_module:
+            return jsonify({'error': 'Module code already exists'}), 400
+
         module = {
             'module_code': module_code,
             'module_name': module_name,

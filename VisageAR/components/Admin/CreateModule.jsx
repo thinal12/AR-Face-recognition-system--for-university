@@ -58,12 +58,29 @@ const CreateModule = ({navigation}) => {
     })
       .then(response => {
         if (response.ok) {
+          navigation.navigate('AdminHome');
+        } else if (response.status === 400) {
+          return response.json();
         } else {
-          throw new Error('Failed to create module');
+          setErrorMessage('An error occurred while creating the module.');
+        }
+      })
+      .then(data => {
+        if (data) {
+          if (data.error === 'Module code already exists') {
+            setErrorMessage('The module code already exists');
+          } else if (data.error === 'Lecturer does not exist') {
+            setErrorMessage('The specified lecturer does not exist.');
+          } else {
+            setErrorMessage('An error occurred while creating the module.');
+          }
         }
       })
       .catch(error => {
         console.error('Create module error:', error);
+        setErrorMessage(
+          'An error occurred while creating the module. Please try again later.',
+        );
       });
   };
 
@@ -101,6 +118,7 @@ const CreateModule = ({navigation}) => {
                 placeholder="Enter Lecturer ID"
                 onChangeText={text => setLecturerId(text)}
                 value={lecturerId}
+                keyboardType="numeric"
               />
             </View>
             <View style={styles.inputContainer}>
