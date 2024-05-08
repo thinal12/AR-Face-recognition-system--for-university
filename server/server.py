@@ -57,13 +57,11 @@ def create_lecturer():
         data = request.get_json()
         name = data.get('name')
         password = data.get('password')
+        lecturer_id = int(data.get('lecturerId'))
 
-        
-        lecturer_count = collection.count_documents({})
-
-        
-        lecturer_id = lecturer_count
-
+        existing_lecturer = collection.find_one({'lecturer_id': lecturer_id})
+        if existing_lecturer:
+            return jsonify({'error': 'Lecturer ID already exists', 'existing_lecturer': existing_lecturer}), 400
         
         lecturer = {
             'name': name,

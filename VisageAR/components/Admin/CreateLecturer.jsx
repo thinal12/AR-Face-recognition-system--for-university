@@ -16,6 +16,7 @@ import Header from '../Lecturer/Header';
 const CreateLecturer = ({navigation}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [lecturerId, setLecturerId] = useState(''); // New state for lecturer id
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleBackPress = async () => {
@@ -35,7 +36,7 @@ const CreateLecturer = ({navigation}) => {
   );
 
   const handleCreateLecturer = async () => {
-    if (!name || !password) {
+    if (!name || !password || !lecturerId) {
       setErrorMessage('Please fill in all fields');
       return;
     }
@@ -43,6 +44,7 @@ const CreateLecturer = ({navigation}) => {
     const lecturerDetails = {
       name: name,
       password: password,
+      lecturerId: parseInt(lecturerId),
     };
 
     fetch(serverAddress + '/create-lecturer', {
@@ -55,13 +57,26 @@ const CreateLecturer = ({navigation}) => {
       .then(response => {
         if (response.ok) {
           navigation.navigate('LecturerCreated');
+        } else if (response.status === 400) {
+          return response.json();
         } else {
-          throw new Error('Failed to create lecturer');
+          setErrorMessage('Lecturer ID already exists');
+        }
+      })
+      .then(data => {
+        if (data && data.error === 'Lecturer ID already exists') {
+          setErrorMessage('Lecturer ID already exists');
         }
       })
       .catch(error => {
         console.error('Create lecturer error:', error);
       });
+  };
+
+  const handleLecturerIdChange = text => {
+    if (/^\d+$/.test(text) || text === '') {
+      setLecturerId(text);
+    }
   };
 
   return (
@@ -90,6 +105,16 @@ const CreateLecturer = ({navigation}) => {
                 onChangeText={text => setPassword(text)}
                 value={password}
                 secureTextEntry={true}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Lecturer ID:</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Lecturer ID"
+                onChangeText={handleLecturerIdChange}
+                value={lecturerId}
+                keyboardType="numeric"
               />
             </View>
             <TouchableOpacity
