@@ -11,13 +11,16 @@ This app has only been tested on Android
 
 ### Flask server
 - First you must install python. Make sure the downloaded version is 3.10 or newer.
-- Then from the root directory, navigate to the sever folder using your terminal and running cd server.
+- Then from the root directory, navigate to the sever folder using your terminal by running cd server.
 - Then install the packages specified in requirements.txt file by running the command pip install -r requirements.txt
   
 ## How to run
 - Enable developer options and USB Debugging on your Android device.
 - Connect it to your computer using a cabel.
 - Open 2 terminals
+- Then from the root directory, navigate to the sever folder using one of the terminals by running cd server.
+- Then run 'python server.py' to run the server.
+- 
 - On one of the terminals navigate to the VisageAR folder.
 - Then run npm start.
 - After some time it ill ask on what dev server you would like to use. Press 'a' to select Android.
