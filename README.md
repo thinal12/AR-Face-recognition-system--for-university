@@ -33,7 +33,9 @@ This app has only been tested on Android
 - Then on the other terminal navigate to the VisageAR folder.
 - Then run `npm start`.
 - After some time it aill ask what dev server you would like to use. Press 'a' to select Android and you will be able to run the app.
+  
   ![Screenshot 2024-05-09 100934](https://github.com/thinal12/AR-Face-recognition-system--for-university/assets/114849355/cf26039a-0216-4f8d-99de-1819335ee4b0)
+  
 - Please note that you have to keep your phone plugged into the same device that yoir server runs on
 
   
