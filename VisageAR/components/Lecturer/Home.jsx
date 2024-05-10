@@ -30,9 +30,15 @@ function ModuleCard({module}) {
     <TouchableOpacity
       style={[styles.card, styles.moduleContainer]}
       onPress={() => handleModulePress(module.module_code)}>
-      <Text style={styles.cardText}>
-        {module.module_code} - {module.module_name}
-      </Text>
+      <View style={{flexDirection: 'row', width: 170}}>
+        <Text style={styles.cardText}>Module Code:</Text>
+        <Text style={styles.cardText}> {module.module_code}</Text>
+      </View>
+
+      <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+        <Text style={styles.cardText}>Module Name:</Text>
+        <Text style={styles.cardText}> {module.module_name}</Text>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -108,7 +114,7 @@ function Home() {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/Background10.jpg')}
+        source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.container}>
@@ -163,7 +169,8 @@ const styles = StyleSheet.create({
   card: {
     width: 300,
     padding: 20,
-    backgroundColor: '#14151a',
+
+    backgroundColor: 'black',
     marginBottom: 10,
     borderRadius: 10,
     shadowColor: '#000000',

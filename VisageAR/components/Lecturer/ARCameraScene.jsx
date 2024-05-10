@@ -34,7 +34,7 @@ const ProfileAR = ({id, name, conditions, issues}) => {
     setBoxPosition(cameraPosition);
     setTextPosition([
       cameraPosition[0],
-      cameraPosition[1] + 0.25,
+      cameraPosition[1] + 0.55,
       cameraPosition[2] - 2,
     ]);
   };
@@ -47,9 +47,10 @@ const ProfileAR = ({id, name, conditions, issues}) => {
         materials={['profile']}
       />
       <ViroText
-        text={`Student ID: ${student.id}\nName: ${student.name}\nExisting Conditions: ${student.existingConditions}\nDisciplinary Issues: ${student.disciplinaryIssues}`}
-        scale={[0.4, 0.3, 0.5]}
-        position={[0, -0.5, -1]}
+        text={`Student ID: ${student.id} \n \nName: ${student.name}\nExisting Conditions: ${student.existingConditions}\nDisciplinary Issues: ${student.disciplinaryIssues}`}
+        scale={[10, 0.2, 1]}
+        position={[-1, -0.5, -1]}
+        style={{fontSize: 11, color: '#ffffff'}}
       />
     </ViroARScene>
   );

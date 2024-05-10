@@ -121,6 +121,7 @@ const StudentSearch = () => {
                 borderWidth: 1,
                 margin: 10,
                 padding: 5,
+                borderRadius: 5,
               }}
               onChangeText={handleSearch}
               value={searchQuery}

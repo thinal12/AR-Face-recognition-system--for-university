@@ -46,13 +46,10 @@ function Help() {
           students into a list. The number students that have been recognized
           will be displayed at the top of the screen.
         </Text>
+
         <Text style={styles.description}>
-          4. Once all the students have been recognized you can then click on
-          the 'Submit Attendance' button to submit the attendance.
-        </Text>
-        <Text style={styles.description}>
-          5. Finally you can press the 'Confirm Attendance' button to record the
-          attendance of the student
+          4. Finally you can press the 'Confirm Attendance' button to record the
+          attendance of the student.
         </Text>
         <Text style={styles.section}>
           Instructions for Viewing AR Profiles:
