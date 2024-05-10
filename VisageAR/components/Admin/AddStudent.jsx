@@ -90,7 +90,7 @@ const AddStudent = ({navigation}) => {
       setProfilePicTaken(false);
       setTrainingPicTaken(false);
 
-      Alert.alert('Success', 'Student added successfully');
+      Alert.alert('Success', '✅ Student added successfully!');
     } catch (error) {
       console.error('Error adding student:', error);
       Alert.alert('Error', 'Failed to add student');

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   BackHandler,
   ImageBackground,
+  Alert,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import {serverAddress} from '../other/config';
@@ -16,7 +17,7 @@ import Header from '../Lecturer/Header';
 const CreateLecturer = ({navigation}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [lecturerId, setLecturerId] = useState(''); // New state for lecturer id
+  const [lecturerId, setLecturerId] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleBackPress = async () => {
@@ -56,6 +57,7 @@ const CreateLecturer = ({navigation}) => {
     })
       .then(response => {
         if (response.ok) {
+          Alert.alert('Success', '✅ Lecture has been created!');
           navigation.navigate('AdminHome');
         } else if (response.status === 400) {
           return response.json();

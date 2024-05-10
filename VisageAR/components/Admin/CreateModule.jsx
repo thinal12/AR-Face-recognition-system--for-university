@@ -59,6 +59,7 @@ const CreateModule = ({navigation}) => {
     })
       .then(response => {
         if (response.ok) {
+          Alert.alert('Success', '✅ Module created successfully!');
           navigation.navigate('AdminHome');
         } else if (response.status === 400) {
           return response.json();
