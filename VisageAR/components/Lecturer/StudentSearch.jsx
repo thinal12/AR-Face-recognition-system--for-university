@@ -104,6 +104,7 @@ const StudentSearch = () => {
   const handleCardPress = async student => {
     await AsyncStorage.setItem('activeTab', 'StudentProfile');
     navigation.navigate('StudentProfile', {student: student});
+    return true;
   };
 
   return (

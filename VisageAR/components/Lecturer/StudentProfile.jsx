@@ -52,9 +52,9 @@ const StudentProfile = ({route}) => {
   const navigation = useNavigation();
 
   const handleBackPress = async () => {
-    const value = await AsyncStorage.getItem('previousTab');
-    await AsyncStorage.setItem('activeTab', value);
-    navigation.goBack();
+    await AsyncStorage.setItem('activeTab', 'StudentSearch');
+
+    navigation.navigate('StudentSearch');
     return true;
   };
 
@@ -110,7 +110,7 @@ const StudentProfile = ({route}) => {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/profileBackground2.jpg')}
+        source={require('../images/profileBackground3.jpg')}
         style={styles.backgroundImage}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.container}>
