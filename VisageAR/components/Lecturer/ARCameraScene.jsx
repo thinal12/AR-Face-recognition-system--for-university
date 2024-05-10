@@ -123,7 +123,6 @@ const ARCameraScene = ({route}) => {
               dimensionsSubscription.current.remove();
             await AsyncStorage.setItem('activeTab', 'StudentProfile');
             navigation.navigate('StudentProfile', {student: student});
-            return true;
           }}
           height={0.4}
           materials={['buttonBackground']}

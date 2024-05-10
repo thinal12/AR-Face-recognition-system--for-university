@@ -148,6 +148,7 @@ const CameraComponent = () => {
   }, []);
 
   const handleButtonPress = (id, name, conditions, issues) => {
+    dimensionsSubscription.current && dimensionsSubscription.current.remove();
     navigation.navigate('ARCamera', {id, name, conditions, issues});
   };
 

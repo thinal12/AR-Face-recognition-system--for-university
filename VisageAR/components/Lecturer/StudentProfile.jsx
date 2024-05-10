@@ -110,7 +110,7 @@ const StudentProfile = ({route}) => {
     <>
       <Header />
       <ImageBackground
-        source={require('../images/profileBackground3.jpg')}
+        source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.container}>
