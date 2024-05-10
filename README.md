@@ -46,4 +46,5 @@ This app has only been tested on Android
 - Lecturer Account
   Username: David
   password: Mypass
-
+## Futher Instuctions
+- There is a help button on the Header of each page. You use to view the instructions on how to use the app.
