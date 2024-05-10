@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   formContainer: {
-    backgroundColor: '#14151a',
+    backgroundColor: 'black',
     padding: 20,
     borderRadius: 10,
     width: '60%',

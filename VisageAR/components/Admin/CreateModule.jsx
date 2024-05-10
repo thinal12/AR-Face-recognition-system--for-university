@@ -7,6 +7,7 @@ import {
   StyleSheet,
   BackHandler,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -86,62 +87,64 @@ const CreateModule = ({navigation}) => {
 
   return (
     <>
-      <ImageBackground
-        source={require('../images/Background3.jpg')}
-        style={styles.backgroundImage}>
-        <Header />
-        <View style={styles.pageContainer}>
-          <View style={styles.formContainer}>
-            <Text style={styles.title}>Create Module</Text>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Module Code:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter Module Code"
-                onChangeText={text => setModuleCode(text)}
-                value={moduleCode}
-              />
+      <Header />
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <ImageBackground
+          source={require('../images/Background3.jpg')}
+          style={styles.backgroundImage}>
+          <View style={styles.pageContainer}>
+            <View style={styles.formContainer}>
+              <Text style={styles.title}>Create Module</Text>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Module Code:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Module Code"
+                  onChangeText={text => setModuleCode(text)}
+                  value={moduleCode}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Module Name:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Module Name"
+                  onChangeText={text => setModuleName(text)}
+                  value={moduleName}
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Lecturer ID:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Lecturer ID"
+                  onChangeText={text => setLecturerId(text)}
+                  value={lecturerId}
+                  keyboardType="numeric"
+                />
+              </View>
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Number of Lectures:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter Number of Lectures"
+                  onChangeText={text => setNumberOfLectures(text)}
+                  value={numberOfLectures}
+                  keyboardType="numeric"
+                />
+              </View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleCreateModule}>
+                <Text style={styles.buttonText}>Create Module</Text>
+              </TouchableOpacity>
+              {errorMessage ? (
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
+              ) : null}
             </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Module Name:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter Module Name"
-                onChangeText={text => setModuleName(text)}
-                value={moduleName}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Lecturer ID:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter Lecturer ID"
-                onChangeText={text => setLecturerId(text)}
-                value={lecturerId}
-                keyboardType="numeric"
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Number of Lectures:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter Number of Lectures"
-                onChangeText={text => setNumberOfLectures(text)}
-                value={numberOfLectures}
-                keyboardType="numeric"
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleCreateModule}>
-              <Text style={styles.buttonText}>Create Module</Text>
-            </TouchableOpacity>
-            {errorMessage ? (
-              <Text style={styles.errorMessage}>{errorMessage}</Text>
-            ) : null}
           </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </ScrollView>
     </>
   );
 };
@@ -151,14 +154,18 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
   },
+  scrollContainer: {
+    flexGrow: 1,
+  },
   pageContainer: {
     flex: 1,
+
     justifyContent: 'center',
     alignItems: 'center',
   },
   formContainer: {
     position: 'relative',
-    backgroundColor: '#14151a',
+    backgroundColor: 'black',
     padding: 20,
     width: '70%',
     borderRadius: 10,

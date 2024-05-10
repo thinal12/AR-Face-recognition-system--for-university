@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
   },
   form: {
     width: '80%',
-    backgroundColor: '#14151a',
+    backgroundColor: 'black',
     padding: 20,
     borderRadius: 10,
   },

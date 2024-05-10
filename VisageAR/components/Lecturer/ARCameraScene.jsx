@@ -40,7 +40,7 @@ const ProfileAR = ({id, name, conditions, issues}) => {
   };
 
   return (
-    <ViroARScene>
+    <ViroARScene style={{alignItems: 'center'}}>
       <ViroBox
         position={[0, -0.7, -1.5]}
         scale={[0.8, 0.7, 0.1]}
@@ -50,7 +50,13 @@ const ProfileAR = ({id, name, conditions, issues}) => {
         text={`Student ID: ${student.id} \n\nName: ${student.name}\n\nConditions: ${student.existingConditions}\n\nDisciplinary Issues: ${student.disciplinaryIssues}`}
         scale={[0.5, 0.3, 1]}
         position={[0, -0.55, -1]}
-        style={{fontSize: 9, color: '#ffffff', height: 2, width: 1}}
+        style={{
+          fontSize: 9,
+          color: '#ffffff',
+          height: 2,
+          width: 1,
+          fontStyle: 'italic',
+        }}
       />
     </ViroARScene>
   );
