@@ -47,10 +47,10 @@ const ProfileAR = ({id, name, conditions, issues}) => {
         materials={['profile']}
       />
       <ViroText
-        text={`Student ID: ${student.id} \n \nName: ${student.name}\nExisting Conditions: ${student.existingConditions}\nDisciplinary Issues: ${student.disciplinaryIssues}`}
-        scale={[10, 0.2, 1]}
-        position={[-1, -0.5, -1]}
-        style={{fontSize: 11, color: '#ffffff'}}
+        text={`Student ID: ${student.id} \n\nName: ${student.name}\n\nConditions: ${student.existingConditions}\n\nDisciplinary Issues: ${student.disciplinaryIssues}`}
+        scale={[0.5, 0.3, 1]}
+        position={[0, -0.55, -1]}
+        style={{fontSize: 9, color: '#ffffff', height: 2, width: 1}}
       />
     </ViroARScene>
   );
