@@ -10,6 +10,7 @@ This app has only been tested on Android
 - Run the command  `npm install` or `npm i`
 
 ### Flask server
+- You must make sure that you install the C and C++ build tool.
 - First you must install python. Make sure the downloaded version is 3.10 or newer.
 - Then from the root directory, navigate to the sever folder using your terminal by running `cd server`.
 - Then install the packages specified in requirements.txt file by running the command `pip install -r requirements.txt`
