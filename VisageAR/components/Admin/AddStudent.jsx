@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import {useFocusEffect} from '@react-navigation/native';
-import Header from '../Lecturer/Header';
+import AdminHeader from './AdminHeader';
 import {serverAddress} from '../other/config';
 
 const AddStudent = ({navigation}) => {
@@ -166,7 +166,7 @@ const AddStudent = ({navigation}) => {
       )}
       {!isCameraVisible && (
         <>
-          <Header />
+          <AdminHeader />
           <ScrollView contentContainerStyle={styles.scrollContainer}>
             <ImageBackground
               source={require('../images/Background3.jpg')}

@@ -13,6 +13,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {serverAddress} from '../other/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../Lecturer/Header';
+import AdminHeader from './AdminHeader';
 
 const CreateLecturer = ({navigation}) => {
   const [name, setName] = useState('');
@@ -83,7 +84,7 @@ const CreateLecturer = ({navigation}) => {
 
   return (
     <>
-      <Header />
+      <AdminHeader />
       <ImageBackground
         source={require('../images/Background3.jpg')}
         style={styles.backgroundImage}>

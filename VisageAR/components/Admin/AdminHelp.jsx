@@ -25,9 +25,42 @@ function AdminHelp() {
     return (
       <>
         <Text style={styles.heading}>Admin Functionalities:</Text>
-        <Text style={styles.section}>1. Add a new student</Text>
-        <Text style={styles.section}>2. Add a lecturer</Text>
-        <Text style={styles.section}>3. Create modules</Text>
+        <Text style={styles.section}>Add a new student</Text>
+        <Text style={styles.description}>
+          1. Enter the new students credientials. Ensure that it does not clash
+          with any other student.
+        </Text>
+        <Text style={styles.description}>
+          2. Take a profile picture of the student. By pressing the 'TAKE
+          PROFILE PICTURE'. This takes it to the camera screen. Then press the
+          'Capture' button to take the picture.
+        </Text>
+        <Text style={styles.description}>
+          3. Then you must take the training pictures of the student. By
+          pressing the 'TAKE TRAINING PICTURES'. This takes it to the camera
+          screen. Then press the 'Capture' button to take the pictures. Take
+          around 5 training pictures. Once you are done press 'COMPLETE'.
+        </Text>
+        <Text style={styles.description}>
+          4. Click the add the 'ADD STUDENT'. You have to wait until its
+          complete.
+        </Text>
+        <Text style={styles.section}>Add a lecturer</Text>
+        <Text style={styles.description}>
+          1. Enter the new students credientials. Ensure that it does not clash
+          with any other lecturer.
+        </Text>
+        <Text style={styles.description}>
+          2. Press the 'Create Lecturer' button.
+        </Text>
+        <Text style={styles.section}>Create modules</Text>
+        <Text style={styles.description}>
+          1. Enter the module code, module name, lecturer id and number of
+          lectures. Ensure that it does not clash with any other Module.
+        </Text>
+        <Text style={styles.description}>
+          2. Press the 'Create Module' button.
+        </Text>
       </>
     );
   }
@@ -36,13 +69,7 @@ function AdminHelp() {
     <>
       <AdminHeader />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.container}>
-          <Text style={styles.heading}>Help</Text>
-          <Text style={styles.heading}>Admin Functionalities:</Text>
-          <Text style={styles.section}>Add a new student</Text>
-          <Text style={styles.section}>Add a lecturer</Text>
-          <Text style={styles.section}>Create modules</Text>
-        </View>
+        <View style={styles.container}>{renderInstructions()}</View>
       </ScrollView>
     </>
   );

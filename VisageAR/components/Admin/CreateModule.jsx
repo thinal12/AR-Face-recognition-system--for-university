@@ -13,6 +13,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serverAddress} from '../other/config';
 import Header from '../Lecturer/Header';
+import AdminHeader from './AdminHeader';
 
 const CreateModule = ({navigation}) => {
   const [moduleCode, setModuleCode] = useState('');
@@ -88,7 +89,7 @@ const CreateModule = ({navigation}) => {
 
   return (
     <>
-      <Header />
+      <AdminHeader />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ImageBackground
           source={require('../images/Background3.jpg')}
