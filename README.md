@@ -38,5 +38,11 @@ This app has only been tested on Android
   
 - Please note that you have to keep your phone plugged into the same device that yoir server runs on
 
-  
+## Login Credentials
+- Administrator account
+  Username: Admin
+  Password: Admin
+- Lecturer Account
+  Username: David
+  password: Mypass
 
