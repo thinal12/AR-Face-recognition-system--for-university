@@ -139,6 +139,10 @@ function Help() {
               click the 'Confirm' button to record the attendance of that
               student.
             </Text>
+            <Text style={styles.description}>
+              * You can only manually record attendance once you intially
+              recorded attendance using face recognition method.
+            </Text>
           </>
         )}
 

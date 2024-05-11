@@ -139,7 +139,15 @@ const StudentProfile = ({route}) => {
                 <Text style={styles.profileText}>GPA: {gpa}</Text>
               </View>
             </View>
-            <Text style={styles.profileText}>Module Attendance:</Text>
+            <Text
+              style={{
+                fontSize: 18,
+                marginBottom: 5,
+                fontWeight: 'bold',
+                color: 'black',
+              }}>
+              Module Attendance:
+            </Text>
             <View key={module.module_code} style={styles.moduleContainer}>
               {moduleData.map((module, index) => (
                 <View key={module.module_code}>
@@ -171,6 +179,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
     padding: 10,
+    borderRadius: 8,
   },
   profilePicContainer: {
     borderRadius: 50,
