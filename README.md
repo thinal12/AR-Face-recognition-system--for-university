@@ -41,10 +41,10 @@ This app has only been tested on Android
 
 ## Login Credentials
 - Administrator account
-  Username: Admin
+  Username: Admin, 
   Password: Admin
 - Lecturer Account
-  Username: David
+  Username: David, 
   password: Mypass
 ## Futher Instuctions
 - There is a help button on the Header of each page. You use to view the instructions on how to use the app.
