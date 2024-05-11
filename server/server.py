@@ -16,12 +16,9 @@ from imutils import paths
 
 app = Flask(__name__)
 
-username = "thinalpethiyagoda"
-password = "321t071np"
-dbname = "universitysystem"
-cluster = "universitysystem.009rjim.mongodb.net"
 
-connection_string = "mongodb+srv://thinalpethiyagoda:321t071np@universitysystem.009rjim.mongodb.net/"
+
+connection_string = "mongodb+srv://thinalpethiyagoda:mzE7p6BUqU1geUcv@universitysystem.009rjim.mongodb.net/"
 
 
 
@@ -292,6 +289,15 @@ def add_student():
     existing_conditions = data.get('existingConditions')
     gpa = float(data.get('gpa'))
     student_id = int(data.get('studentId'))
+
+    existing_student_by_name = collection2.find_one({'name': student_name})
+    if existing_student_by_name:
+        return jsonify({'message': 'Student already exists'})
+
+    existing_student = collection2.find_one({'student_id': student_id})
+    if existing_student:
+        return jsonify({'message': 'Student already exists'})
+
 
     new_folder_path = os.path.join(datasetP, student_name)
     os.makedirs(new_folder_path, exist_ok=True)

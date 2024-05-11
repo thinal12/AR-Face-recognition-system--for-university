@@ -20,8 +20,8 @@ import {serverAddress} from '../other/config';
 const AddStudent = ({navigation}) => {
   const [studentId, setStudentId] = useState('');
   const [name, setName] = useState('');
-  const [disciplinaryIssues, setDisciplinaryIssues] = useState('None');
-  const [existingConditions, setExistingConditions] = useState('None');
+  const [disciplinaryIssues, setDisciplinaryIssues] = useState('none');
+  const [existingConditions, setExistingConditions] = useState('none');
   const [profilePic, setProfilePic] = useState(null);
   const [trainingData, setTrainingData] = useState([]);
   const [gpa, setGPA] = useState('0.0');
@@ -76,21 +76,27 @@ const AddStudent = ({navigation}) => {
         body: JSON.stringify(data),
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
         throw new Error('Failed to add student');
       }
 
-      setStudentId('');
-      setName('');
-      setDisciplinaryIssues('');
-      setExistingConditions('');
-      setProfilePic(null);
-      setTrainingData([]);
-      setGPA('');
-      setProfilePicTaken(false);
-      setTrainingPicTaken(false);
+      if (responseData.message === 'Student already exists') {
+        Alert.alert('Error', '❗Student with this ID or name already exists');
+      } else {
+        setStudentId('');
+        setName('');
+        setDisciplinaryIssues('');
+        setExistingConditions('');
+        setProfilePic(null);
+        setTrainingData([]);
+        setGPA('');
+        setProfilePicTaken(false);
+        setTrainingPicTaken(false);
 
-      Alert.alert('Success', '✅ Student added successfully!');
+        Alert.alert('Success', '✅ Student added successfully!');
+      }
     } catch (error) {
       Alert.alert('Error', '❗Failed to add student');
     } finally {
