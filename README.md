@@ -17,7 +17,7 @@ VisageAR is a Face Recognition system that also uses Augmented Reality made spec
   
 ## How to run
 - Enable developer options on your mobile device.
-- Enable USB Debugging.
+- Enable USB Debugging on your mobile device.
 - Open 2 terminals.
 ### How to run the server
 - Then from the root directory, navigate to the sever folder using one of the terminals by running `cd server`.
