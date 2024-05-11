@@ -68,6 +68,7 @@ const CreateLecturer = ({navigation}) => {
       })
       .then(data => {
         if (data && data.error === 'Lecturer ID already exists') {
+          Alert.alert('❗Lecturer ID already exists');
           setErrorMessage('Lecturer ID already exists');
         }
       })

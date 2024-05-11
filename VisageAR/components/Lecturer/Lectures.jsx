@@ -7,6 +7,7 @@ import {
   BackHandler,
   ImageBackground,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import BottomTabNavigator from './BottomTabNavigator';
@@ -77,10 +78,10 @@ function Lectures() {
           setLectures(data);
           console.log('Modules:', data);
         } else {
-          console.error('Failed to fetch lectures:', response.status);
+          Alert.alert('❗Failed to fetch lectures');
         }
       } catch (error) {
-        console.error('Error fetching lectures:', error);
+        Alert.alert('❗Error fetching lectures');
       }
     };
 

@@ -92,7 +92,6 @@ const AddStudent = ({navigation}) => {
 
       Alert.alert('Success', '✅ Student added successfully!');
     } catch (error) {
-      console.error('Error adding student:', error);
       Alert.alert('Error', '❗Failed to add student');
     } finally {
       setIsLoading(false);

@@ -8,6 +8,7 @@ import {
   BackHandler,
   ImageBackground,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -42,6 +43,9 @@ const CreateModule = ({navigation}) => {
     if (!moduleCode || !moduleName || !lecturerId || !numberOfLectures) {
       setErrorMessage('Please fill in all fields');
       return;
+    } else if (numberOfLectures <= 0) {
+      setErrorMessage('Number of lectures must be greater than 0');
+      return;
     }
 
     const moduleDetails = {
@@ -71,9 +75,9 @@ const CreateModule = ({navigation}) => {
       .then(data => {
         if (data) {
           if (data.error === 'Module code already exists') {
-            setErrorMessage('The module code already exists');
+            Alert.alert('❗The module code already exists');
           } else if (data.error === 'Lecturer does not exist') {
-            setErrorMessage('The specified lecturer does not exist.');
+            Alert.alert('❗The specified lecturer does not exist.');
           } else {
             setErrorMessage('An error occurred while creating the module.');
           }

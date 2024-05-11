@@ -12,7 +12,6 @@ const BottomTabBar = () => {
   const handleTabPress = async tabName => {
     const value = await AsyncStorage.getItem('activeTab');
 
-    console.log('Active tab:', value);
     if (value === tabName) {
       return;
     } else {

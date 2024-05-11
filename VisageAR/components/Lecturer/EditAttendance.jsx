@@ -63,8 +63,6 @@ const EditAttendance = () => {
         throw new Error('❗Edit Attendance failed');
       }
     } catch (error) {
-      console.error('Edit Attendance error:', error);
-
       alert('An error occurred while editing attendance');
     }
   };

@@ -57,7 +57,7 @@ function Home() {
       const handleBackPress = async () => {
         Orientation.lockToPortrait();
         const value = await AsyncStorage.getItem('activeTab');
-        console.log('Active tab now:', value);
+
         if (value === 'Home') {
           Alert.alert(
             'Exit App',
@@ -104,10 +104,13 @@ function Home() {
         setModules(data);
         console.log('Modules:', data);
       } else {
-        console.error('Failed to fetch modules:', response.status);
+        Alert.alert(
+          '❗No modules assigned to you',
+          'Please contact the admin to assign',
+        );
       }
     } catch (error) {
-      console.error('Error fetching modules:', error);
+      Alert.alert('❗Error fetching modules');
     }
   };
 
