@@ -1,6 +1,6 @@
 # VisageAR
 
-VisageAR is a Face Recognition system that also uses Augmented Reality made specifically for universities. These technologies will be used for recording attendance of students and also be used for given an AR profile of the students which would provide convenient access to information of the students.  This app has only been tested on Android
+VisageAR is a Face Recognition system that also uses Augmented Reality made specifically for universities. This application can be used for recording attendance of students and also be used for given an AR profile of the students which would provide convenient access to information of the students.  This app has only been tested on Android
 
 ## Installing Packages
 
