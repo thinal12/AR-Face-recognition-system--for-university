@@ -239,8 +239,22 @@ def edit_attendance():
                     'student_id': user['student_id'],
                     'attendance_status': 'present'  
                 }
-        collection5.insert_one(record)
-        return jsonify({'message': 'Attendance edited successfully'}), 200
+        if user:
+            existing_record = collection5.find_one({'lecture_id': lecture_id, 'student_id': user['student_id']})
+            if existing_record:
+                
+                return jsonify({'message': 'Attendance already recorded'}), 200
+            else:
+                record = {
+                    'lecture_id': lecture_id,
+                    'student_id': user['student_id'],
+                    'attendance_status': 'present'
+                }
+                collection5.insert_one(record)
+                return jsonify({'message': 'Attendance edited successfully'}), 200
+        else:
+            return jsonify({'error': 'Student not found'}), 404
+        
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
@@ -389,7 +403,7 @@ def receive_frame():
         issues = []
         student_ids = []
         
-        
+       
         if result is not None:
             names, boxes = result
             boxes = [[int(y) for y in x] for x in boxes]

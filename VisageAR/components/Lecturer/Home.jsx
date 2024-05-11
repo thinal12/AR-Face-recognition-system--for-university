@@ -18,7 +18,6 @@ import Orientation from 'react-native-orientation-locker';
 
 function ModuleCard({module}) {
   const navigation = useNavigation();
-
   const handleModulePress = async modulecode => {
     await AsyncStorage.setItem('previousTab', 'Home');
     await AsyncStorage.setItem('activeTab', 'Lectures');
@@ -44,12 +43,14 @@ function ModuleCard({module}) {
 }
 
 function Home() {
+  const navigation = useNavigation();
   const [modules, setModules] = useState([]);
   const [lecturerId, setLecturerId] = useState(null);
 
   useEffect(() => {
+    Orientation.lockToPortrait();
     retrieveLecturerIdAndFetchModules();
-  }, []);
+  }, [navigation]);
 
   useFocusEffect(
     React.useCallback(() => {

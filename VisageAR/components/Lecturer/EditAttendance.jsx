@@ -29,34 +29,44 @@ const EditAttendance = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-      return () => {
-        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-      };
+      try {
+        BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+        return () => {
+          BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+        };
+      } catch (error) {
+        console.error('Error adding or removing event listener:', error);
+      }
     }, []),
   );
 
   const handleConfirm = async () => {
-    fetch(serverAddress + '/edit_attendance', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({student, lecture_id}),
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Edit Attendance failed');
-        }
-      })
-      .then(data => {
-        console.log('Editted Attendance');
-      })
-      .catch(error => {
-        console.error('Edit Attendance error:', error);
+    try {
+      const response = await fetch(serverAddress + '/edit_attendance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({student, lecture_id}),
       });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.message === 'Attendance already recorded') {
+          alert('Attendance already recorded');
+        } else if (data.message === 'Attendance edited successfully') {
+          alert('Attendance edited successfully');
+        } else {
+          throw new Error('Unexpected response from server');
+        }
+      } else {
+        throw new Error('Edit Attendance failed');
+      }
+    } catch (error) {
+      console.error('Edit Attendance error:', error);
+
+      alert('An error occurred while editing attendance');
+    }
   };
 
   return (

@@ -38,12 +38,15 @@ const ARCameraScene = ({route}) => {
   const dimensionsSubscription = useRef(null);
 
   const handleBackPress = async () => {
-    Orientation.lockToPortrait();
-    dimensionsSubscription.current && dimensionsSubscription.current.remove();
-    const value = await AsyncStorage.getItem('previousTab');
-    await AsyncStorage.setItem('activeTab', 'Home');
-    navigation.navigate('Home');
-    return true;
+    try {
+      dimensionsSubscription.current && dimensionsSubscription.current.remove();
+      const value = await AsyncStorage.getItem('previousTab');
+      await AsyncStorage.setItem('activeTab', 'Home');
+      Orientation.lockToPortrait();
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error('Error handling back press:', error);
+    }
   };
 
   useFocusEffect(
@@ -129,7 +132,7 @@ const ARCameraScene = ({route}) => {
         />
         <ViroText
           text="More...."
-          position={[0, -0.66, -1]}
+          position={[0, -0.6, -0.9]}
           scale={[0.1, 0.1, 0.1]}
           style={styles.buttonText}
         />

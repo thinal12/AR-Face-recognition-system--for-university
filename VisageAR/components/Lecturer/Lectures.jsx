@@ -39,7 +39,27 @@ function LecturesCard({lecture, onPress}) {
 function Lectures() {
   const [lectures, setLectures] = useState([]);
   const navigation = useNavigation();
+  const handleBackPress = async () => {
+    const value = await AsyncStorage.getItem('previousTab');
+    if (value === 'StudentSearch') {
+      await AsyncStorage.setItem('activeTab', 'Home');
+      navigation.navigate('Home');
+      return true;
+    } else {
+      await AsyncStorage.setItem('activeTab', value);
+      navigation.navigate(value);
+      return true;
+    }
+  };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+      };
+    }, []),
+  );
   useEffect(() => {
     const fetchModules = async () => {
       try {

@@ -51,10 +51,10 @@ const CameraComponent = () => {
   const dimensionsSubscription = useRef(null);
 
   const handleBackPress = async () => {
-    Orientation.lockToPortrait();
     dimensionsSubscription.current && dimensionsSubscription.current.remove();
     const value = await AsyncStorage.getItem('previousTab');
     await AsyncStorage.setItem('activeTab', value);
+    Orientation.lockToPortrait();
     navigation.goBack();
     return true;
   };
@@ -148,8 +148,12 @@ const CameraComponent = () => {
   }, []);
 
   const handleButtonPress = (id, name, conditions, issues) => {
-    dimensionsSubscription.current && dimensionsSubscription.current.remove();
-    navigation.navigate('ARCamera', {id, name, conditions, issues});
+    try {
+      dimensionsSubscription.current && dimensionsSubscription.current.remove();
+      navigation.navigate('ARCamera', {id, name, conditions, issues});
+    } catch (error) {
+      console.error('Error handling button press:', error);
+    }
   };
 
   return (
