@@ -53,14 +53,14 @@ const EditAttendance = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.message === 'Attendance already recorded') {
-          alert('Attendance already recorded');
+          alert('❗Attendance already recorded');
         } else if (data.message === 'Attendance edited successfully') {
-          alert('Attendance edited successfully');
+          alert('✅ Attendance edited successfully');
         } else {
           throw new Error('Unexpected response from server');
         }
       } else {
-        throw new Error('Edit Attendance failed');
+        throw new Error('❗Edit Attendance failed');
       }
     } catch (error) {
       console.error('Edit Attendance error:', error);

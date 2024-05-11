@@ -170,6 +170,12 @@ const AttendanceRecord = () => {
   };
 
   const handleConfirmAttendance = async () => {
+    if (recordedNames.length === 0) {
+      alert('❗No recorded names to confirm attendance.');
+      console.log('No recorded names to confirm attendance.');
+      return;
+    }
+
     try {
       const response = await fetch(serverAddress + '/confirm-attendance', {
         method: 'POST',
@@ -187,6 +193,7 @@ const AttendanceRecord = () => {
       navigation.navigate('Lectures');
       if (response.ok) {
         console.log('Attendance confirmed successfully');
+        alert('✅ Attendance edited successfully');
       } else {
         console.error('Failed to confirm attendance:', response.status);
       }
