@@ -1,6 +1,6 @@
 # VisageAR
 
-This app has only been tested on Android
+VisageAR is a Face Recognition system that also uses Augmented Reality made specifically for universities. This application can be used for recording attendance of students and also be used for given an AR profile of the students which would provide convenient access to information of the students.  This app has only been tested on Android
 
 ## Installing Packages
 
@@ -41,10 +41,10 @@ This app has only been tested on Android
 
 ## Login Credentials
 - Administrator account
-  Username: Admin
+  Username: Admin, 
   Password: Admin
 - Lecturer Account
-  Username: David
+  Username: David, 
   password: Mypass
 ## Futher Instuctions
 - There is a help button on the Header of each page. You use to view the instructions on how to use the app.
