@@ -16,6 +16,8 @@ VisageAR is a Face Recognition system that also uses Augmented Reality made spec
 - Then install the packages specified in requirements.txt file by running the command `pip install -r requirements.txt`
   
 ## How to run
+- Enable developer options on your mobile device.
+- Enable USB Debugging.
 - Open 2 terminals.
 ### How to run the server
 - Then from the root directory, navigate to the sever folder using one of the terminals by running `cd server`.
