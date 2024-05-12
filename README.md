@@ -50,3 +50,5 @@ VisageAR is a Face Recognition system that also uses Augmented Reality made spec
   password: Mypass
 ## Futher Instuctions
 - There is a help button on the Header of each page. You use to view the instructions on how to use the app.
+### GitHub Repository
+- Link: https://github.com/thinal12/AR-Face-recognition-system--for-university
