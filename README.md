@@ -22,12 +22,12 @@ VisageAR is a Face Recognition system that also uses Augmented Reality made spec
 ### How to run the server
 - Then from the root directory, navigate to the sever folder using one of the terminals by running `cd server`.
 - Then run `python server.py` to run the server.
-- Then you be able to see the IPv4 address that the server is run on.
+- Then you be able to see the IPv4 address that the server is run on. (do not use http://127.0.0.1:3000)
   
   ![Screenshot 2024-05-09 094124](https://github.com/thinal12/AR-Face-recognition-system--for-university/assets/114849355/c4b77289-557b-412e-8d9d-79d25385c8ce)
 
-- Copy this address and paste it in the config.js file which is located in components/other.
-- 
+- Copy this address and paste it in the config.js file which is located in components/other. Replace http://192.168.94.30:3000 with your ipv4 address along with the port.
+  
   ![Screenshot 2024-05-09 094500](https://github.com/thinal12/AR-Face-recognition-system--for-university/assets/114849355/b7b7b917-69b0-4340-963d-6e0fd840cd99)
 
 ### How to run mobile app
