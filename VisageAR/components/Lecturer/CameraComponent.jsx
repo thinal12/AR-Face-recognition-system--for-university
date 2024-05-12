@@ -170,85 +170,99 @@ const CameraComponent = () => {
 
         {processedFrame && (
           <>
-            {processedFrame.boxes.map((box, index) => (
-              <>
-                <View
-                  style={{
-                    ...StyleSheet.absoluteFillObject,
-                    flex: 1,
-                    flexDirection: 'column',
-                    position: 'absolute',
-                    height: box[2] - box[0] + 40,
-                    width: box[1] - box[3],
-                  }}>
-                  <Text
-                    style={{
-                      color:
-                        processedFrame.conditions[index] === 'none'
-                          ? 'green'
-                          : 'red',
-                      fontSize: 16,
-                      top:
-                        orientation === 'landscape'
-                          ? box[0] * 0.9
-                          : box[0] * 1.2,
-                      left:
-                        orientation === 'landscape'
-                          ? box[3] * 1.55
-                          : box[3] * 0.7,
-                    }}>
-                    {processedFrame.names[index]}
-                  </Text>
+            {processedFrame.boxes.map((box, index) => {
+              let boxColor = 'green';
+              if (
+                processedFrame.issues[index] !== 'none' &&
+                processedFrame.conditions[index] !== 'none'
+              ) {
+                boxColor = 'blue';
+              } else if (
+                processedFrame.issues[index] !== 'none' &&
+                processedFrame.conditions[index] === 'none'
+              ) {
+                boxColor = 'red';
+              } else if (
+                processedFrame.issues[index] === 'none' &&
+                processedFrame.conditions[index] !== 'none'
+              ) {
+                boxColor = 'yellow';
+              }
 
+              return (
+                <>
                   <View
                     style={{
-                      top:
-                        orientation === 'landscape'
-                          ? box[0] * 0.9
-                          : box[0] * 1.2,
-
-                      left:
-                        orientation === 'landscape'
-                          ? box[3] * 1.55
-                          : box[3] * 0.7,
-
-                      borderWidth: 5,
-                      borderColor:
-                        processedFrame.conditions[index] === 'none'
-                          ? 'green'
-                          : 'red',
-                      height: box[2] - box[0],
+                      ...StyleSheet.absoluteFillObject,
+                      flex: 1,
+                      flexDirection: 'column',
+                      position: 'absolute',
+                      height: box[2] - box[0] + 40,
                       width: box[1] - box[3],
-                    }}></View>
+                    }}>
+                    <Text
+                      style={{
+                        color: boxColor,
+                        fontSize: 16,
+                        top:
+                          orientation === 'landscape'
+                            ? box[0] * 0.9
+                            : box[0] * 1.2,
+                        left:
+                          orientation === 'landscape'
+                            ? box[3] * 1.55
+                            : box[3] * 0.7,
+                      }}>
+                      {processedFrame.names[index]}
+                    </Text>
 
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: 'blue',
-                      borderRadius: 5,
-                      justifyContent: 'center',
+                    <View
+                      style={{
+                        top:
+                          orientation === 'landscape'
+                            ? box[0] * 0.9
+                            : box[0] * 1.2,
 
-                      top:
-                        orientation === 'landscape'
-                          ? box[0] * 0.9
-                          : box[0] * 1.2,
-                      left:
-                        orientation === 'landscape'
-                          ? box[3] * 1.55
-                          : box[3] * 0.7,
-                    }}
-                    onPress={() =>
-                      handleButtonPress(
-                        processedFrame.ids[index],
-                        processedFrame.names[index],
-                        processedFrame.conditions[index],
-                        processedFrame.issues[index],
-                      )
-                    }>
-                    <Text style={styles.buttonText}>View Profile</Text>
-                  </TouchableOpacity>
-                </View>
-              </>
-            ))}
+                        left:
+                          orientation === 'landscape'
+                            ? box[3] * 1.55
+                            : box[3] * 0.7,
+
+                        borderWidth: 5,
+                        borderColor: boxColor,
+                        height: box[2] - box[0],
+                        width: box[1] - box[3],
+                      }}></View>
+
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: 'blue',
+                        borderRadius: 5,
+                        justifyContent: 'center',
+
+                        top:
+                          orientation === 'landscape'
+                            ? box[0] * 0.9
+                            : box[0] * 1.2,
+                        left:
+                          orientation === 'landscape'
+                            ? box[3] * 1.55
+                            : box[3] * 0.7,
+                      }}
+                      onPress={() =>
+                        handleButtonPress(
+                          processedFrame.ids[index],
+                          processedFrame.names[index],
+                          processedFrame.conditions[index],
+                          processedFrame.issues[index],
+                        )
+                      }>
+                      <Text style={styles.buttonText}>View Profile</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
+              );
+            })}
           </>
         )}
       </View>

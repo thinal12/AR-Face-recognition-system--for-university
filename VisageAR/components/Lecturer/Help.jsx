@@ -173,6 +173,33 @@ function Help() {
             </Text>
           </>
         )}
+        <TouchableOpacity onPress={() => toggleSection('BoxColors')}>
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionTitle}>Box Colors:</Text>
+            <Text style={{fontSize: 20, paddingLeft: 15}}>
+              {expandedSections['BoxColors'] ? '🔼' : '🔽'}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        {expandedSections['BoxColors'] && (
+          <>
+            <Text style={styles.description}>
+              Green box: Is the default box color that appears when a face is
+              recognized.
+            </Text>
+            <Text style={styles.description}>
+              Red box: Appears if the student has disciplinary issues.
+            </Text>
+            <Text style={styles.description}>
+              Yellow box: Appears if the student has a medical condition or any
+              other existing condition.
+            </Text>
+            <Text style={styles.description}>
+              Blue box: Appears if the student has any other existing condition
+              or has disciplinary issues.
+            </Text>
+          </>
+        )}
       </>
     );
   }
@@ -199,6 +226,7 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'white',
     padding: 20,
+    paddingBottom: 100,
   },
   heading: {
     color: 'black',

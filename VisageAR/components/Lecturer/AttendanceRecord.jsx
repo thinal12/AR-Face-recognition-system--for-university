@@ -215,23 +215,30 @@ const AttendanceRecord = () => {
 
       {processedFrame && (
         <>
-          {processedFrame.boxes.map((box, index) => (
-            <>
-              <View
-                style={{
-                  ...StyleSheet.absoluteFillObject,
-                  flex: 1,
-                  flexDirection: 'column',
-                  position: 'absolute',
-                  height: box[2] - box[0] + 40,
-                  width: box[1] - box[3],
-                }}>
+          {processedFrame.boxes.map((box, index) => {
+            let boxColor = 'green';
+            if (
+              processedFrame.issues[index] !== 'none' &&
+              processedFrame.conditions[index] !== 'none'
+            ) {
+              boxColor = 'blue';
+            } else if (
+              processedFrame.issues[index] !== 'none' &&
+              processedFrame.conditions[index] === 'none'
+            ) {
+              boxColor = 'red';
+            } else if (
+              processedFrame.issues[index] === 'none' &&
+              processedFrame.conditions[index] !== 'none'
+            ) {
+              boxColor = 'yellow';
+            }
+
+            return (
+              <View key={index} style={{...StyleSheet.absoluteFillObject}}>
                 <Text
                   style={{
-                    color:
-                      processedFrame.conditions[index] === 'none'
-                        ? 'green'
-                        : 'red',
+                    color: boxColor,
                     fontSize: 16,
                     top:
                       orientation === 'landscape' ? box[0] * 0.9 : box[0] * 1.2,
@@ -242,28 +249,23 @@ const AttendanceRecord = () => {
                   }}>
                   {processedFrame.names[index]}
                 </Text>
-
                 <View
                   style={{
                     top:
                       orientation === 'landscape' ? box[0] * 0.9 : box[0] * 1.2,
-
                     left:
                       orientation === 'landscape'
                         ? box[3] * 1.55
                         : box[3] * 0.7,
-
                     borderWidth: 5,
-                    borderColor:
-                      processedFrame.conditions[index] === 'none'
-                        ? 'green'
-                        : 'red',
+                    borderColor: boxColor,
                     height: box[2] - box[0],
                     width: box[1] - box[3],
-                  }}></View>
+                  }}
+                />
               </View>
-            </>
-          ))}
+            );
+          })}
         </>
       )}
 
